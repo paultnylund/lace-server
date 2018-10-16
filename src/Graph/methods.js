@@ -4,7 +4,7 @@ const CONST				= require('../const.js');
 
 exports.setGraphModel = (req, res) => {
 	const data = req.body;
-	console.log(req);
+	console.log(data);
 	const graph = data.graph;
 	const distance = data.distance;
 	const error = {};
