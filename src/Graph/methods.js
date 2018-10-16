@@ -35,6 +35,7 @@ exports.setGraphModel = (req, res) => {
 		distance:		distance,
 	}, (error, result) => {
 		if (error) {
+			console.log(error);
 			return (res.send({ error: CONST.INSERT_ERROR }));
 		}
 
