@@ -52,7 +52,6 @@ exports.getGraphModel = (req, res) => {
 	GRAPH.aggregate([
 		{
 			$project: {
-				_id:			'$_id',
 				graph:			'$graph',
 				distance:		'$distance',
 				timestamp:		'$timestamp',
