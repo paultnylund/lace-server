@@ -54,13 +54,20 @@ exports.getGraphModel = (req, res) => {
 			$project: {
 				_id:			'$_id',
 				graph:			'$graph',
+				distance:		'$distance',
 				timestamp:		'$timestamp',
 			},
 		},
 		{
 			$sort: { 'timestamp': -1 }
 		},
-		{ $limit: 1 }
+		{ $limit: 1 },
+		{
+			$project: {
+				graph:			'$graph',
+				distance:		'$distance',
+			},
+		},
 	], (error, result) => {
 		if (error) {
 			return (res.send({error: error}));
