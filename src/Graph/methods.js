@@ -71,7 +71,8 @@ exports.getGraphModel = (req, res) => {
 			// Return an error message saying that the data does not exist
 			return (res.send({error: CONST.DATA_NOT_EXISTS}))
 		}
-		console.log(result);
+
+		res.send(result);
 
 		// // Loop through the results and push them into a new array
 		// result.forEach((each) => {
