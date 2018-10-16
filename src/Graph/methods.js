@@ -3,13 +3,12 @@ const GRAPH             = require('./model');
 const CONST				= require('../const.js');
 
 exports.setGraphModel = (req, res) => {
-	console.log('YOOO');
 	const data = req.body;
+	console.log(data);
 	const graph = data.graph;
 	const distance = data.distance;
 	const error = {};
 
-	console.log(data);
 
 	// If the method was called without a body, we set error and return it
 	if (Object.keys(data).length === 0 && data.constructor === Object) {
