@@ -3,6 +3,7 @@ const GRAPH             = require('./model');
 const CONST				= require('../const.js');
 
 exports.setGraphModel = (req, res) => {
+	console.log('HIIII');
 	const data = req.body;
 	const graph = data.graph;
 	const distance = data.distance;
