@@ -62,7 +62,7 @@ app.use((req, res, next) => {
         return (res.json('Validation failed'));
     }
 
-    console.log(`${new Date().toLocaleTimeString('fr', {timeZone: 'Europe/Paris', hourCycle: 'h24', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})} : ${req.method} - ${req.url}`);
+    console.log(`${new Date().toLocaleTimeString('en-gb', {timeZone: 'Australia/Melbourne', hourCycle: 'h24', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})} : ${req.method} - ${req.url}`);
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', '*');
 	res.setHeader('Access-Control-Allow-Headers', '*');
