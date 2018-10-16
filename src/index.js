@@ -24,7 +24,7 @@ const httpError = (status, defaultMessage) => {
 // Compress all request and responses that passes through the middleware
 app.use(compression());
 // Returns middleware that only parses urlencoded bodies
-// app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 // Control the maximum request body size
 // app.use(bodyParser.json({ limit: '50mb'}))
 
