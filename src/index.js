@@ -1,6 +1,7 @@
 const PORT = 8080;
 
 const express           = require('express');
+const cors				= require('cors');
 const compression       = require('compression');
 const bodyParser        = require('body-parser');
 const mongoose          = require('mongoose');
