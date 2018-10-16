@@ -1,6 +1,5 @@
 const GRAPH             = require('./model');
 
-const Graph             = require('../Graph.js');
 const CONST				= require('../const.js');
 
 exports.setGraphModel = (req, res) => {
