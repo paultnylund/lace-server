@@ -1,7 +1,7 @@
 const mongoose          = require('mongoose');
 
 const Graph = new mongoose.Schema({
-    graph:              { type: [[Number]], required: false },
+    graph:              [[Number]],
     distance:           { type: Number, required: false },
     timestamp:          { type: Date, required: false, default: Date },
 });
