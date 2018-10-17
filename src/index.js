@@ -76,11 +76,11 @@ app.use((req, res, next) => {
 
 Graph.route(app);
 
-const httpsServer = https.createServer(credentials, app);
+// const httpsServer = https.createServer(credentials, app);
 
-httpsServer.listen(PORT, () => {
-    console.log(`Express HTTPS Server is running on port ${PORT}`)
-})
-// app.listen(PORT, () => {
-//     console.log(`Express Server is running on port ${PORT}`);
-// });
+// httpsServer.listen(PORT, () => {
+//     console.log(`Express HTTPS Server is running on port ${PORT}`)
+// })
+app.listen(PORT, () => {
+    console.log(`Express Server is running on port ${PORT}`);
+});
