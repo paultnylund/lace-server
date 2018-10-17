@@ -4,12 +4,17 @@ const express           = require('express');
 const compression       = require('compression');
 const bodyParser        = require('body-parser');
 const mongoose          = require('mongoose');
-
+const fs                = require('fs');
+const https             = require('https');
 const Graph             = require('./Graph');
 
-const app = express();
-
 const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGsy!caK5#kVd4l%ghDyFWp2jAVGaPYdAaerCDW9Snu0G#IOXVBIb*uCx5gt7O0&c1&tUg#G7Nd5nUHTQM7d32nzRlRa3D&WqWN9y&Bqe3SCv7C*mS4LFV5kM37wFbgDgvjELZI%mvx*v&a!w0Ie3XWy$Gdu6NJJUJ#eN^&Q!pCUVyWkZ9B7py8p^a*92r80iOrX3v@BSREqS^MEkx3$#2kUtP%#X5Oq!L*Ovg9Fg5$6xR0oX";
+
+const privateKey = fs.readFileSync('sslcert/example_com.key');
+const certificate = fs.readFileSync('sslcert/example_com.key');
+const credentials = { key: privateKey, cert: certificate };
+
+const app = express();
 
 const httpError = (status, defaultMessage) => {
     return (
@@ -71,6 +76,11 @@ app.use((req, res, next) => {
 
 Graph.route(app);
 
-app.listen(PORT, () => {
-    console.log(`Express Server is running on port ${PORT}`);
-});
+const httpsServer = https.createServer(credentials, app);
+
+httpsServer.listen(PORT, () => {
+    console.log(`Express HTTPS Server is running on port ${PORT}`)
+})
+// app.listen(PORT, () => {
+//     console.log(`Express Server is running on port ${PORT}`);
+// });
