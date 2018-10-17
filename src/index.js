@@ -10,8 +10,8 @@ const Graph             = require('./Graph');
 
 const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGsy!caK5#kVd4l%ghDyFWp2jAVGaPYdAaerCDW9Snu0G#IOXVBIb*uCx5gt7O0&c1&tUg#G7Nd5nUHTQM7d32nzRlRa3D&WqWN9y&Bqe3SCv7C*mS4LFV5kM37wFbgDgvjELZI%mvx*v&a!w0Ie3XWy$Gdu6NJJUJ#eN^&Q!pCUVyWkZ9B7py8p^a*92r80iOrX3v@BSREqS^MEkx3$#2kUtP%#X5Oq!L*Ovg9Fg5$6xR0oX";
 
-const privateKey = fs.readFileSync('/var/lace-server/sslcert/example_com.key');
-const certificate = fs.readFileSync('/var/lace-server/sslcert/example_com.csr');
+const privateKey = fs.readFileSync('/var/lace-server/sslcert/example_com.key', 'utf8');
+const certificate = fs.readFileSync('/var/lace-server/sslcert/example_com.csr', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
