@@ -1,10 +1,12 @@
-const PORT = 80;
+const HTTP_PORT = 80;
+const HTTPS_PORT = 443;
 
 const express           = require('express');
 const compression       = require('compression');
 const bodyParser        = require('body-parser');
 const mongoose          = require('mongoose');
 const fs                = require('fs');
+const http              = require('http');
 const https             = require('https');
 const Graph             = require('./Graph');
 
@@ -77,8 +79,10 @@ app.use((req, res, next) => {
 Graph.route(app);
 
 const httpsServer = https.createServer(credentials, app);
+const httpServer = http.createServer(app);
 
-httpsServer.listen(PORT, () => {
+// httpServer.listen(HTTPS_PORT)
+httpsServer.listen(HTTPS_PORT, () => {
     console.log(`Express HTTPS Server is running on port ${PORT}`)
 })
 // app.listen(PORT, () => {
