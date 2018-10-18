@@ -1,6 +1,6 @@
 const HTTP_PORT = 80;
 const HTTPS_PORT = 443;
-const API_PORT = 8080;
+const API_PORT = 8888;
 
 const express           = require('express');
 const compression       = require('compression');
@@ -81,7 +81,7 @@ Graph.route(app);
 const httpsServer = https.createServer(credentials, app);
 const apiServer = https.createServer(credentials, app);
 httpsServer.listen(HTTPS_PORT, () => {
-    console.log(`API Server is running on port ${HTTPS_PORT}`);
+    console.log(`HTTPS Server is running on port ${HTTPS_PORT}`);
 });
 apiServer.listen(API_PORT, () => {
     console.log(`API Server is running on port ${API_PORT}`);
