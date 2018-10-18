@@ -1,5 +1,4 @@
 const PORT = 80;
-const API_PORT = 8080;
 
 const express           = require('express');
 const compression       = require('compression');
@@ -16,7 +15,6 @@ const certificate = fs.readFileSync('/var/lace-server/sslcert/example_com.csr', 
 const credentials = { key: privateKey, cert: certificate };
 
 const app = express();
-const api = express();
 
 const httpError = (status, defaultMessage) => {
     return (
@@ -29,9 +27,9 @@ const httpError = (status, defaultMessage) => {
 };
 
 // Compress all request and responses that passes through the middleware
-api.use(compression());
+app.use(compression());
 // Returns middleware that only parses urlencoded bodies
-api.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 // Control the maximum request body size
 // app.use(bodyParser.json({ limit: '50mb'}))
 
@@ -54,7 +52,7 @@ process.on('SIGINT', () => {
     });
 });
 
-api.use((req, res, next) => {
+app.use((req, res, next) => {
     // Set the IP to print on bad AUTHCODE
     const ip = (req. headers['x-forwarded-for'] || '').split(',').pop()
     || req.connection.remoteAddress
@@ -76,20 +74,13 @@ api.use((req, res, next) => {
 	next();
 });
 
-Graph.route(api);
+Graph.route(app);
 
 // const httpsServer = https.createServer(credentials, app);
 
 // httpsServer.listen(PORT, () => {
 //     console.log(`Express HTTPS Server is running on port ${PORT}`)
 // })
-
-app.use((req, res, next) => {
-    return (res.json('HELLO'));
-});
 app.listen(PORT, () => {
     console.log(`Express Server is running on port ${PORT}`);
-});
-api.listen(API_PORT, () => {
-    console.log(`Exress API Server is running on port ${API_PORT}`);
 });
