@@ -76,7 +76,7 @@ api.use((req, res, next) => {
 	next();
 });
 
-Graph.route(app);
+Graph.route(api);
 
 const apiServer = https.createServer(credentials, api);
 const webServer = https.createServer(credentials, web);
