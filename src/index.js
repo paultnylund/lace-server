@@ -79,7 +79,7 @@ api.use((req, res, next) => {
 Graph.route(api);
 
 const apiServer = https.createServer(credentials, api);
-const webServer = https.createServer(credentials, web);
+// const webServer = https.createServer(credentials, web);
 
 apiServer.listen(API_PORT, () => {
     console.log(`API Server is running on port ${API_PORT}`);
