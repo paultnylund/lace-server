@@ -1,7 +1,5 @@
 const PORT = 8080;
 
-const WEB_PORT = 80;
-
 const express           = require('express');
 const compression       = require('compression');
 const bodyParser        = require('body-parser');
@@ -85,8 +83,4 @@ Graph.route(app);
 // })
 app.listen(PORT, () => {
     console.log(`Express Server is running on port ${PORT}`);
-});
-app.listen(WEB_PORT, () => {
-    console.log(`Express Server is running on port ${PORT}`);
-    return (res.json('HELLO'));
 });
