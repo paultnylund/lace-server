@@ -83,7 +83,7 @@ const httpServer = http.createServer(app);
 
 // httpServer.listen(HTTPS_PORT)
 httpsServer.listen(HTTPS_PORT, () => {
-    console.log(`Express HTTPS Server is running on port ${PORT}`)
+    console.log(`Express HTTPS Server is running on port ${HTTPS_PORT}`)
 })
 // app.listen(PORT, () => {
 //     console.log(`Express Server is running on port ${PORT}`);
