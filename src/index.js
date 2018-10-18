@@ -1,13 +1,11 @@
-const HTTP_PORT = 80;
 const HTTPS_PORT = 443;
-const API_PORT = 8888;
+const API_PORT = 8080;
 
 const express           = require('express');
 const compression       = require('compression');
 const bodyParser        = require('body-parser');
 const mongoose          = require('mongoose');
 const fs                = require('fs');
-const http              = require('http');
 const https             = require('https');
 const Graph             = require('./Graph');
 
@@ -17,7 +15,8 @@ const privateKey = fs.readFileSync('/var/lace-server/sslcert/example_com.key', '
 const certificate = fs.readFileSync('/var/lace-server/sslcert/lace_guide.crt', 'utf8');
 const credentials = { key: privateKey, cert: certificate };
 
-const app = express();
+const api = express();
+const web = express();
 
 const httpError = (status, defaultMessage) => {
     return (
@@ -30,9 +29,9 @@ const httpError = (status, defaultMessage) => {
 };
 
 // Compress all request and responses that passes through the middleware
-app.use(compression());
+api.use(compression());
 // Returns middleware that only parses urlencoded bodies
-app.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
+api.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 // Control the maximum request body size
 // app.use(bodyParser.json({ limit: '50mb'}))
 
@@ -55,7 +54,7 @@ process.on('SIGINT', () => {
     });
 });
 
-app.use((req, res, next) => {
+api.use((req, res, next) => {
     // Set the IP to print on bad AUTHCODE
     const ip = (req. headers['x-forwarded-for'] || '').split(',').pop()
     || req.connection.remoteAddress
@@ -79,14 +78,12 @@ app.use((req, res, next) => {
 
 Graph.route(app);
 
-const httpsServer = https.createServer(credentials, app);
-const apiServer = http.createServer(app);
-httpsServer.listen(HTTPS_PORT, () => {
-    console.log(`HTTPS Server is running on port ${HTTPS_PORT}`);
-});
+const apiServer = https.createServer(credentials, api);
+const webServer = https.createServer(credentials, web);
+
 apiServer.listen(API_PORT, () => {
     console.log(`API Server is running on port ${API_PORT}`);
 });
-// app.listen(PORT, () => {
-//     console.log(`Express Server is running on port ${PORT}`);
+// webServer.listen(HTTPS_PORT, () => {
+//     console.log(`WEB Server is running on port ${HTTPS_PORT}`);
 // });
