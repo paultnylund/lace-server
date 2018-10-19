@@ -79,6 +79,10 @@ api.use((req, res, next) => {
 Graph.route(api);
 
 const apiServer = http.createServer(api);
+
+web.use((req, res, next) => {
+    return (res.json('HELLOOOO'));
+});
 const webServer = http.createServer(web);
 
 apiServer.listen(API_PORT, '127.0.0.1', () => {
@@ -86,5 +90,4 @@ apiServer.listen(API_PORT, '127.0.0.1', () => {
 });
 webServer.listen(WEB_PORT, '127.0.0.1', (res) => {
     console.log(`WEB Server is running on port ${WEB_PORT}`);
-    res.json('HI');
 });
