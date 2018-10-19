@@ -1,0 +1,3 @@
+[submodule "lace-stream"]
+	path = lace-stream
+	url = https://github.com/qruzz/lace-web.git

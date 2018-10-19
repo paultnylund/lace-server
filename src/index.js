@@ -14,10 +14,10 @@ const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGs
 const api = express();
 const web = express();
 
-web.use(express.static(path.join(__dirname, '../lace-web/build')));
+web.use(express.static(path.join(__dirname, 'build')));
 
 web.get('//', (req, res) => {
-    res.sendFile(path.join(__dirname, '../lace-webbuild', 'index.html'));
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
 })
 
 const httpError = (status, defaultMessage) => {
