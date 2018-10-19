@@ -82,9 +82,9 @@ Graph.route(api);
 
 const apiServer = http.createServer(api);
 
-web.use((req, res, next) => {
-    return (res.json('HELLOOOO'));
-});
+// web.use((req, res, next) => {
+//     return (res.json('HELLOOOO'));
+// });
 const webServer = http.createServer(web);
 
 apiServer.listen(API_PORT, '127.0.0.1', () => {
