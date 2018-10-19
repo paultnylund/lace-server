@@ -16,7 +16,7 @@ const web = express();
 
 web.use(express.static(path.join(__dirname, '../build')));
 
-web.get('//', (req, res) => {
+web.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
 })
 
@@ -83,9 +83,9 @@ Graph.route(api);
 const apiServer = http.createServer(api);
 const webServer = http.createServer(web);
 
-apiServer.listen(WEB_PORT, '127.0.0.1', () => {
+apiServer.listen(API_PORT, '127.0.0.1', () => {
     console.log(`API Server is running on port ${API_PORT}`);
 });
-webServer.listen(API_PORT, '127.0.0.1', (res) => {
+webServer.listen(WEB_PORT, '127.0.0.1', () => {
     console.log(`WEB Server is running on port ${WEB_PORT}`);
 });
