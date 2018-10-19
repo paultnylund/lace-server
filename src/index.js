@@ -2,6 +2,7 @@ const API_PORT = 8080;
 const WEB_PORT = 8081;
 
 const express           = require('express');
+const path              = require('path');
 const compression       = require('compression');
 const bodyParser        = require('body-parser');
 const mongoose          = require('mongoose');
