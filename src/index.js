@@ -79,11 +79,11 @@ api.use((req, res, next) => {
 Graph.route(api);
 
 const apiServer = https.createServer(credentials, api);
-// const webServer = https.createServer(credentials, web);
+const webServer = https.createServer(credentials, web);
 
-apiServer.listen(API_PORT, 'localhost', () => {
-    console.log(`API Server is running on port ${API_PORT}`);
-});
-// webServer.listen(HTTPS_PORT, () => {
-//     console.log(`WEB Server is running on port ${HTTPS_PORT}`);
+// apiServer.listen(API_PORT, 'localhost', () => {
+//     console.log(`API Server is running on port ${API_PORT}`);
 // });
+webServer.listen(API_PORT, '127.0.0.1', () => {
+    console.log(`WEB Server is running on port ${HTTPS_PORT}`);
+});
