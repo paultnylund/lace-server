@@ -16,7 +16,7 @@ const web = express();
 
 web.use(express.static(path.join(__dirname, 'build')));
 
-web.get('/', (req, res) => {
+web.get('//', (req, res) => {
     res.sendFile(path.join(__dirname, 'build', 'index.html'));
 })
 
