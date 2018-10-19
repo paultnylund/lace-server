@@ -83,6 +83,6 @@ const webServer = http.createServer(web);
 apiServer.listen(API_PORT, '127.0.0.1', () => {
     console.log(`API Server is running on port ${API_PORT}`);
 });
-webServer.listen(WEB_PORT, '127.0.0.1', (res) => {
-    console.log(`WEB Server is running on port ${WEB_PORT}`);
-});
+// webServer.listen(WEB_PORT, '127.0.0.1', (res) => {
+//     console.log(`WEB Server is running on port ${WEB_PORT}`);
+// });
