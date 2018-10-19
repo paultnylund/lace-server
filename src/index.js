@@ -13,6 +13,12 @@ const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGs
 const api = express();
 const web = express();
 
+web.use(express.static(path.join(__dirname, 'build')));
+
+web.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, 'build', 'index.html'));
+})
+
 const httpError = (status, defaultMessage) => {
     return (
         (message) => {
@@ -83,6 +89,6 @@ const webServer = http.createServer(web);
 apiServer.listen(API_PORT, '127.0.0.1', () => {
     console.log(`API Server is running on port ${API_PORT}`);
 });
-// webServer.listen(WEB_PORT, '127.0.0.1', (res) => {
-//     console.log(`WEB Server is running on port ${WEB_PORT}`);
-// });
+webServer.listen(WEB_PORT, '127.0.0.1', (res) => {
+    console.log(`WEB Server is running on port ${WEB_PORT}`);
+});
