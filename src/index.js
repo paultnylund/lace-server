@@ -1,5 +1,5 @@
-const HTTPS_PORT = 443;
 const API_PORT = 8080;
+const WEB_PORT = 8081;
 
 const express           = require('express');
 const compression       = require('compression');
@@ -7,7 +7,6 @@ const bodyParser        = require('body-parser');
 const mongoose          = require('mongoose');
 const fs                = require('fs');
 const http             = require('http');
-const https             = require('https');
 const Graph             = require('./Graph');
 
 const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGsy!caK5#kVd4l%ghDyFWp2jAVGaPYdAaerCDW9Snu0G#IOXVBIb*uCx5gt7O0&c1&tUg#G7Nd5nUHTQM7d32nzRlRa3D&WqWN9y&Bqe3SCv7C*mS4LFV5kM37wFbgDgvjELZI%mvx*v&a!w0Ie3XWy$Gdu6NJJUJ#eN^&Q!pCUVyWkZ9B7py8p^a*92r80iOrX3v@BSREqS^MEkx3$#2kUtP%#X5Oq!L*Ovg9Fg5$6xR0oX";
@@ -85,6 +84,7 @@ const webServer = http.createServer(web);
 apiServer.listen(API_PORT, '127.0.0.1', () => {
     console.log(`API Server is running on port ${API_PORT}`);
 });
-// webServer.listen(API_PORT, '127.0.0.1', () => {
-//     console.log(`WEB Server is running on port ${HTTPS_PORT}`);
-// });
+webServer.listen(WEB_PORT, '127.0.0.1', (res) => {
+    console.log(`WEB Server is running on port ${WEB_PORT}`);
+    res.json('HI');
+});
