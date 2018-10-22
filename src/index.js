@@ -17,11 +17,6 @@ const api = express();
 const web = express();
 
 web.use(cors());
-web.use(express.static(path.join(__dirname, '../build')));
-
-web.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
-})
 
 const httpError = (status, defaultMessage) => {
     return (
@@ -87,7 +82,13 @@ web.use((req, res, next) => {
 	res.setHeader('Access-Control-Allow-Methods', '*');
 	res.setHeader('Access-Control-Allow-Headers', '*');
 	next();
-})
+});
+
+web.use(express.static(path.join(__dirname, '../build')));
+
+web.get('/', (req, res) => {
+    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+});
 
 GRAPH.route(api);
 STREAM.route(api);
