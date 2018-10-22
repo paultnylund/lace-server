@@ -57,7 +57,7 @@ process.on('SIGINT', () => {
 
 api.use((req, res, next) => {
     // Set the IP to print on bad AUTHCODE
-    const ip = (req. headers['x-forwarded-for'] || '').split(',').pop()
+    const ip = (req.headers['x-forwarded-for'] || '').split(',').pop()
     || req.connection.remoteAddress
     || req.socket.remoteAddress
     || req.connection.socket.remoteAddress
@@ -72,13 +72,6 @@ api.use((req, res, next) => {
 
     console.log(`${new Date().toLocaleTimeString('en-gb', {timeZone: 'Australia/Melbourne', hourCycle: 'h24', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})} : ${req.method} - ${req.url}`);
 	res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', '*');
-	res.setHeader('Access-Control-Allow-Headers', '*');
-	next();
-});
-
-web.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', '*');
 	res.setHeader('Access-Control-Allow-Headers', '*');
 	next();
