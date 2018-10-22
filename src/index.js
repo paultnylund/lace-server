@@ -4,10 +4,12 @@ const WEB_PORT = 8081;
 const express           = require('express');
 const path              = require('path');
 const compression       = require('compression');
+const cors              = require('cors');
 const bodyParser        = require('body-parser');
 const mongoose          = require('mongoose');
 const http              = require('http');
-const Graph             = require('./Graph');
+const GRAPH             = require('./Graph');
+const STREAM            = require('./Stream');
 
 const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGsy!caK5#kVd4l%ghDyFWp2jAVGaPYdAaerCDW9Snu0G#IOXVBIb*uCx5gt7O0&c1&tUg#G7Nd5nUHTQM7d32nzRlRa3D&WqWN9y&Bqe3SCv7C*mS4LFV5kM37wFbgDgvjELZI%mvx*v&a!w0Ie3XWy$Gdu6NJJUJ#eN^&Q!pCUVyWkZ9B7py8p^a*92r80iOrX3v@BSREqS^MEkx3$#2kUtP%#X5Oq!L*Ovg9Fg5$6xR0oX";
 
@@ -30,6 +32,7 @@ const httpError = (status, defaultMessage) => {
     );
 };
 
+api.use(cors());
 // Compress all request and responses that passes through the middleware
 api.use(compression());
 // Returns middleware that only parses urlencoded bodies
@@ -78,7 +81,8 @@ api.use((req, res, next) => {
 	next();
 });
 
-Graph.route(api);
+GRAPH.route(api);
+STREAM.route(api);
 
 const apiServer = http.createServer(api);
 const webServer = http.createServer(web);

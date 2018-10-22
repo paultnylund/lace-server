@@ -86,12 +86,12 @@ exports.getGraphModel = (req, res) => {
 		// });
 
 		// // Sort the newly created array in decending order of creation data
-		// meditations.sort((a, b) => {
+		// graphs.sort((a, b) => {
 		// 	return (
 		// 		moment(b.timestamp, 'DD/MM/YY HH:MM:ss').format('X') - moment(a.timestamp, 'DD/MM/YY HH:MM:ss').format('X')
 		// 	);
 		// });
 
-		// meditations
+		// graphs
 	});
 };
