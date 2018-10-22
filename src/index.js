@@ -1,5 +1,5 @@
-const API_PORT = 8080;
-const WEB_PORT = 8081;
+const API_PORT          = 8080;
+const WEB_PORT          = 8081;
 
 const express           = require('express');
 const path              = require('path');
@@ -16,7 +16,6 @@ const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGs
 const api = express();
 const web = express();
 
-
 const httpError = (status, defaultMessage) => {
     return (
         (message) => {
@@ -24,11 +23,11 @@ const httpError = (status, defaultMessage) => {
             this.message = message || defaultMessage;
             Error.captureStackTrace(this, this.constructor);
         }
-        );
-    };
+    );
+};
     
-web.use(cors());
 api.use(cors());
+web.use(cors());
 // Compress all request and responses that passes through the middleware
 api.use(compression());
 // Returns middleware that only parses urlencoded bodies
@@ -78,6 +77,13 @@ api.use((req, res, next) => {
 });
 
 web.use(express.static(path.join(__dirname, '../build')));
+
+web.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+	res.setHeader('Access-Control-Allow-Methods', '*');
+	res.setHeader('Access-Control-Allow-Headers', '*');
+	next();
+});
 
 web.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
