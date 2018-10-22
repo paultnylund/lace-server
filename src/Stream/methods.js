@@ -1,6 +1,7 @@
 const CONST				= require('../const.js');
 
 exports.streamAndDetect = (req, res) => {
+    console.log('HIIII');
     const data = req.body;
     console.log(data);
     

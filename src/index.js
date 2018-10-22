@@ -16,7 +16,6 @@ const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGs
 const api = express();
 const web = express();
 
-web.use(cors());
 
 const httpError = (status, defaultMessage) => {
     return (
@@ -25,9 +24,10 @@ const httpError = (status, defaultMessage) => {
             this.message = message || defaultMessage;
             Error.captureStackTrace(this, this.constructor);
         }
-    );
-};
-
+        );
+    };
+    
+web.use(cors());
 api.use(cors());
 // Compress all request and responses that passes through the middleware
 api.use(compression());
