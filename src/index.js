@@ -16,6 +16,7 @@ const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGs
 const api = express();
 const web = express();
 
+web.use(cors());
 web.use(express.static(path.join(__dirname, '../build')));
 
 web.get('/', (req, res) => {
