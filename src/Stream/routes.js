@@ -1,4 +1,4 @@
-const Stream            = require('./methods');
+const Methods            = require('./methods');
 
 module.exports = (app) => {
     app.route('/stream/streamAndDetect').post(Methods.streamImage);
