@@ -33,7 +33,7 @@ api.use(compression());
 // Returns middleware that only parses urlencoded bodies
 api.use(bodyParser.urlencoded({ limit: '50mb', extended: true }));
 // Control the maximum request body size
-// app.use(bodyParser.json({ limit: '50mb'}))
+api.use(bodyParser.json({ limit: '50mb'}))
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/lace');
