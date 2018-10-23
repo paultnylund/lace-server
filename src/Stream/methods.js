@@ -12,12 +12,16 @@ exports.streamAndDetect = (req, res) => {
 
     const spawn	= require('child_process').spawn;
 
-    const pythonProcess = spawn('python', ['/var/lace-server/python/test.py']);
-    // const pythonProcess = spawn('python', ['../python/object_detection.py', arg]);
+    const testObject = {
+        key: 'message',
+        value: 'hello from python',
+    };
+
+    const pythonProcess = spawn('python', ['/var/lace-server/python/test.py', testObject]);
+
 
     pythonProcess.stdout.on('data', (data) => {
         console.log(data.toString());
-        return (res.send(data));
     });
     
     // return (res.send({success: 'YAYAYA'}));
