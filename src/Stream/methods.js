@@ -7,5 +7,7 @@ exports.streamAndDetect = (req, res) => {
     // No data was 
     if (!data) {
         return (res.send({error: CONST.DATA_UNDEFINED}));
-	}
+    }
+    
+    return (res.send({success: 'YAYAYA'}));
 };
