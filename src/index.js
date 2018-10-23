@@ -17,13 +17,13 @@ const api = express();
 const web = express();
 
 const httpError = (status, defaultMessage) => {
-    return (
-        (message) => {
-            this.status = status;
-            this.message = message || defaultMessage;
-            Error.captureStackTrace(this, this.constructor);
-        }
-    );
+	return (
+		(message) => {
+			this.status = status;
+			this.message = message || defaultMessage;
+			Error.captureStackTrace(this, this.constructor);
+		}
+	);
 };
 
 api.use(cors());
@@ -37,38 +37,38 @@ api.use(bodyParser.json({ limit: '50mb'}))
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/lace');
 mongoose.connection.on('connected', () => {
-    console.log('Connected successfully to the database');
+	console.log('Connected successfully to the database');
 });
 mongoose.connection.on('error', () => {
-    console.warn('Error while connecting to the database');
+	console.warn('Error while connecting to the database');
 });
 mongoose.connection.on('disconnected', () => {
-    console.log('Disconnected from the database');
+	console.log('Disconnected from the database');
 });
 
 process.on('SIGINT', () => {
-    mongoose.connection.close(() => {
-        console.error('Disconnected from the database through app termination');
-        process.exit(0);
-    });
+	mongoose.connection.close(() => {
+		console.error('Disconnected from the database through app termination');
+		process.exit(0);
+	});
 });
 
 api.use((req, res, next) => {
-    // Set the IP to print on bad AUTHCODE
-    const ip = (req.headers['x-forwarded-for'] || '').split(',').pop()
-    || req.connection.remoteAddress
-    || req.socket.remoteAddress
-    || req.connection.socket.remoteAddress
+	// Set the IP to print on bad AUTHCODE
+	const ip = (req.headers['x-forwarded-for'] || '').split(',').pop()
+	|| req.connection.remoteAddress
+	|| req.socket.remoteAddress
+	|| req.connection.socket.remoteAddress
 
-    if (req.headers.auth !== AUTHCODE) {
-        httpError(400, 'Validation failed');
-        console.warn('Bad Auth Code');
-        console.warn(req.headers.auth);
-        console.warn(ip);
-        return (res.json('Validation failed'));
-    }
+	if (req.headers.auth !== AUTHCODE) {
+		httpError(400, 'Validation failed');
+		console.warn('Bad Auth Code');
+		console.warn(req.headers.auth);
+		console.warn(ip);
+		return (res.json('Validation failed'));
+	}
 
-    console.log(`${new Date().toLocaleTimeString('en-gb', {timeZone: 'Australia/Melbourne', hourCycle: 'h24', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})} : ${req.method} - ${req.url}`);
+	console.log(`${new Date().toLocaleTimeString('en-gb', {timeZone: 'Australia/Melbourne', hourCycle: 'h24', day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit'})} : ${req.method} - ${req.url}`);
 	res.setHeader('Access-Control-Allow-Origin', '*');
 	res.setHeader('Access-Control-Allow-Methods', '*');
 	res.setHeader('Access-Control-Allow-Headers', '*');
@@ -78,7 +78,7 @@ api.use((req, res, next) => {
 web.use(express.static(path.join(__dirname, '../build')));
 
 web.get('/', (req, res) => {
-    res.sendFile(path.join(__dirname, '../build', 'index.html'));
+	res.sendFile(path.join(__dirname, '../build', 'index.html'));
 });
 
 GRAPH.route(api);
@@ -88,8 +88,8 @@ const apiServer = http.createServer(api);
 const webServer = http.createServer(web);
 
 apiServer.listen(API_PORT, '127.0.0.1', () => {
-    console.log(`API Server is running on port ${API_PORT}`);
+	console.log(`API Server is running on port ${API_PORT}`);
 });
 webServer.listen(WEB_PORT, '127.0.0.1', () => {
-    console.log(`WEB Server is running on port ${WEB_PORT}`);
+	console.log(`WEB Server is running on port ${WEB_PORT}`);
 });
