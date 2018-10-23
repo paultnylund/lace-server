@@ -1,4 +1,5 @@
 const CONST				= require('../const.js');
+const fs = require('fs');
 
 exports.streamAndDetect = (req, res) => {
     const data = req.body;
@@ -11,6 +12,7 @@ exports.streamAndDetect = (req, res) => {
 
     const spawn	= require('child_process').spawn;
 
+    console.log(fs.readFileSync('../../python/test.py'));
     const pythonProcess = spawn('python', ['../../python/test.py']);
     // const pythonProcess = spawn('python', ['../python/object_detection.py', arg]);
 
