@@ -16,8 +16,8 @@ exports.streamAndDetect = (req, res) => {
     // const pythonProcess = spawn('python', ['../python/object_detection.py', arg]);
 
     pythonProcess.stdout.on('data', (data) => {
-        return (res.send(data.toString()));
-        // console.log(data.toString());
+        console.log(data.toString());
+        return (res.send(data));
     });
     
     // return (res.send({success: 'YAYAYA'}));
