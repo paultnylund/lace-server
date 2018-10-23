@@ -12,7 +12,7 @@ exports.streamAndDetect = (req, res) => {
 
     const spawn	= require('child_process').spawn;
 
-    console.log(fs.readFileSync('../../python/test.py'));
+    console.log(fs.readFileSync('/var/lace-server/python/test.py'));
     const pythonProcess = spawn('python', ['../../python/test.py']);
     // const pythonProcess = spawn('python', ['../python/object_detection.py', arg]);
 
