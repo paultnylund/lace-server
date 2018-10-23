@@ -1,4 +1,3 @@
-const spawn				= require('child_process').spawn;
 const CONST				= require('../const.js');
 
 exports.streamAndDetect = (req, res) => {
@@ -9,6 +8,8 @@ exports.streamAndDetect = (req, res) => {
     if (!data) {
         return (res.send({error: CONST.DATA_UNDEFINED}));
     }
+
+    const spawn	= require('child_process').spawn;
 
     const pythonProcess = spawn('python', ['../../python/test.py']);
     // const pythonProcess = spawn('python', ['../python/object_detection.py', arg]);
