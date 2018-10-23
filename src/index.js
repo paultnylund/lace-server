@@ -25,9 +25,8 @@ const httpError = (status, defaultMessage) => {
         }
     );
 };
-    
+
 api.use(cors());
-web.use(cors());
 // Compress all request and responses that passes through the middleware
 api.use(compression());
 // Returns middleware that only parses urlencoded bodies
@@ -77,13 +76,6 @@ api.use((req, res, next) => {
 });
 
 web.use(express.static(path.join(__dirname, '../build')));
-
-web.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*');
-	res.setHeader('Access-Control-Allow-Methods', '*');
-	res.setHeader('Access-Control-Allow-Headers', '*');
-	next();
-});
 
 web.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, '../build', 'index.html'));
