@@ -1,0 +1,6 @@
+setup.py
+lace_object_detection.egg-info/PKG-INFO
+lace_object_detection.egg-info/SOURCES.txt
+lace_object_detection.egg-info/dependency_links.txt
+lace_object_detection.egg-info/requires.txt
+lace_object_detection.egg-info/top_level.txt
