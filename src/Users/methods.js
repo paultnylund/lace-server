@@ -27,7 +27,7 @@ exports.connectUser = (req, res) => {
             iterations: 1000,
         });
 
-        console.log()
+        console.log(key512Bits.toString())
 
         if (key512Bits === result.password) {
             console.log('MATCHING');
