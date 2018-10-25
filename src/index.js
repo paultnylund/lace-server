@@ -12,7 +12,7 @@ const http              = require('http');
 const GRAPH             = require('./Graph');
 const STREAM            = require('./Stream');
 const USERS				= require('./Users');
-// const CryptoJS = require('crypto-js');
+const CryptoJS = require('crypto-js');
 
 const password = CryptoJS.SHA3('nn6zmvdCfexQeBX5P3qK68!^bTTJ@$n5')
 console.log(password.toString());
