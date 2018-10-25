@@ -9,7 +9,8 @@ REQUIRED_PACKAGES = [
     'Pillow',
     'tensorflow',
     'six',
-    'matplotlib <= 2.1.2',
+    # TODO: Remove for deploy
+    # 'matplotlib <= 2.1.2',
     'absl-py',
 ]
 
@@ -67,12 +68,3 @@ except:
 
 # Clean up temporary files left behind by urlretrieve() calls
 urllib.request.urlcleanup()
-
-# print('Moving the object_detection library to python/')
-
-# Move the object_detection folder to the python folder and remove the old
-# try:
-#     shutil.move(os.getcwd() + '/object_detection', 'python/')
-#     shutil.rmtree(os.getcwd() + '/object_detection')
-# except:
-#     print('Error moving the folder')

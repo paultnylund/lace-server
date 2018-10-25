@@ -1,5 +1,4 @@
 # Imports
-
 import numpy
 import os
 import six.moves.urllib as urllib
@@ -16,8 +15,9 @@ from PIL import Image
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils
 
+# Verify that the latest version of TensorFlow is installed
 if tf.__version__ != '1.4.0':
-	raise ImportError('Please upgrade the TF installation to v')
+	raise ImportError('Please upgrade the TF installation to v1.4.0')
 
 ####################################################
 # Model Preparation
@@ -69,7 +69,7 @@ def load_image_into_numpy_array(image):
 ####################################################
 
 PATH_TO_TEST_IMAGES_DIR = 'object_detection/test_images/'
-TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 3) ]
+TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 2) ]
 
 # Sizes in 
 IMAGE_SIZE = (12, 8)
@@ -96,7 +96,20 @@ with detection_graph.as_default():
 			# Actual detection.
 			(boxes, scores, classes, num_detections) = sess.run(
 				[boxes, scores, classes, num_detections],
-				feed_dict={image_tensor: image_np_expanded})
+				feed_dict={image_tensor: image_np_expanded}
+			)
+			# Print the outputs
+			classes = numpy.squeeze(classes).astype(numpy.int32)
+			scores = numpy.squeeze(scores)
+			boxes = numpy.squeeze(boxes)
+			threshold = 0.1
+			obj_above_thresh = sum(n > threshold for n in scores)
+			print('detected %s objects in %s above as %s score' % (obj_above_thresh, image_path, threshold))
+			for c in range(0, len(classes)):
+				if scores[c] > threshold:
+					class_name = category_index[classes[c]]['name']
+					print(' object %s is a %s - score: %s, location: %s' % (c, class_name, scores[c], boxes[c]))
+			# TODO: Remove on deploy
 			# Visualization of the results of a detection.
 			visualization_utils.visualize_boxes_and_labels_on_image_array(
 				image_np,
@@ -104,33 +117,60 @@ with detection_graph.as_default():
 				numpy.squeeze(classes).astype(numpy.int32),
 				numpy.squeeze(scores),
 				category_index,
+				min_score_thresh=.1,
 				use_normalized_coordinates=True,
-				line_thickness=8)
+				line_thickness=2,
+			)
 			pyplot.figure(figsize=IMAGE_SIZE)
 			pyplot.imsave(str(img) + '.jpg', image_np)
 			img += 1
 
-# with detection_graph.as_default():
-# 	with tf.Session(graph = detection_graph) as sess:
-# 		sess.run(tf.global_variables_initializer())
-# 		# Definite input and output Tensors for detection_graph
-# 		imge_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
-# 		# Each box represents a part of the image where a particular object was detected
-# 		detection_boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
-# 		# Each score represent how level of confidence for each of the objects
-# 		# Score is shown on the result image, together with the class label
-# 		detection_scores = detection_graph.get_tensor_by_name('detection_scores:0')
-# 		detection_classes = detection_graph.get_tensor_by_name('detection_classes:0')
-# 		num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-# 		for image_path in TEST_IMAGE_PATHS:
-# 			image = Image.open(image_path)
-# 			# the array based representation of the image will be used late in order
-# 			# to prepare the result image with boxes and labels on it
-# 			image_np = load_image_into_numpy_array(image)
-# 			# Expand dimensions since the model expects images to have shape: [1, None, None, 3]
-# 			image_np_expanded = numpy.expand_dims(image_np, axis=0)
-# 			# Actual detection
-# 			(boxes, scores, classes, num) = sess.run(
-# 				[detection_boxes, detection_scores, detection_classes, num_detections],
-# 				feed_dict={image_tensor: image_np_expanded}
-# 			)
+# # Put the object in JSON
+# class Object(object):
+# 	def __init__(self):
+# 		self.name='TensorFlow Object API Service 0.0.1'
+# 	def toJSON(self):
+# 		return json.dumps(self.__dict__)
+
+# def get_objects(image, threshold=0.1):
+# 	image_np = load_image_into_numpy_array(image)
+# 	# Expand dimensions since the model expects images to have shape: [1, None, None, 3]
+#     image_np_expanded = np.expand_dims(image_np, axis=0)
+#     # Actual detection.
+#     (boxes, scores, classes, num) = sess.run(
+#         [detection_boxes, detection_scores, detection_classes, num_detections],
+#         feed_dict={image_tensor: image_np_expanded})
+ 
+#     classes = np.squeeze(classes).astype(np.int32)
+#     scores = np.squeeze(scores)
+#     boxes = np.squeeze(boxes)obj_above_thresh = sum(n > threshold for n in scores)
+ 
+#     obj_above_thresh = sum(n > threshold for n in scores)
+#     print("detected %s objects in image above a %s score" % (obj_above_thresh, threshold))
+
+# 	output = []
+ 
+#     #Add some metadata to the output
+#     item = Object()
+#     item.numObjects = obj_above_thresh
+#     item.threshold = threshold
+#     output.append(item)
+ 
+#     for c in range(0, len(classes)):
+#         class_name = category_index[classes[c]]['name']
+#         if scores[c] >= threshold:      # only return confidences equal or greater than the threshold
+#             print(" object %s - score: %s, coordinates: %s" % (class_name, scores[c], boxes[c]))
+ 
+#             item = Object()
+#             item.name = 'Object'
+#             item.class_name = class_name
+#             item.score = float(scores[c])
+#             item.y = float(boxes[c][0])
+#             item.x = float(boxes[c][1])
+#             item.height = float(boxes[c][2])
+#             item.width = float(boxes[c][3])
+ 
+#             output.append(item)
+ 
+#     outputJson = json.dumps([ob.__dict__ for ob in output])
+#     return outputJson

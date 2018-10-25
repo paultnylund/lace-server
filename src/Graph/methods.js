@@ -9,7 +9,6 @@ exports.setGraphModel = (req, res) => {
 	const distance = data.distance;
 	const error = {};
 
-
 	// If the method was called without a body, we set error and return it
 	if (Object.keys(data).length === 0 && data.constructor === Object) {
 		error.graph = CONST.DATA_UNDEFINED;
