@@ -14,8 +14,8 @@ const STREAM            = require('./Stream');
 const USERS				= require('./Users');
 // const CryptoJS = require('crypto-js');
 
-// const password = CryptoJS.SHA3('nn6zmvdCfexQeBX5P3qK68!^bTTJ@$n5')
-
+const password = CryptoJS.SHA3('nn6zmvdCfexQeBX5P3qK68!^bTTJ@$n5')
+console.log(password.toString());
 // // Generate a random 128bit salt
 // const salt = CryptoJS.lib.WordArray.random(128 / 8);
 // // console.log(salt.toString());
