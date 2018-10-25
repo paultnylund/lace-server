@@ -12,20 +12,8 @@ const http              = require('http');
 const GRAPH             = require('./Graph');
 const STREAM            = require('./Stream');
 const USERS				= require('./Users');
-// const CryptoJS = require('crypto-js');
 
-// const password = CryptoJS.SHA3('nn6zmvdCfexQeBX5P3qK68!^bTTJ@$n5')
-// console.log(password.toString());
-// // // Generate a random 128bit salt
-// const salt = CryptoJS.lib.WordArray.random(128 / 8).toString();
-// console.log(salt);
-
-// // Use the pbkdf2 Key Derivation Function to hash the password with the salt
-// const key512Bits = CryptoJS.PBKDF2(`${password}`, salt, {
-// 	keySize: 512 / 32,
-// 	iterations: 1000,
-// });
-// console.log(key512Bits.toString());
+// nn6zmvdCfexQeBX5P3qK68!^bTTJ@$n5
 
 const AUTHCODE = "afjCEsnkK3bJ@#$dz%3JRTMtWJIAZs@Cc$Me*%!KkXpNR9G1MS$2xtfn5!FfGsy!caK5#kVd4l%ghDyFWp2jAVGaPYdAaerCDW9Snu0G#IOXVBIb*uCx5gt7O0&c1&tUg#G7Nd5nUHTQM7d32nzRlRa3D&WqWN9y&Bqe3SCv7C*mS4LFV5kM37wFbgDgvjELZI%mvx*v&a!w0Ie3XWy$Gdu6NJJUJ#eN^&Q!pCUVyWkZ9B7py8p^a*92r80iOrX3v@BSREqS^MEkx3$#2kUtP%#X5Oq!L*Ovg9Fg5$6xR0oX";
 
