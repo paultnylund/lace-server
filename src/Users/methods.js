@@ -19,7 +19,7 @@ exports.connectUser = (req, res) => {
             return (res.send({ error: CONST.USER_NOT_EXISTS }));
         }
 
-        console.log(data.password.toString());
+        console.log(data.password);
         console.log(result.salt);
 
         const key512Bits = CryptoJS.PBKDF2(`${data.password}`, `${result.salt}`, {
