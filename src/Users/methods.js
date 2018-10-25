@@ -19,16 +19,15 @@ exports.connectUser = (req, res) => {
             return (res.send({ error: CONST.USER_NOT_EXISTS }));
         }
 
-        console.log(result);
-        console.log(result.username);
+        console.log(data.password);
         console.log(result.salt);
-        console.log(result.password);
-        console.log(result.pepper);
 
         const key512Bits = CryptoJS.PBKDF2(`${data.password}`, `${result.salt}`, {
             keySize: 512 / 32,
             iterations: 1000,
         });
+
+        console.log()
 
         if (key512Bits === result.password) {
             console.log('MATCHING');
