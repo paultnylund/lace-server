@@ -1,15 +1,17 @@
 const CryptoJS          = require('crypto-js');
-const USERS              = require('./model');
+const USERS             = require('./model');
 
 const CONST				= require('../const.js');
 
 exports.connectUser = (req, res) => {
     const data = req.body;
-    console.log(data);
+    // console.log(data);
 
     if (!data) {
         return (res.send({ error: CONST.DATA_UNDEFINED }));
     }
+
+    console.log(data.username.toLowerCase())
 
     USERS.findOne({
         username: data.username.toLowerCase()
@@ -17,6 +19,8 @@ exports.connectUser = (req, res) => {
         if (error) {
             return (res.send(error));
         }
+
+        console.log(result);
 
         if (!result) {
             return (res.send({ error: CONST.USER_NOT_EXISTS }));
