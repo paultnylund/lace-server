@@ -27,10 +27,10 @@ exports.connectUser = (req, res) => {
             iterations: 1000,
         });
 
-        console.log(key512Bits.toString())
-        console.log(result.password);
+        // console.log(key512Bits.toString())
+        // console.log(result.password);
 
-        if (key512Bits === result.password) {
+        if (key512Bits.toString() === result.password) {
             console.log('MATCHING');
             return (res.send(result));
         }
