@@ -20,9 +20,8 @@ exports.connectUser = (req, res) => {
         }
 
         console.log(result);
-        console.log(result.salts);
         console.log(result.username);
-        // console.log(result.salts);
+        console.log(result.salt);
         console.log(result.password);
 
         const key512Bits = CryptoJS.PBKDF2(`${data.password}`, `${result.salt}`, {
