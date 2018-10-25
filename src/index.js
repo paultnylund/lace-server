@@ -85,10 +85,10 @@ api.use((req, res, next) => {
 // 	res.sendFile(path.join(__dirname, '../build', 'index.html'));
 // });
 
-web.use(express.static('/var/lace-stream/build'));
+web.use(express.static('/var/lace-web/build'));
 
 web.get('/', (req, res) => {
-	res.sendFile(path.join('/var/lace-stream/build', 'index.html'));
+	res.sendFile(path.join('/var/lace-web/build', 'index.html'));
 });
 
 GRAPH.route(api);
