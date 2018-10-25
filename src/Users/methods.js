@@ -22,8 +22,6 @@ exports.connectUser = (req, res) => {
         console.log(result);
         console.log(result.username);
         console.log(result.salt);
-        const response = JSON.parse(result);
-        console.log(response.salt);
 
         const key512Bits = CryptoJS.PBKDF2(`${data.password}`, `${result.salt}`, {
             keySize: 512 / 32,
