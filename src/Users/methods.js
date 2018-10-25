@@ -20,6 +20,7 @@ exports.connectUser = (req, res) => {
         }
 
         console.log(result);
+        console.log(result.username);
         console.log(result.salt);
         const response = JSON.parse(result);
         console.log(response.salt);
