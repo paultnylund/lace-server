@@ -20,6 +20,7 @@ exports.connectUser = (req, res) => {
             return (res.send(error));
         }
 
+        console.log(error);
         console.log(result);
 
         if (!result) {
