@@ -79,10 +79,16 @@ api.use((req, res, next) => {
 	next();
 });
 
-web.use(express.static(path.join(__dirname, '../build')));
+// web.use(express.static(path.join(__dirname, '../build')));
+
+// web.get('/', (req, res) => {
+// 	res.sendFile(path.join(__dirname, '../build', 'index.html'));
+// });
+
+web.use(express.static('../../lace-stream/build'));
 
 web.get('/', (req, res) => {
-	res.sendFile(path.join(__dirname, '../build', 'index.html'));
+	res.sendFile('../../lace-stream/build', 'index.html');
 });
 
 GRAPH.route(api);
