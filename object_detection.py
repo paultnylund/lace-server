@@ -11,6 +11,7 @@ from collections import defaultdict
 from io import StringIO
 from matplotlib import pyplot
 from PIL import Image
+from PIL import ImageDraw
 
 from object_detection.utils import label_map_util
 from object_detection.utils import visualization_utils
@@ -74,6 +75,29 @@ TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(
 # Sizes in 
 IMAGE_SIZE = (12, 8)
 
+def draw_grid_line_on_image(image, xcoord, ycoord, color='red', thickness=4):
+	image_pil = Image.fromarray(numpy.uint8(image)).convert('RGB')
+	draw = ImageDraw.Draw(image_pil)
+	image_width, image_height = image_pil.size
+	(left, right) = (xcoord * image_width, ycoord * image_height)
+	draw.line((left, right), width=thickness, fill=color)
+
+	numpy.copyto(image, numpy.array(image_pil))
+
+def draw_grid_on_image_array(image, color='red', thickness=4, length=50):
+	initial_grid = numpy.linspace(0, 1, length)
+	final_grid_array = numpy.zeros((length, 2))
+
+	iterator = 0
+	for each in initial_grid:
+		final_grid_array[iterator] = [each, 1]
+		iterator += 1
+	
+	for each in final_grid_array:
+		draw_grid_line_on_image(image, each[0], each[1])
+	
+	return image
+
 with detection_graph.as_default():
 	with tf.Session(graph=detection_graph) as sess:
 		sess.run(tf.global_variables_initializer())
@@ -98,11 +122,17 @@ with detection_graph.as_default():
 				[boxes, scores, classes, num_detections],
 				feed_dict={image_tensor: image_np_expanded}
 			)
+			########################
+			# TEST
+			########################
+			print('--------------------------------------------------------------------------')
+			print(image_np)
+			print('--------------------------------------------------------------------------')
 			# Print the outputs
 			classes = numpy.squeeze(classes).astype(numpy.int32)
 			scores = numpy.squeeze(scores)
 			boxes = numpy.squeeze(boxes)
-			threshold = 0.1
+			threshold = 0.5
 			obj_above_thresh = sum(n > threshold for n in scores)
 			print('detected %s objects in %s above as %s score' % (obj_above_thresh, image_path, threshold))
 			for c in range(0, len(classes)):
@@ -110,20 +140,23 @@ with detection_graph.as_default():
 					class_name = category_index[classes[c]]['name']
 					print(' object %s is a %s - score: %s, location: %s' % (c, class_name, scores[c], boxes[c]))
 			# TODO: Remove on deploy
-			# Visualization of the results of a detection.
-			visualization_utils.visualize_boxes_and_labels_on_image_array(
-				image_np,
-				numpy.squeeze(boxes),
-				numpy.squeeze(classes).astype(numpy.int32),
-				numpy.squeeze(scores),
-				category_index,
-				min_score_thresh=.1,
-				use_normalized_coordinates=True,
-				line_thickness=2,
-			)
+			draw_grid_on_image_array(image_np)
 			pyplot.figure(figsize=IMAGE_SIZE)
 			pyplot.imsave(str(img) + '.jpg', image_np)
-			img += 1
+			# Visualization of the results of a detection.
+			# visualization_utils.visualize_boxes_and_labels_on_image_array(
+			# 	image_np,
+			# 	numpy.squeeze(boxes),
+			# 	numpy.squeeze(classes).astype(numpy.int32),
+			# 	numpy.squeeze(scores),
+			# 	category_index,
+			# 	min_score_thresh=.1,
+			# 	use_normalized_coordinates=True,
+			# 	line_thickness=2,
+			# )
+			# pyplot.figure(figsize=IMAGE_SIZE)
+			# pyplot.imsave(str(img) + '.jpg', image_np)
+			# img += 1
 
 # # Put the object in JSON
 # class Object(object):

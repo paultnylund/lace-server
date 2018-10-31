@@ -231,7 +231,6 @@ def draw_bounding_boxes_on_image_array(image,
                                display_str_list_list)
   np.copyto(image, np.array(image_pil))
 
-
 def draw_bounding_boxes_on_image(image,
                                  boxes,
                                  color='red',
