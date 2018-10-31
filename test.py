@@ -74,11 +74,12 @@ def find_grid_and_bounding_box_overlap(boundingbox, gridbox):
 	return overlap_area
 
 ## RUN TEST
-boundingbox = [[5, 8], [10, 8], [10, 6], [5, 6]]
-gridbox = [[4, 5], [7, 5], [7, 2], [4, 2]]
-overlap_area = find_grid_and_bounding_box_overlap(boundingbox, gridbox)
-print(overlap_area)
-# coordinates = numpy.linspace(0, 1, 50)
+# boundingbox = [[5, 8], [10, 8], [10, 6], [5, 6]]
+# gridbox = [[4, 5], [7, 5], [7, 2], [4, 2]]
+# overlap_area = find_grid_and_bounding_box_overlap(boundingbox, gridbox)
+# print(overlap_area)
+coordinates = numpy.linspace(0, 1, 50)
+print(coordinates)
 # image = Image.open('object_detection/test_images/image1.jpg')
 # image_array = load_image_into_numpy_array(image)
 # draw_grid_on_image_array(image_array, coordinates, 'black', 1)

@@ -1,9 +1,29 @@
+from Stack import Stack
+import numpy
+
+# array = numpy.array([0, 3, 2, 3, 4])
+# reverse_array = numpy.flipud(array)
+# array_list = reverse_array.tolist()
+# stack = Stack(array_list)
+
+# print(stack.pop())
+# print(stack.pop())
+# print(stack.peek())
+
 def create_grid_boxes_from_image_array(image_array):
     '''
     '''
+    # Split up the normalised coordinates in 50 intervals for grid edges
+    normalised_coordinates = numpy.linspace(0, 1, 50)
+
+    # Reverse the numpy array and turn it into a python list
+    reversed_stack_array = numpy.flipud(normalised_coordinates).tolist()
+
+    # Create a stack with the normalised coordinates 
+    stack = Stack(reversed_stack_array)
 
 def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
-    '''Find area of overlap between a bounding box and grid box (rectangles)
+    '''Find area of overlap between a bounding box and grid box (rectangle, square)
 
     Args:
         bounding_box: A [[2]] matrix with coordinates for each vertex
