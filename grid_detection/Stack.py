@@ -48,6 +48,12 @@ class Stack:
         '''
         return self.items[len(self.items) - 1]
     
+    def next_peek(self):
+        return self.items[len(self.items) - 2]
+    
+    def reset(self, items):
+        self.items = items
+    
     def size(self):
         '''Find the number of items in the stack
 

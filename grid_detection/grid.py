@@ -1,37 +1,7 @@
 from Stack import Stack
 import numpy
 
-array = numpy.array([0, 0.5, 1])
-reverse_array = numpy.flipud(array).tolist()
-stack = Stack(reverse_array)
-
-row = 0
-column = 0
-
-# WORKS FOR ONE BOX
-def test():
-    if stack.isEmpty():
-        return False
-
-    current_value = stack.pop()
-    peek_value = stack.peek()
-    grid_box_coordinates = []
-    row = 0
-    column = 0
-
-    while column < 1:
-        grid_box_coordinates = [
-            [current_value, row],
-            [peek_value, row],
-            [peek_value, row + peek_value],
-            [current_value, row + peek_value]
-        ]
-
-        column = column + peek_value
-    
-    return grid_box_coordinates
-
-def create_single_grid_box(row, column):
+def create_single_grid_box(stack, row, column):
     if stack.isEmpty():
         return False
     
@@ -39,27 +9,25 @@ def create_single_grid_box(row, column):
     peek_value = stack.peek()
     grid_box_coordinates = []
 
-    while column < 1:
-        grid_box_coordinates = [
-            [current_value, row],
-            [peek_value, row],
-            [peek_value, row + peek_value],
-            [current_value, row + peek_value]
-        ]
+    grid_box_coordinates = [
+        [current_value, row[0]],
+        [peek_value, row[0]],
+        [peek_value, (row[0] + peek_value) - current_value],
+        [current_value, (row[0] + peek_value) - current_value]
+    ]
 
-        column = column + peek_value
+    column[0] = peek_value
 
     return grid_box_coordinates
 
-
-# for each in stack.size():
-#     print(create_single_grid_box(row, column))
-
-def create_grid_boxes_array():
+def create_grid_boxes_array(size=5):
     '''
     '''
+    grid_boxes = []
+
     # Split up the normalised coordinates in 50 intervals for grid edges
-    normalised_coordinates = numpy.linspace(0, 1, 50)
+    normalised_coordinates = numpy.linspace(0, 1, size)
+    # normalised_coordinates = numpy.array([0.0, 0.5, 1.0])
 
     # Reverse the numpy array and turn it into a python list
     reversed_stack_array = numpy.flipud(normalised_coordinates).tolist()
@@ -67,18 +35,24 @@ def create_grid_boxes_array():
     # Create a stack with the normalised coordinates 
     stack = Stack(reversed_stack_array)
 
-    row = 0
-    column = 0
+    # Mutable
+    row = [0.0]
+    column = [0.0]
 
     # If the stack is empty, return the 
     if stack.isEmpty():
         return False
+    while row[0] < 1.0:
+        while column[0] < 1.0:
+            grid_boxes.append(create_single_grid_box(stack, row, column))
+        reversed_stack_array = numpy.flipud(normalised_coordinates).tolist()
+        stack.reset(reversed_stack_array)
+        column[0] = 0.0
+        row[0] = row[0] + stack.next_peek()
     
-    for each in range(0, stack.size()):
-        print(create_single_grid_box(row, column))
-        row = stack.peek()
+    return grid_boxes
     
-create_grid_boxes_array()
+print(create_grid_boxes_array())
 
 def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
     '''Find area of overlap between a bounding box and grid box (rectangle, square)
