@@ -1,16 +1,61 @@
 from Stack import Stack
 import numpy
 
-# array = numpy.array([0, 3, 2, 3, 4])
-# reverse_array = numpy.flipud(array)
-# array_list = reverse_array.tolist()
-# stack = Stack(array_list)
+array = numpy.array([0, 0.5, 1])
+reverse_array = numpy.flipud(array).tolist()
+stack = Stack(reverse_array)
 
-# print(stack.pop())
-# print(stack.pop())
-# print(stack.peek())
+row = 0
+column = 0
 
-def create_grid_boxes_from_image_array(image_array):
+# WORKS FOR ONE BOX
+def test():
+    if stack.isEmpty():
+        return False
+
+    current_value = stack.pop()
+    peek_value = stack.peek()
+    grid_box_coordinates = []
+    row = 0
+    column = 0
+
+    while column < 1:
+        grid_box_coordinates = [
+            [current_value, row],
+            [peek_value, row],
+            [peek_value, row + peek_value],
+            [current_value, row + peek_value]
+        ]
+
+        column = column + peek_value
+    
+    return grid_box_coordinates
+
+def create_single_grid_box(row, column):
+    if stack.isEmpty():
+        return False
+    
+    current_value = stack.pop()
+    peek_value = stack.peek()
+    grid_box_coordinates = []
+
+    while column < 1:
+        grid_box_coordinates = [
+            [current_value, row],
+            [peek_value, row],
+            [peek_value, row + peek_value],
+            [current_value, row + peek_value]
+        ]
+
+        column = column + peek_value
+
+    return grid_box_coordinates
+
+
+# for each in stack.size():
+#     print(create_single_grid_box(row, column))
+
+def create_grid_boxes_array():
     '''
     '''
     # Split up the normalised coordinates in 50 intervals for grid edges
@@ -21,6 +66,19 @@ def create_grid_boxes_from_image_array(image_array):
 
     # Create a stack with the normalised coordinates 
     stack = Stack(reversed_stack_array)
+
+    row = 0
+    column = 0
+
+    # If the stack is empty, return the 
+    if stack.isEmpty():
+        return False
+    
+    for each in range(0, stack.size()):
+        print(create_single_grid_box(row, column))
+        row = stack.peek()
+    
+create_grid_boxes_array()
 
 def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
     '''Find area of overlap between a bounding box and grid box (rectangle, square)
