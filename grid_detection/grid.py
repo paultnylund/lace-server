@@ -9,23 +9,23 @@ class Density(Enum):
     HEAVY = 3
     NULL = 4
 
-def load_image_into_numpy_array(image):
-    '''Loads image into a numpy array
+# def load_image_into_numpy_array(image):
+#     '''Loads image into a numpy array
 
-    This helper function is used to load an image into a numpy array
-    which can then be used for further processing.
+#     This helper function is used to load an image into a numpy array
+#     which can then be used for further processing.
 
-    Args:
-        image: a PIL.Image object.
+#     Args:
+#         image: a PIL.Image object.
 
-    Returns:
-        A uint8 numpy array representation of the image
-    '''
-    # Get the with and height of the image
-    (image_width, image_height) = image.size
+#     Returns:
+#         A uint8 numpy array representation of the image
+#     '''
+#     # Get the with and height of the image
+#     (image_width, image_height) = image.size
 
-    # Return a numpy array representation of the image as uint8
-    return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
+#     # Return a numpy array representation of the image as uint8
+#     return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
 def create_single_grid_box(stack, row, column):
     '''Create a [4*[4]] python list with the grid box coordinates
@@ -120,8 +120,8 @@ def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
     '''
 
     # Define the index for the upper- and lower bound
-    upper_index = 3
-    lower_index = 1
+    upper_index = 1
+    lower_index = 3
     # Define the index for the x- and y-coordinates
     x = 0
     y = 1
@@ -155,10 +155,10 @@ def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
     
     # Find the distance of overalp on the x-axis
     x_distance = find_edge_distance(
-        bounding_box[upper_index][x],
-        grid_box[upper_index][x],
         bounding_box[lower_index][x],
-        grid_box[lower_index][x]
+        grid_box[lower_index][x],
+        bounding_box[upper_index][x],
+        grid_box[upper_index][x]
     )
 
     # Return false if there is no overlap
@@ -171,44 +171,67 @@ def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
     return overlap_area
 
 def calculate_overlay_areas(grid_boxes, bounding_boxes):
-    overlay_areas_array = []
+    # Instasiate the overlay areas graph
+    overlay_areas_graph = []
 
     # Calculate overlay area of all grid boxes and store in new array (loop)
-    overlay_areas_graph.append(find_grid_box_and_bounding_box_overlap(bounding_box, grid_box))
+    for grid_box in grid_boxes:
+        for bounding_box in bounding_boxes:
+            overlay_area = find_grid_box_and_bounding_box_overlap(bounding_box, grid_box)
+            # If the is no overlay area append a zero, else append overlay area
+            if overlay_area == False:
+                overlay_areas_graph.append(0.0)
+            else:
+                overlay_areas_graph.append(overlay_area)
 
     # Return new array with overlay areas
-    return overlay_areas_array
+    return overlay_areas_graph
 
 def map_overlap_area_to_density(overlay_graph):
     '''
     '''
+    density_graph = []
     # Find the largest area in overlay array
+    max_area = overlay_graph[numpy.argmax(overlay_graph)]
+    min_area = overlay_graph[numpy.argmin(overlay_graph)]
+
+    def linear_transform_ranges(value):
+        transformed_value = ((value - min_area) / (max_area - min_area)) * (Density.HEAVY.value - Density.LIGHT.value) + Density.LIGHT.value
+        return transformed_value
 
     # Map all overlay areas into density range
+    for area in overlay_graph:
+        if area == 0.0:
+            density_graph.append(Density.FREE.value)
+        else:
+            density_graph.append(linear_transform_ranges(area))
 
     # Return density values in new density array
-
+    return density_graph
 
 def convert_density_array_to_json_object(density_graph):
     # Convert density array to json object
+    test = 1
 
     # Return the new density graph
 
-def create_density_grid(image_array, bounding_boxes):
+def create_density_grid(bounding_boxes):
     '''
     '''
     # Define density range [0:4] - 4 being imposible to move as inanimate object is present
     # This comes from the Density enum class
 
     # The initial generated grid with (n - 1)^2 grid boxes
-    grid_boxes = create_grid_boxes_array(30)
+    grid_boxes = create_grid_boxes_array(3)
 
     # Calculate overlay area of all grid boxes and store in new array
     overlay_graph = calculate_overlay_areas(grid_boxes, bounding_boxes)
+    print(overlay_graph)
 
     # Find the largest area in overlay array
     # Map all overlay areas into density range
     density_graph = map_overlap_area_to_density(overlay_graph)
+    print(density_graph)
 
     # Convert density array to json object
     density_graph_json = convert_density_array_to_json_object(density_graph)

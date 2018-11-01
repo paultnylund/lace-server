@@ -7,22 +7,42 @@ from PIL import ImageDraw
 from grid_detection import grid
 from grid_detection import visualisation
 
-image = Image.open('object_detection/test_images/image1.jpg')
-image_array = visualisation.load_image_into_numpy_array(image)
+# image = Image.open('object_detection/test_images/image1.jpg')
+# image_array = visualisation.load_image_into_numpy_array(image)
 
-generated_grid = grid.create_grid_boxes_array(30)
+# generated_grid = grid.create_grid_boxes_array(30)
+
+# boundingboxes_test = [
+# 	[
+# 		[0.7077056, 0.692232],
+# 		[0.9436513, 0.692232],
+# 		[0.9436513, 0.82694924],
+# 		[0.7077056, 0.82694924]
+# 	],
+# 	[
+# 		[0.7387483, 0.26997864],
+# 		[0.94557214, 0.26997864],
+# 		[0.94557214, 0.4274879],
+# 		[0.7387483, 0.4274879]
+# 	]
+# ]
 
 boundingboxes_test = [
-	[0.7077056, 0.692232, 0.9436513, 0.82694924],
-	[0.7387483, 0.26997864, 0.94557214, 0.4274879],
-	[0.71184075, 0.6432394, 0.943676, 0.79948354]
+	[
+		[0.0, 0.0],
+		[0.5, 0.0],
+		[0.5, 0.5],
+		[0.0, 0.5]
+	]
 ]
 
 # print(generated_grid)
 
-visualisation.draw_grid_on_image_array(image_array, generated_grid)
-pyplot.figure(figsize=(12, 8))
-pyplot.imsave('test' + '.jpg', image_array)
+grid.create_density_grid(boundingboxes_test)
+
+# visualisation.draw_grid_on_image_array(image_array, generated_grid)
+# pyplot.figure(figsize=(12, 8))
+# pyplot.imsave('test' + '.jpg', image_array)
 
 # def load_image_into_numpy_array(image):
 # 	(im_width, im_height) = image.size
