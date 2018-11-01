@@ -15,22 +15,39 @@ def load_image_into_numpy_array(image):
     Returns:
         A uint8 numpy array representation of the image
     '''
+    # Get the with and height of the image
     (image_width, image_height) = image.size
-    return numpy.array(image.getdata()).reshape((image_width, image_width, 3)).astype(numpy.uint8)
 
-def draw_grid_line_on_image(image, xcoord, ycoord, color='black', thickness=4):
+    # Return a numpy array representation of the image as uint8
+    return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
+
+def draw_grid_box_on_image(image, grid_coords, color='red', thickness=2):
+    '''Draw single grid box on image
     '''
-    '''
+    # Create an PIL Image from the numpy array image
     image_pil = Image.fromarray(numpy.uint8(image)).convert('RGB')
+
+    # Create an object that can be used to draw in the given image
     draw = ImageDraw.Draw(image_pil)
+
+    # Get the width and height of the image
     image_width, image_height = image_pil.size
 
-    min_coords = (xcoord['start'], ycoord * image_height)
+    # Set the oposite vertecies of the grid box to the non-normalised coordinates
+    min_coords = (grid_coords[0][0] * image_width, grid_coords[0][1] * image_height)
+    max_coords = (grid_coords[2][0] * image_width, grid_coords[2][1] * image_height)
 
-def draw_grid_on_image_array(image, coordinates, color='black', thickness=4):
+    # Draw the grid box
+    draw.rectangle([min_coords, max_coords], width=thickness, outline=color)
+
+    # Copy the values from the drawn image into the original image array
+    numpy.copyto(image, numpy.array(image_pil))
+
+def draw_grid_on_image_array(image, grid_boxes, color='red', thickness=2):
+    '''Draw the grid on image
     '''
-    '''
-    for coord in coordinates:
-        xcoord = {'start': 0, 'end': 1}
-        ycoord = coord
+
+    for grid_box in grid_boxes:
+        draw_grid_box_on_image(image, grid_box)
+
         

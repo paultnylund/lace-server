@@ -1,14 +1,57 @@
 from Stack import Stack
 import numpy
+from enum import Enum
+
+class Density(Enum):
+    FREE = 0
+    LIGHT = 1
+    MEDIUM = 2
+    HEAVY = 3
+    NULL = 4
+
+def load_image_into_numpy_array(image):
+    '''Loads image into a numpy array
+
+    This helper function is used to load an image into a numpy array
+    which can then be used for further processing.
+
+    Args:
+        image: a PIL.Image object.
+
+    Returns:
+        A uint8 numpy array representation of the image
+    '''
+    # Get the with and height of the image
+    (image_width, image_height) = image.size
+
+    # Return a numpy array representation of the image as uint8
+    return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
 def create_single_grid_box(stack, row, column):
+    '''Create a [4*[4]] python list with the grid box coordinates
+
+    Args:
+        stack: The Stack Object with the coordinates intervals
+        row: The mutable row iterator
+        column The mutable colunn iterator
+    
+    Returns:
+        Returns a [4*[4]] tuple with the grid box coordinates
+    '''
+    # Return false if the stack is empty
     if stack.isEmpty():
         return False
     
+    # Pop the first value of the stack
     current_value = stack.pop()
+
+    # Get the next peek value
     peek_value = stack.peek()
+
+    # Initialise the list tuple for grid box verticies
     grid_box_coordinates = []
 
+    # Fill out the coordinates for the grid box vertecies
     grid_box_coordinates = [
         [current_value, row[0]],
         [peek_value, row[0]],
@@ -16,18 +59,26 @@ def create_single_grid_box(stack, row, column):
         [current_value, (row[0] + peek_value) - current_value]
     ]
 
+    # Add the next value in the stack to the column iterator
     column[0] = peek_value
 
+    # Return the coordinates list for the grid box
     return grid_box_coordinates
 
 def create_grid_boxes_array(size=5):
+    '''Create a [size*[size]] python list with entire grid
+
+    Args:
+        size: (int) The size of the grid - number of grids will be (size - 1)^2
+    
+    Returns:
+        Returns a [size*[size]] tuple with the grid
     '''
-    '''
+    # Initialise a list for the grid
     grid_boxes = []
 
     # Split up the normalised coordinates in 50 intervals for grid edges
     normalised_coordinates = numpy.linspace(0, 1, size)
-    # normalised_coordinates = numpy.array([0.0, 0.5, 1.0])
 
     # Reverse the numpy array and turn it into a python list
     reversed_stack_array = numpy.flipud(normalised_coordinates).tolist()
@@ -35,7 +86,7 @@ def create_grid_boxes_array(size=5):
     # Create a stack with the normalised coordinates 
     stack = Stack(reversed_stack_array)
 
-    # Mutable
+    # Initialise mutable iterators
     row = [0.0]
     column = [0.0]
 
@@ -45,14 +96,16 @@ def create_grid_boxes_array(size=5):
     while row[0] < 1.0:
         while column[0] < 1.0:
             grid_boxes.append(create_single_grid_box(stack, row, column))
+        # Reset the stack to the original input
         reversed_stack_array = numpy.flipud(normalised_coordinates).tolist()
         stack.reset(reversed_stack_array)
+        # Reset the column iterator
         column[0] = 0.0
+        # Add the next peak to the row iterator
         row[0] = row[0] + stack.next_peek()
     
+    # Return the grid list
     return grid_boxes
-    
-print(create_grid_boxes_array())
 
 def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
     '''Find area of overlap between a bounding box and grid box (rectangle, square)
@@ -117,3 +170,49 @@ def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
 
     return overlap_area
 
+def calculate_overlay_areas(grid_boxes, bounding_boxes):
+    overlay_areas_array = []
+
+    # Calculate overlay area of all grid boxes and store in new array (loop)
+    overlay_areas_graph.append(find_grid_box_and_bounding_box_overlap(bounding_box, grid_box))
+
+    # Return new array with overlay areas
+    return overlay_areas_array
+
+def map_overlap_area_to_density(overlay_graph):
+    '''
+    '''
+    # Find the largest area in overlay array
+
+    # Map all overlay areas into density range
+
+    # Return density values in new density array
+
+
+def convert_density_array_to_json_object(density_graph):
+    # Convert density array to json object
+
+    # Return the new density graph
+
+def create_density_grid(image_array, bounding_boxes):
+    '''
+    '''
+    # Define density range [0:4] - 4 being imposible to move as inanimate object is present
+    # This comes from the Density enum class
+
+    # The initial generated grid with (n - 1)^2 grid boxes
+    grid_boxes = create_grid_boxes_array(30)
+
+    # Calculate overlay area of all grid boxes and store in new array
+    overlay_graph = calculate_overlay_areas(grid_boxes, bounding_boxes)
+
+    # Find the largest area in overlay array
+    # Map all overlay areas into density range
+    density_graph = map_overlap_area_to_density(overlay_graph)
+
+    # Convert density array to json object
+    density_graph_json = convert_density_array_to_json_object(density_graph)
+
+    # Return json density array to NodeJS
+    return density_graph_json
+    
