@@ -38,7 +38,7 @@ boundingboxes_test = [
 
 # print(generated_grid)
 
-grid.create_density_grid(boundingboxes_test)
+grid.create_density_grid(boundingboxes_test, 4)
 
 # visualisation.draw_grid_on_image_array(image_array, generated_grid)
 # pyplot.figure(figsize=(12, 8))

@@ -1,6 +1,7 @@
 from Stack import Stack
 import numpy
 from enum import Enum
+import json
 
 class Density(Enum):
     FREE = 0
@@ -8,6 +9,13 @@ class Density(Enum):
     MEDIUM = 2
     HEAVY = 3
     NULL = 4
+
+class Object(object):
+    def __init__(self):
+        self.name = 'Lace Object Detection API'
+    def toJSON(self):
+        json.dumps(self.__dict__)
+
 
 # def load_image_into_numpy_array(image):
 #     '''Loads image into a numpy array
@@ -209,13 +217,19 @@ def map_overlap_area_to_density(overlay_graph):
     # Return density values in new density array
     return density_graph
 
-def convert_density_array_to_json_object(density_graph):
+def convert_density_array_to_json_object(density_graph, distance):
     # Convert density array to json object
-    test = 1
+    json_object = []
+
+    json_object.append(density_graph)
+    json_object.append({'distance': distance})
+
+    json_output = json.dumps([json_object])
 
     # Return the new density graph
+    return json_object
 
-def create_density_grid(bounding_boxes):
+def create_density_grid(bounding_boxes, distance):
     '''
     '''
     # Define density range [0:4] - 4 being imposible to move as inanimate object is present
@@ -234,7 +248,8 @@ def create_density_grid(bounding_boxes):
     print(density_graph)
 
     # Convert density array to json object
-    density_graph_json = convert_density_array_to_json_object(density_graph)
+    density_graph_json = convert_density_array_to_json_object(density_graph, distance)
+    print(density_graph_json)
 
     # Return json density array to NodeJS
     return density_graph_json
