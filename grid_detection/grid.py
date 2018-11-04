@@ -254,3 +254,17 @@ def create_density_grid(bounding_boxes, distance):
     # Return json density array to NodeJS
     return density_graph_json
     
+
+#######################################################
+# FOR TESTING PURPOSES
+#######################################################
+boundingboxes_test = [
+	[
+		[0.0, 0.0],
+		[0.5, 0.0],
+		[0.5, 0.5],
+		[0.0, 0.5]
+	]
+]
+
+grid.create_density_grid(boundingboxes_test, 4)
