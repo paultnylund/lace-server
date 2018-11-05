@@ -2,6 +2,7 @@ from Stack import Stack
 import numpy
 from enum import Enum
 import json
+import math
 
 class Density(Enum):
     FREE = 0
@@ -9,13 +10,6 @@ class Density(Enum):
     MEDIUM = 2
     HEAVY = 3
     NULL = 4
-
-class Object(object):
-    def __init__(self):
-        self.name = 'Lace Object Detection API'
-    def toJSON(self):
-        json.dumps(self.__dict__)
-
 
 # def load_image_into_numpy_array(image):
 #     '''Loads image into a numpy array
@@ -221,13 +215,25 @@ def convert_density_array_to_json_object(density_graph, distance):
     # Convert density array to json object
     json_object = []
 
-    json_object.append(density_graph)
-    json_object.append({'distance': distance})
+    adapted_density_graph = []
+    
+    row_length = int(math.sqrt(len(density_graph)))
+    iterator = 0
 
-    json_output = json.dumps([json_object])
+    while iterator < len(density_graph):
+        temp = []
+        for each_index in range(iterator, iterator + row_length):
+            temp.append(density_graph[each_index])
+        adapted_density_graph.append(temp)
+        iterator += row_length
+
+    json_object.append({"graph": adapted_density_graph})
+    json_object.append({"distance": distance})
+
+    json_output = json.dumps(json_object)
 
     # Return the new density graph
-    return json_object
+    return json_output
 
 def create_density_grid(bounding_boxes, distance):
     '''
@@ -240,31 +246,13 @@ def create_density_grid(bounding_boxes, distance):
 
     # Calculate overlay area of all grid boxes and store in new array
     overlay_graph = calculate_overlay_areas(grid_boxes, bounding_boxes)
-    print(overlay_graph)
 
     # Find the largest area in overlay array
     # Map all overlay areas into density range
     density_graph = map_overlap_area_to_density(overlay_graph)
-    print(density_graph)
 
     # Convert density array to json object
     density_graph_json = convert_density_array_to_json_object(density_graph, distance)
-    print(density_graph_json)
 
     # Return json density array to NodeJS
     return density_graph_json
-    
-
-#######################################################
-# FOR TESTING PURPOSES
-#######################################################
-boundingboxes_test = [
-	[
-		[0.0, 0.0],
-		[0.5, 0.0],
-		[0.5, 0.5],
-		[0.0, 0.5]
-	]
-]
-
-grid.create_density_grid(boundingboxes_test, 4)

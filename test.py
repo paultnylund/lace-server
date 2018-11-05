@@ -1,5 +1,6 @@
 import numpy
 import sys
+import math
 from matplotlib import pyplot
 from PIL import Image
 from PIL import ImageDraw
@@ -27,6 +28,28 @@ from grid_detection import visualisation
 # 	]
 # ]
 
+# test = [3.0, 0, 0, 1.0, 4.0, 1.0, 1.0, 0, 0]
+# # output = [[3.0, 0] [0, 0]]
+# output = []
+
+# length = int(math.sqrt(len(test)))
+# iterator = 0
+
+# # for each_row in test:
+# # 	temp = []
+# # 	for each_item in range(iterator, )
+# # 	iterator += length
+
+
+# while iterator < len(test):
+# 	temp = []
+# 	for each in range(iterator, iterator + length):
+# 		temp.append(test[each])
+# 	output.append(temp)
+# 	iterator += length
+
+# print(output)
+
 boundingboxes_test = [
 	[
 		[0.0, 0.0],
@@ -36,9 +59,8 @@ boundingboxes_test = [
 	]
 ]
 
-# print(generated_grid)
-
-grid.create_density_grid(boundingboxes_test, 4)
+generated_grid = grid.create_density_grid(boundingboxes_test, 4)
+print(generated_grid)
 
 # visualisation.draw_grid_on_image_array(image_array, generated_grid)
 # pyplot.figure(figsize=(12, 8))
