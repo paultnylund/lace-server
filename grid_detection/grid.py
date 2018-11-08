@@ -49,7 +49,7 @@ def create_single_grid_box(stack, row, column):
     # Return the coordinates list for the grid box
     return grid_box_coordinates
 
-def create_grid_boxes_array(size=5):
+def create_grid_boxes_array(size):
     '''Create a [size*[size]] python list with entire grid
 
     Args:
@@ -168,7 +168,6 @@ def calculate_overlay_areas(grid_boxes, bounding_boxes):
     overlay_areas_graph = []
 
     # Calculate overlay area of all grid boxes and store in new array (loop)
-    print(bounding_boxes)
     for grid_box in grid_boxes:
         for bounding_box in bounding_boxes:
             overlay_area = find_grid_box_and_bounding_box_overlap(bounding_box, grid_box)
@@ -227,9 +226,11 @@ def convert_density_array_to_json_object(density_graph, distance):
     
     # Determine the lenght of each row based on total number of densities
     row_length = int(math.sqrt(len(density_graph)))
+    print(row_length)
     iterator = 0
 
     # Loop through the density graph and create the adapted density graph for storing
+    # FIXME: This breaks with grid sizes higher than 3
     while iterator < len(density_graph):
         temp = []
         for each_index in range(iterator, iterator + row_length):
@@ -246,7 +247,7 @@ def convert_density_array_to_json_object(density_graph, distance):
     # Return the new density graph
     return json_output
 
-def create_density_grid(bounding_boxes, distance):
+def create_density_grid(bounding_boxes, distance, grid_size=5):
     '''Create a density grid based on detected bounding_boxes and node distance
 
     Args:
@@ -259,7 +260,7 @@ def create_density_grid(bounding_boxes, distance):
     # This comes from the Density enum class
 
     # The initial generated grid with (n - 1)^2 grid boxes
-    grid_boxes = create_grid_boxes_array(3)
+    grid_boxes = create_grid_boxes_array(grid_size)
 
     # Calculate overlay area of all grid boxes and store in new array
     overlay_graph = calculate_overlay_areas(grid_boxes, bounding_boxes)

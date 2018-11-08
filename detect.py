@@ -126,7 +126,6 @@ def run_object_detection_on_image(image, threshold=0.5):
 			]
 			bounding_boxes.append(box)
 			bounding_classes.append(category_index[classes[c]]['name'])
-			# class_name = category_index[classes[c]]['name']
 			# print(' object %s is a %s - score: %s, location: %s' % (c, class_name, scores[c], boxes[c]))
 	
 	detection_result = {}
