@@ -1,8 +1,8 @@
-from Stack import Stack
 import numpy
-from enum import Enum
 import json
 import math
+from enum import Enum
+from Stack import Stack
 
 class Density(Enum):
     FREE = 0
@@ -10,24 +10,6 @@ class Density(Enum):
     MEDIUM = 2
     HEAVY = 3
     NULL = 4
-
-# def load_image_into_numpy_array(image):
-#     '''Loads image into a numpy array
-
-#     This helper function is used to load an image into a numpy array
-#     which can then be used for further processing.
-
-#     Args:
-#         image: a PIL.Image object.
-
-#     Returns:
-#         A uint8 numpy array representation of the image
-#     '''
-#     # Get the with and height of the image
-#     (image_width, image_height) = image.size
-
-#     # Return a numpy array representation of the image as uint8
-#     return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
 def create_single_grid_box(stack, row, column):
     '''Create a [4*[4]] python list with the grid box coordinates
@@ -142,7 +124,7 @@ def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
             returns a negative value or 0 otherwise
         '''
         return min(r1_upper, r2_upper) - max(r1_lower, r2_lower)
-    
+
     # Find the distance of overlap on the y-axis
     y_distance = find_edge_distance(
         bounding_box[upper_index][y],
@@ -186,6 +168,7 @@ def calculate_overlay_areas(grid_boxes, bounding_boxes):
     overlay_areas_graph = []
 
     # Calculate overlay area of all grid boxes and store in new array (loop)
+    print(bounding_boxes)
     for grid_box in grid_boxes:
         for bounding_box in bounding_boxes:
             overlay_area = find_grid_box_and_bounding_box_overlap(bounding_box, grid_box)

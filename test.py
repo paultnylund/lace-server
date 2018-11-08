@@ -13,20 +13,20 @@ from grid_detection import visualisation
 
 # generated_grid = grid.create_grid_boxes_array(30)
 
-# boundingboxes_test = [
-# 	[
-# 		[0.7077056, 0.692232],
-# 		[0.9436513, 0.692232],
-# 		[0.9436513, 0.82694924],
-# 		[0.7077056, 0.82694924]
-# 	],
-# 	[
-# 		[0.7387483, 0.26997864],
-# 		[0.94557214, 0.26997864],
-# 		[0.94557214, 0.4274879],
-# 		[0.7387483, 0.4274879]
-# 	]
-# ]
+boundingboxes_test = [
+	[
+		[0.7077056, 0.692232],
+		[0.9436513, 0.692232],
+		[0.9436513, 0.82694924],
+		[0.7077056, 0.82694924]
+	],
+	[
+		[0.7387483, 0.26997864],
+		[0.94557214, 0.26997864],
+		[0.94557214, 0.4274879],
+		[0.7387483, 0.4274879]
+	]
+]
 
 # test = [3.0, 0, 0, 1.0, 4.0, 1.0, 1.0, 0, 0]
 # # output = [[3.0, 0] [0, 0]]
@@ -50,14 +50,16 @@ from grid_detection import visualisation
 
 # print(output)
 
-boundingboxes_test = [
-	[
-		[0.0, 0.0],
-		[0.5, 0.0],
-		[0.5, 0.5],
-		[0.0, 0.5]
-	]
-]
+# print(sys.argv[1])
+
+# boundingboxes_test = [
+# 	[
+# 		[0.0, 0.0],
+# 		[0.5, 0.0],
+# 		[0.5, 0.5],
+# 		[0.0, 0.5]
+# 	]
+# ]
 
 generated_grid = grid.create_density_grid(boundingboxes_test, 4)
 print(generated_grid)

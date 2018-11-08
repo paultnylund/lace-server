@@ -10,38 +10,19 @@ exports.streamAndDetect = (req, res) => {
 		return (res.send({error: CONST.DATA_UNDEFINED}));
 	}
 
+	const image = data.image;
+
 	const spawn	= require('child_process').spawn;
 
-	const pythonProcess = spawn('python', ['/var/lace-server/python/test.py']);
+	// Spawn a new thread running the specified command
+	const pythonProcess = spawn('python', [], ['/var/lace-server/python/test.py', image]);
 
 	pythonProcess.stdout.on('data', (data) => {
-		console.log(data);
-		console.log(data.toString());
-		const error = {};
-
-		// If the method was called without a body, we set error and return it
-		if (Object.keys(data).length === 0 && data.constructor === Object) {
-			error.graph = CONST.DATA_UNDEFINED;
-			error.distance = CONST.DATA_UNDEFINED;
-
-			return (res.send(error));
-		} else if (!graph || !distance) {
-			// If there is no graph
-			if (!graph) {
-				error.graph = CONST.DATA_UNDEFINED;
-			}
-
-			// If there is no distance
-			if (!distance) {
-				error.distance = CONST.DATA_UNDEFINED;
-			}
-
-			return (res.send(error));
-		}
+		parsedData = JSON.parse(data);
 
 		GRAPH.create({
-			graph:      graph,
-			distance:	distance,
+			graph:      parsedData.graph,
+			distance:	parsedData.distance,
 		}, (error, result) => {
 			if (error) {
 				console.log(error);
@@ -52,5 +33,10 @@ exports.streamAndDetect = (req, res) => {
 
 			return (res.send(true));
 		});
+	});
+
+	// Check for errors thrown by the python thread
+	pythonProcess.on('error', (error) => {
+		console.log(error.toString());
 	});
 };

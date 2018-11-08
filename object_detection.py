@@ -9,16 +9,19 @@ import zipfile
 
 from collections import defaultdict
 from io import StringIO
-from matplotlib import pyplot
+# from matplotlib import pyplot
 from PIL import Image
 from PIL import ImageDraw
 
 from object_detection.utils import label_map_util
-from object_detection.utils import visualization_utils
+# from object_detection.utils import visualization_utils
 
 # Verify that the latest version of TensorFlow is installed
 if tf.__version__ != '1.4.0':
 	raise ImportError('Please upgrade the TF installation to v1.4.0')
+
+class ObjectDetection():
+	
 
 ####################################################
 # Model Preparation
@@ -38,13 +41,13 @@ PATH_TO_LABELS = os.path.join('object_detection/data', 'mscoco_label_map.pbtxt')
 NUM_CLASSES = 90
 
 # Download Model
-opener = urllib.request.URLopener()
-opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
-tar_file = tarfile.open(MODEL_FILE)
-for file in tar_file.getmembers():
-	file_name = os.path.basename(file.name)
-	if 'frozen_inference_graph.pb' in file_name:
-		tar_file.extract(file, os.getcwd())
+# opener = urllib.request.URLopener()
+# opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
+# tar_file = tarfile.open(MODEL_FILE)
+# for file in tar_file.getmembers():
+# 	file_name = os.path.basename(file.name)
+# 	if 'frozen_inference_graph.pb' in file_name:
+# 		tar_file.extract(file, os.getcwd())
 
 # Load a (frozen) TensorFlow model in memory
 detection_graph = tf.Graph()
@@ -62,41 +65,34 @@ category_index = label_map_util.create_category_index(categories)
 
 # Helper code
 def load_image_into_numpy_array(image):
-	(im_width, im_height) = image.size
-	return numpy.array(image.getdata()).reshape((im_height, im_width, 3)).astype(numpy.uint8)
+	'''Loads image into a numpy array
+
+	This helper function is used to load an image into a numpy array
+	which can then be used for further processing.
+
+	Args:
+		image: a PIL.Image object.
+
+	Returns:
+		A uint8 numpy array representation of the image
+	'''
+	# Get the with and height of the image
+	(image_width, image_height) = image.size
+	
+	print(image.size)
+
+	# Return a numpy array representation of the image as uint8
+	return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
 ####################################################
 # Detection
 ####################################################
 
 PATH_TO_TEST_IMAGES_DIR = 'object_detection/test_images/'
-TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}.jpg'.format(i)) for i in range(1, 2) ]
+TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}_old.jpg'.format(i)) for i in range(1, 2) ]
 
 # Sizes in 
-IMAGE_SIZE = (12, 8)
-
-def draw_grid_line_on_image(image, xcoord, ycoord, color='red', thickness=4):
-	image_pil = Image.fromarray(numpy.uint8(image)).convert('RGB')
-	draw = ImageDraw.Draw(image_pil)
-	image_width, image_height = image_pil.size
-	(left, right) = (xcoord * image_width, ycoord * image_height)
-	draw.line((left, right), width=thickness, fill=color)
-
-	numpy.copyto(image, numpy.array(image_pil))
-
-def draw_grid_on_image_array(image, color='red', thickness=4, length=50):
-	initial_grid = numpy.linspace(0, 1, length)
-	final_grid_array = numpy.zeros((length, 2))
-
-	iterator = 0
-	for each in initial_grid:
-		final_grid_array[iterator] = [each, 1]
-		iterator += 1
-	
-	for each in final_grid_array:
-		draw_grid_line_on_image(image, each[0], each[1])
-	
-	return image
+# IMAGE_SIZE = (12, 8)
 
 with detection_graph.as_default():
 	with tf.Session(graph=detection_graph) as sess:
@@ -125,9 +121,6 @@ with detection_graph.as_default():
 			########################
 			# TEST
 			########################
-			print('--------------------------------------------------------------------------')
-			print(image_np)
-			print('--------------------------------------------------------------------------')
 			# Print the outputs
 			classes = numpy.squeeze(classes).astype(numpy.int32)
 			scores = numpy.squeeze(scores)
@@ -140,9 +133,9 @@ with detection_graph.as_default():
 					class_name = category_index[classes[c]]['name']
 					print(' object %s is a %s - score: %s, location: %s' % (c, class_name, scores[c], boxes[c]))
 			# TODO: Remove on deploy
-			draw_grid_on_image_array(image_np)
-			pyplot.figure(figsize=IMAGE_SIZE)
-			pyplot.imsave(str(img) + '.jpg', image_np)
+			# draw_grid_on_image_array(image_np)
+			# pyplot.figure(figsize=IMAGE_SIZE)
+			# pyplot.imsave(str(img) + '.jpg', image_np)
 			# Visualization of the results of a detection.
 			# visualization_utils.visualize_boxes_and_labels_on_image_array(
 			# 	image_np,
