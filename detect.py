@@ -118,8 +118,13 @@ def run_object_detection_on_image(image, threshold=0.5):
 	bounding_classes = []
 	for c in range(0, len(classes)):
 		if scores[c] > threshold:
-			# TODO: Make the correct format for the boxes
-			bounding_boxes.append(boxes[c])
+			box = [
+				[boxes[c][0], boxes[c][1]],
+				[boxes[c][2], boxes[c][1]],
+				[boxes[c][2], boxes[c][3]],
+				[boxes[c][0], boxes[c][3]]
+			]
+			bounding_boxes.append(box)
 			bounding_classes.append(category_index[classes[c]]['name'])
 			# class_name = category_index[classes[c]]['name']
 			# print(' object %s is a %s - score: %s, location: %s' % (c, class_name, scores[c], boxes[c]))
@@ -127,5 +132,6 @@ def run_object_detection_on_image(image, threshold=0.5):
 	detection_result = {}
 	detection_result['bounding_boxes'] = bounding_boxes
 	detection_result['classes'] = bounding_classes
-	# detection_result['node_distance'] =
+	# TODO: This should be done dynamically some how
+	detection_result['node_distance'] = 4
 	return detection_result
