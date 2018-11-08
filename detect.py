@@ -21,7 +21,7 @@ detection_graph = tf.Graph()
 
 # List of the strings that is used to add correct label for each box
 PATH_TO_LABELS = os.path.join('object_detection/data', 'mscoco_label_map.pbtxt')
-NUM_CLASSES = 100
+NUM_CLASSES = 90
 
 # Loading label map
 label_map = label_map_util.load_labelmap(PATH_TO_LABELS)

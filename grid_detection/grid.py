@@ -91,7 +91,7 @@ def create_grid_boxes_array(size):
     # Return the grid list
     return grid_boxes
 
-def find_grid_box_and_bounding_box_overlap(bounding_box, grid_box):
+def find_grid_box_and_bounding_box_overlay(bounding_box, grid_box):
     '''Find area of overlap between a bounding box and grid box (rectangle, square)
 
     Args:
@@ -167,15 +167,20 @@ def calculate_overlay_areas(grid_boxes, bounding_boxes):
     # Instasiate the overlay areas graph
     overlay_areas_graph = []
 
+    # print(bounding_boxes)
     # Calculate overlay area of all grid boxes and store in new array (loop)
     for grid_box in grid_boxes:
+        temp_overlay_area = 0.0
         for bounding_box in bounding_boxes:
-            overlay_area = find_grid_box_and_bounding_box_overlap(bounding_box, grid_box)
+            overlay_area = find_grid_box_and_bounding_box_overlay(bounding_box, grid_box)
             # If the is no overlay area append a zero, else append overlay area
             if overlay_area == False:
-                overlay_areas_graph.append(0.0)
+                temp_overlay_area += 0.0
+                # overlay_areas_graph.append(0.0)
             else:
-                overlay_areas_graph.append(overlay_area)
+                temp_overlay_area += overlay_area
+                # overlay_areas_graph.append(overlay_area)
+        overlay_areas_graph.append(temp_overlay_area)
 
     # Return new array with overlay areas
     return overlay_areas_graph
@@ -226,14 +231,12 @@ def convert_density_array_to_json_object(density_graph, distance):
     
     # Determine the lenght of each row based on total number of densities
     row_length = int(math.sqrt(len(density_graph)))
-    print(row_length)
     iterator = 0
 
     # Loop through the density graph and create the adapted density graph for storing
-    # FIXME: This breaks with grid sizes higher than 3
     while iterator < len(density_graph):
         temp = []
-        for each_index in range(iterator, iterator + row_length):
+        for each_index in range(iterator, (iterator + row_length)):
             temp.append(density_graph[each_index])
         adapted_density_graph.append(temp)
         iterator += row_length
@@ -247,7 +250,7 @@ def convert_density_array_to_json_object(density_graph, distance):
     # Return the new density graph
     return json_output
 
-def create_density_grid(bounding_boxes, distance, grid_size=5):
+def create_density_grid(bounding_boxes, distance, grid_size=25):
     '''Create a density grid based on detected bounding_boxes and node distance
 
     Args:
