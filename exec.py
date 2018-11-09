@@ -20,6 +20,6 @@ distance = detection_results['node_distance']
 
 # Run grid tools on with the bounding boxes which returns density graph
 density_grid = grid.create_density_grid(bounding_boxes, classes, distance, 5)
-print(bounding_boxes)
+# print(bounding_boxes)
 # Flush the density graph to stdout
-# sys.stdout.write(density_grid)
+sys.stdout.write(density_grid)

@@ -135,7 +135,7 @@ def find_grid_box_and_bounding_box_overlay(bounding_box, grid_box):
 
     # Return false if there is no overlap 
     if y_distance <= 0:
-        return False
+        return 'no-overlap'
     
     # Find the distance of overalp on the x-axis
     x_distance = find_edge_distance(
@@ -147,14 +147,14 @@ def find_grid_box_and_bounding_box_overlay(bounding_box, grid_box):
 
     # Return false if there is no overlap
     if x_distance <= 0:
-        return False
-    
+        return 'no-overlap'
+
     # Calculate the area of overlap
     overlap_area = y_distance * x_distance
 
     return overlap_area
 
-def calculate_overlay_areas(grid_boxes, bounding_boxes):
+def calculate_overlay_areas(grid_boxes, bounding_boxes, classes):
     '''Calculate the overlay areas between all grid- and bounding-boxes
 
     Args:
@@ -171,12 +171,18 @@ def calculate_overlay_areas(grid_boxes, bounding_boxes):
     # Calculate overlay area of all grid boxes and store in new array (loop)
     for grid_box in grid_boxes:
         temp_overlay_area = 0.0
-        for bounding_box in bounding_boxes:
+        for index, bounding_box in enumerate(bounding_boxes):
             overlay_area = find_grid_box_and_bounding_box_overlay(bounding_box, grid_box)
+            # if classes[index] == 'person':
+            # else:
+            #     overlay_area = 'null'
+
             # If the is no overlay area append a zero, else append overlay area
-            if overlay_area == False:
+            if overlay_area == 'no-overlap':
                 temp_overlay_area += 0.0
                 # overlay_areas_graph.append(0.0)
+            elif overlay_area == 'null':
+                temp_overlay_area = -1
             else:
                 temp_overlay_area += overlay_area
                 # overlay_areas_graph.append(overlay_area)
@@ -201,7 +207,7 @@ def map_overlay_area_to_density(overlay_graph):
 
     def linear_transform_ranges(value):
         transformed_value = ((value - min_area) / (max_area - min_area)) * (Density.HEAVY.value - Density.LIGHT.value) + Density.LIGHT.value
-        return transformed_value
+        return int(transformed_value)
 
     # Map all overlay areas into density range
     for area in overlay_graph:
@@ -266,7 +272,7 @@ def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
     grid_boxes = create_grid_boxes_array(grid_size)
 
     # Calculate overlay area of all grid boxes and store in new array
-    overlay_graph = calculate_overlay_areas(grid_boxes, bounding_boxes)
+    overlay_graph = calculate_overlay_areas(grid_boxes, bounding_boxes, classes)
 
     # Find the largest area in overlay array
     # Map all overlay areas into density range
