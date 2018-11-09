@@ -17,6 +17,7 @@ if tf.__version__ != '1.4.0':
 MODEL_NAME = 'ssd_mobilenet_v1_coco_2017_11_17'
 MODEL_FILE = 'ssd_mobilenet_v1_coco_2017_11_17.tar.gz'
 
+# Initialise a TensorFlow computation graph
 detection_graph = tf.Graph()
 
 # List of the strings that is used to add correct label for each box
@@ -29,6 +30,7 @@ categories = label_map_util.convert_label_map_to_categories(label_map, max_num_c
 category_index = label_map_util.create_category_index(categories)
 
 def download_and_unpack_model():
+	'''Download and unpack the object detection model'''
 	print('Downloading model')
 	DOWNLOAD_BASE = 'http://download.tensorflow.org/models/object_detection/'
 	
@@ -37,19 +39,24 @@ def download_and_unpack_model():
 		opener = urllib.request.URLopener()
 		opener.retrieve(DOWNLOAD_BASE + MODEL_FILE, MODEL_FILE)
 		print('Extracting model')
+		# Extract all the files in the archive
 		tar_file = tarfile.open(MODEL_FILE)
 		for file in tar_file.getmembers():
 			file_name = os.path.basename(file.name)
 			if 'frozen_inference_graph.pb' in file_name:
 				tar_file.extract(file, os.getcwd())
 		print('Cleaning up tar.gz files')
+		# Clean up the tar archive
 		os.remove(MODEL_FILE)
+		# Load the inference model into memory
 		load_frozen_inference_graph_in_memory()
 	except:
 		print('Failed to download and unpack the specified file!')
 		print(sys.exc_info()[0])
 
 def load_frozen_inference_graph_in_memory():
+	'''If exists, load the frozen inference graph into memory, else download and unpack it
+	'''
 	try:
 		PATH_TO_CKPT = MODEL_NAME + '/frozen_inference_graph.pb'
 		with detection_graph.as_default():
@@ -85,6 +92,7 @@ def load_image_into_numpy_array(image):
 	# Return a numpy array representation of the image as uint8
 	return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
+# Load the frozen inference graph into memory
 load_frozen_inference_graph_in_memory()
 
 with detection_graph.as_default():
@@ -101,7 +109,9 @@ with detection_graph.as_default():
 		num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 
 def run_object_detection_on_image(image, threshold=0.5):
+	# Load the image into a numpy array
 	numpy_image_array = load_image_into_numpy_array(image)
+	# Wxpand the dimensions of the numpy array to fit that needed for object detection
 	numpy_image_array_expanded = numpy.expand_dims(numpy_image_array, axis=0)
 
 	# Actual detection.
@@ -116,6 +126,7 @@ def run_object_detection_on_image(image, threshold=0.5):
 
 	bounding_boxes = []
 	bounding_classes = []
+	# If the detection score is above the threshold, add the bounding box and class
 	for c in range(0, len(classes)):
 		if scores[c] > threshold:
 			box = [
@@ -128,9 +139,12 @@ def run_object_detection_on_image(image, threshold=0.5):
 			bounding_classes.append(category_index[classes[c]]['name'])
 			# print(' object %s is a %s - score: %s, location: %s' % (c, class_name, scores[c], boxes[c]))
 	
+	# Initialise a dictionary for return
 	detection_result = {}
 	detection_result['bounding_boxes'] = bounding_boxes
 	detection_result['classes'] = bounding_classes
 	# TODO: This should be done dynamically some how
 	detection_result['node_distance'] = 4
+
+	# Return the detection result dictionary
 	return detection_result
