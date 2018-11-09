@@ -21,7 +21,7 @@ def load_image_into_numpy_array(image):
     # Return a numpy array representation of the image as uint8
     return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
-def draw_grid_box_on_image(image, grid_coords, color='red', thickness=2):
+def draw_box_on_image(image, box_coords, color='red', thickness=2):
     '''Draw single grid box on image
     '''
     # Create an PIL Image from the numpy array image
@@ -34,8 +34,8 @@ def draw_grid_box_on_image(image, grid_coords, color='red', thickness=2):
     image_width, image_height = image_pil.size
 
     # Set the oposite vertecies of the grid box to the non-normalised coordinates
-    min_coords = (grid_coords[0][0] * image_width, grid_coords[0][1] * image_height)
-    max_coords = (grid_coords[2][0] * image_width, grid_coords[2][1] * image_height)
+    min_coords = (box_coords[0][0] * image_width, box_coords[0][1] * image_height)
+    max_coords = (box_coords[2][0] * image_width, box_coords[2][1] * image_height)
 
     # Draw the grid box
     draw.rectangle([min_coords, max_coords], width=thickness, outline=color)
@@ -48,6 +48,17 @@ def draw_grid_on_image_array(image, grid_boxes, color='red', thickness=2):
     '''
 
     for grid_box in grid_boxes:
-        draw_grid_box_on_image(image, grid_box)
+        draw_box_on_image(image, grid_box)
 
-        
+def draw_bounding_boxes_on_image_array(image, bounding_boxes, color='blue', thickness=2):
+    for bounding_box in bounding_boxes:
+        draw_box_on_image(image, bounding_box, color)
+
+def draw_density_graph_on_image_array(image, density_graph):
+    image_pil = Image.fromarray(numpy.uint8(image)).convert('RGB')
+
+    draw = ImageDraw.Draw(image_pil)
+
+    image_width, image_height = image_pil.size
+
+    

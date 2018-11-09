@@ -9,18 +9,16 @@ import zipfile
 
 from collections import defaultdict
 from io import StringIO
-# from matplotlib import pyplot
+from matplotlib import pyplot
 from PIL import Image
 from PIL import ImageDraw
 
 from object_detection.utils import label_map_util
-# from object_detection.utils import visualization_utils
+from object_detection.utils import visualization_utils
 
 # Verify that the latest version of TensorFlow is installed
 if tf.__version__ != '1.4.0':
 	raise ImportError('Please upgrade the TF installation to v1.4.0')
-
-class ObjectDetection():
 	
 
 ####################################################
@@ -92,7 +90,7 @@ PATH_TO_TEST_IMAGES_DIR = 'object_detection/test_images/'
 TEST_IMAGE_PATHS = [ os.path.join(PATH_TO_TEST_IMAGES_DIR, 'image{}_old.jpg'.format(i)) for i in range(1, 2) ]
 
 # Sizes in 
-# IMAGE_SIZE = (12, 8)
+IMAGE_SIZE = (12, 8)
 
 with detection_graph.as_default():
 	with tf.Session(graph=detection_graph) as sess:
@@ -137,18 +135,18 @@ with detection_graph.as_default():
 			# pyplot.figure(figsize=IMAGE_SIZE)
 			# pyplot.imsave(str(img) + '.jpg', image_np)
 			# Visualization of the results of a detection.
-			# visualization_utils.visualize_boxes_and_labels_on_image_array(
-			# 	image_np,
-			# 	numpy.squeeze(boxes),
-			# 	numpy.squeeze(classes).astype(numpy.int32),
-			# 	numpy.squeeze(scores),
-			# 	category_index,
-			# 	min_score_thresh=.1,
-			# 	use_normalized_coordinates=True,
-			# 	line_thickness=2,
-			# )
-			# pyplot.figure(figsize=IMAGE_SIZE)
-			# pyplot.imsave(str(img) + '.jpg', image_np)
+			visualization_utils.visualize_boxes_and_labels_on_image_array(
+				image_np,
+				numpy.squeeze(boxes),
+				numpy.squeeze(classes).astype(numpy.int32),
+				numpy.squeeze(scores),
+				category_index,
+				min_score_thresh=.5,
+				use_normalized_coordinates=True,
+				line_thickness=2,
+			)
+			pyplot.figure(figsize=IMAGE_SIZE)
+			pyplot.imsave(str(img) + '.jpg', image_np)
 			# img += 1
 
 # # Put the object in JSON
