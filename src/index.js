@@ -79,14 +79,17 @@ api.use((req, res, next) => {
 	next();
 });
 
-web.use('*', (req, res) => {
-	res.sendFile(path.join('/var/lace-web/build', 'index.html'));
-	// express.static('/var/lace-web/build')
-});
+web.use(express.static('/var/lace-web/build'));
 
-// web.get('*', (req, res) => {
-// 	res.sendFile(path.join('/var/lace-web/build', 'index.html'));
-// });
+web.use('*', (req, res, next) => {
+	if (req.method === 'GET' && req.accepts('html') && !req.is('json') && !req.path.includes('.')) {
+		res.sendFile('index.html', '/var/lace-web/build');
+	} else {
+		next()
+	}
+
+	// res.sendFile(path.join('/var/lace-web/build', 'index.html'));
+});
 
 GRAPH.route(api);
 STREAM.route(api);
