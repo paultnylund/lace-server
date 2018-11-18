@@ -82,6 +82,7 @@ api.use((req, res, next) => {
 web.use(express.static('/var/lace-web/build'));
 
 web.get('*', (req, res) => {
+	console.log(req);
 	res.sendFile(path.join('/var/lace-web/build', 'index.html'));
 });
 

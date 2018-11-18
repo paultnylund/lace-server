@@ -1,8 +1,8 @@
 import sys
 
-import detect
 from PIL import Image
 from grid_detection import grid
+import detect
 
 # import object detection
 # import grid tools
@@ -19,7 +19,7 @@ classes = detection_results['classes']
 distance = detection_results['node_distance']
 
 # Run grid tools on with the bounding boxes which returns density graph
-density_grid = grid.create_density_grid(bounding_boxes, classes, distance, 5)
+density_grid = grid.create_density_grid(bounding_boxes, classes, distance, 21)
 # print(bounding_boxes)
 # Flush the density graph to stdout
 sys.stdout.write(density_grid)

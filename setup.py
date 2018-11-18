@@ -9,8 +9,6 @@ REQUIRED_PACKAGES = [
     'Pillow',
     'tensorflow',
     'six',
-    # TODO: Remove for deploy
-    # 'matplotlib <= 2.1.2',
     'absl-py',
 ]
 

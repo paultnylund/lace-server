@@ -61,7 +61,7 @@ def create_grid_boxes_array(size):
     # Initialise a list for the grid
     grid_boxes = []
 
-    # Split up the normalised coordinates in 50 intervals for grid edges
+    # Split up the normalised coordinates in '$size' intervals for grid edges
     normalised_coordinates = numpy.linspace(0, 1, size)
 
     # Reverse the numpy array and turn it into a python list
