@@ -79,12 +79,14 @@ api.use((req, res, next) => {
 	next();
 });
 
-web.use(express.static('/var/lace-web/build'));
-
-web.get('*', (req, res) => {
-	console.log(req);
-	res.sendFile(path.join('/var/lace-web/build', 'index.html'));
+web.use('/*', (req, res) => {
+	res.sendFile(path.resolve('/var/lace-web/build/index.html'));
+	// express.static('/var/lace-web/build')
 });
+
+// web.get('*', (req, res) => {
+// 	res.sendFile(path.join('/var/lace-web/build', 'index.html'));
+// });
 
 GRAPH.route(api);
 STREAM.route(api);
