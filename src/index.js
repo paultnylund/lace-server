@@ -83,7 +83,7 @@ web.use(express.static('/var/lace-web/build'));
 
 web.use('*', (req, res, next) => {
 	if (req.method === 'GET' && req.accepts('html') && !req.is('json') && !req.path.includes('.')) {
-		res.sendFile('index.html', '/var/lace-web/build');
+		res.sendFile('/var/lace-web/build', 'index.html');
 	} else {
 		next()
 	}
