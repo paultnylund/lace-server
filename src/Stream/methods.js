@@ -16,14 +16,14 @@ exports.streamAndDetect = (req, res) => {
 	const spawn	= require('child_process').spawn;
 
 	// Spawn a new thread running the specified command
-	const pythonProcess = spawn('python', [], ['/var/lace-server/python/test.py', image]);
+	const pythonProcess = spawn('python', [], ['/var/lace-server/exec.py', image]);
 
 	pythonProcess.stdout.on('data', (data) => {
 		parsedData = JSON.parse(data);
 
-		GRAPH.create({
-			graph:      parsedData.graph,
-			distance:	parsedData.distance,
+		GRAPH.insertOne({
+			graph:      parsedData[0].graph,
+			distance:	parsedData[1].distance,
 		}, (error, result) => {
 			if (error) {
 				console.log(error);

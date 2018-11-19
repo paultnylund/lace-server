@@ -88,7 +88,6 @@ web.use('*', (req, res, next) => {
 	} else {
 		next()
 	}
-
 });
 
 GRAPH.route(api);

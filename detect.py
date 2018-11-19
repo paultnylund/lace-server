@@ -87,10 +87,13 @@ def load_image_into_numpy_array(image):
 	# Get the with and height of the image
 	(image_width, image_height) = image.size
 	
-	print(image.size)
+	np_image = numpy.array(image.getdata())
+	np_image = np_image[...,:3]
+	# print(len(image.shape))
 
 	# Return a numpy array representation of the image as uint8
-	return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
+	return np_image.reshape((image_height, image_width, 3)).astype(numpy.uint8)
+	# return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
 # Load the frozen inference graph into memory
 load_frozen_inference_graph_in_memory()

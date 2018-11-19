@@ -9,8 +9,12 @@ import detect
 
 # Take the input image
 # image = sys.argv[0]
-image_path = 'object_detection/test_images/image1_old.jpg'
+image_path = 'object_detection/test_images/image1.jpg'
+# image_path = 'object_detection/test_images/image1_old.jpg'
+image_size = (750, 750)
+image = Image.frombuffer('RGB', image_size, image)
 image = Image.open(image_path)
+print(image)
 
 # Run object detection on the image which returns the bounding boxes
 detection_results = detect.run_object_detection_on_image(image)
