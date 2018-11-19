@@ -79,7 +79,7 @@ api.use((req, res, next) => {
 	next();
 });
 
-web.use(express.static('/var/lace-web/build'));
+web.use(express.static(path.resolve('/var/lace-web/build')));
 
 web.use('/*', (req, res, next) => {
 	if (req.method === 'GET' && req.accepts('html') && !req.is('json') && !req.path.includes('.')) {
