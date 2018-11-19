@@ -12,6 +12,7 @@ exports.streamAndDetect = (req, res) => {
 	}
 
 	const image = data.image;
+	console.log(image);
 
 	const spawn	= require('child_process').spawn;
 

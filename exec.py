@@ -1,6 +1,8 @@
 import sys
-
+import cStringIO
+import re
 from PIL import Image
+
 from grid_detection import grid
 import detect
 
@@ -8,12 +10,12 @@ import detect
 # import grid tools
 
 # Take the input image
-# image = sys.argv[0]
-image_path = 'object_detection/test_images/image1.jpg'
+data = sys.argv[0]
+image_data = re.sub('^data:image/.+;base64,', '', data).decode('base64')
 # image_path = 'object_detection/test_images/image1_old.jpg'
-image_size = (750, 750)
-image = Image.frombuffer('RGB', image_size, image)
-image = Image.open(image_path)
+# image = Image.open(BytesIO(base64.b64decode(data)))
+image = Image.open(cStringIO.StringIO(image_data))
+# image = Image.open(image_path)
 print(image)
 
 # Run object detection on the image which returns the bounding boxes
