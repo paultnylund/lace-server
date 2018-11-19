@@ -44,7 +44,9 @@ exports.streamAndDetect = (req, res) => {
 };
 
 exports.test = (req, res) => {
-	const pythonProcess = spawn('python', ['/var/lace-server/test.py']);
+	const image = data.base64image;
+	console.log(image);
+	const pythonProcess = spawn('python', ['/var/lace-server/exec.py', image]);
 
 	pythonProcess.stdout.on('data', (data) => {
 		console.log(data.toString())
