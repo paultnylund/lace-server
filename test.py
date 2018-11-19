@@ -6,7 +6,7 @@ from PIL import Image
 # from PIL import ImageDraw
 
 from grid_detection import grid
-# from grid_detection import visualisation
+from grid_detection import visualisation
 
 image = Image.open('/var/lace-server/object_detection/test_images/image1_old.jpg')
 image_array = visualisation.load_image_into_numpy_array(image)
