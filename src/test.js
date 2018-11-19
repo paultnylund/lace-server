@@ -11,8 +11,8 @@ pythonProcess.stdout.on('data', (data) => {
     console.log(parsedData[1].distance);
 
     GRAPH.insertOne({
-        graph:      parsedData[0].graph,
-        distance:	parsedData[1].distance,
+        graph:      'parsedData[0].graph',
+        distance:	'parsedData[1].distance',
     }, (error, result) => {
         if (error) {
             console.log(error);
