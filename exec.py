@@ -17,7 +17,7 @@ image_path = 'detection_images/detection.jpg'
 # image = Image.open(BytesIO(base64.b64decode(data)))
 # image = Image.open(cStringIO.StringIO(image_data))
 image = Image.open(image_path)
-# print(image)
+print(image)
 
 # Run object detection on the image which returns the bounding boxes
 detection_results = detect.run_object_detection_on_image(image)
