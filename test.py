@@ -1,12 +1,12 @@
 import numpy
 import sys
 import math
-from matplotlib import pyplot
+# from matplotlib import pyplot
 from PIL import Image
-from PIL import ImageDraw
+# from PIL import ImageDraw
 
 from grid_detection import grid
-from grid_detection import visualisation
+# from grid_detection import visualisation
 
 image = Image.open('object_detection/test_images/image1_old.jpg')
 image_array = visualisation.load_image_into_numpy_array(image)
