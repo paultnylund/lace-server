@@ -7,13 +7,13 @@ const GRAPH             = require('../Graph/model');
 
 exports.streamAndDetect = (req, res) => {
 	const data = req.body;
-	
 	// No data was passed through to the method
 	if (!data) {
 		return (res.send({error: CONST.DATA_UNDEFINED}));
 	}
 
 	const image = data.base64image;
+	console.log(data);
 
 	const imageBuffer = decodeBase64(image);
 	fs.writeFile('/var/lace-server/detection_images/detection.jpg', imageBuffer.data, (error) => {
@@ -21,7 +21,7 @@ exports.streamAndDetect = (req, res) => {
 			console.log(error);
 			return (res.send(error));
 		}
-
+		console.log('EYYYYY');
 		const pythonProcess = spawn('python', [], ['/var/lace-server/exec.py']);
 
 		pythonProcess.stdout.on('data', (data) => {
