@@ -81,10 +81,10 @@ api.use((req, res, next) => {
 
 web.use(express.static(path.resolve('/var/lace-web/build')));
 
-web.use('/*', (req, res, next) => {
+web.use('*', (req, res, next) => {
 	if (req.method === 'GET' && req.accepts('html') && !req.is('json') && !req.path.includes('.')) {
 		// res.sendFile('index.html', { root })
-		res.sendFile(path.join('/var/lace-web/build', 'index.html'));
+		res.json(path.join('/var/lace-web/build', 'index.html'));
 	} else {
 		next()
 	}
