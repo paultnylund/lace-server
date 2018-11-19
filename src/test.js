@@ -10,18 +10,18 @@ pythonProcess.stdout.on('data', (data) => {
     console.log(parsedData);
 
     GRAPH.create({
-        graph:      parsedData.graph,
-        distance:	parsedData.distance,
-    }, (error, result) => {
-        if (error) {
-            console.log(error);
-            return (res.send({ error: CONST.INSERT_ERROR }));
-        }
+			graph:      parsedData[0].graph,
+			distance:	parsedData[0].distance,
+		}, (error, result) => {
+			if (error) {
+				console.log(error);
+				return (res.send({ error: CONST.INSERT_ERROR }));
+			}
 
-        console.log(result);
+			console.log(result);
 
-        return (res.send(true));
-    });
+			return (res.send(true));
+		});
     // console.log(JSON.stringify(parsedData));
 });
 

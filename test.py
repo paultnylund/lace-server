@@ -26,6 +26,7 @@ def load_image_into_numpy_array(image):
     # Return a numpy array representation of the image as uint8
     return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
+# image = Image.open('object_detection/test_images/image1_old.jpg')
 image = Image.open('/var/lace-server/object_detection/test_images/image1_old.jpg')
 
 image_array = load_image_into_numpy_array(image)
