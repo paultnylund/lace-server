@@ -25,6 +25,7 @@ exports.streamAndDetect = (req, res) => {
 		const pythonProcess = spawn('python', [], ['/var/lace-server/exec.py']);
 
 		pythonProcess.stdout.on('data', (data) => {
+			console.log(data.toString());
 			parsedData = JSON.parse(data);
 	
 			GRAPH.insertOne({
