@@ -10,14 +10,14 @@ import detect
 # import grid tools
 
 # Take the input image
-data = sys.argv[1]
+image_path = 'detection_images/detection.jpg'
 # print('HIIIII')
-image_data = re.sub('^data:image/.+;base64,', '', data).decode('base64')
+# image_data = re.sub('^data:image/.+;base64,', '', data).decode('base64')
 # image_path = 'object_detection/test_images/image1_old.jpg'
 # image = Image.open(BytesIO(base64.b64decode(data)))
-image = Image.open(cStringIO.StringIO(image_data))
-# image = Image.open(image_path)
-print(image)
+# image = Image.open(cStringIO.StringIO(image_data))
+image = Image.open(image_path)
+# print(image)
 
 # Run object detection on the image which returns the bounding boxes
 detection_results = detect.run_object_detection_on_image(image)
