@@ -52,8 +52,8 @@ exports.test = (req, res) => {
 		console.log(parsedData);
 
 		GRAPH.create({
-			graph:      parsedData.graph,
-			distance:	parsedData.distance,
+			graph:      parsedData[0].graph,
+			distance:	parsedData[1].distance,
 		}, (error, result) => {
 			if (error) {
 				console.log(error);

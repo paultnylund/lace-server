@@ -10,20 +10,20 @@ pythonProcess.stdout.on('data', (data) => {
     console.log(parsedData[0].graph);
     console.log(parsedData[1].distance);
 
-    GRAPH.insertOne({
-        graph:      'parsedData[0].graph',
-        distance:	'parsedData[1].distance',
-    }, (error, result) => {
-        if (error) {
-            console.log(error);
-            return (res.send({ error: CONST.INSERT_ERROR }));
-        }
+    // GRAPH.insertOne({
+    //     graph:      'parsedData[0].graph',
+    //     distance:	'parsedData[1].distance',
+    // }, (error, result) => {
+    //     if (error) {
+    //         console.log(error);
+    //         return (res.send({ error: CONST.INSERT_ERROR }));
+    //     }
 
-        console.log(result);
+    //     console.log(result);
 
-        return (res.send(true));
-    });
-    console.log(JSON.stringify(parsedData));
+    //     return (res.send(true));
+    // });
+    // console.log(JSON.stringify(parsedData));
 });
 
 pythonProcess.stderr.on('data', (data) => {
