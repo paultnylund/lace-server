@@ -6,10 +6,29 @@ from PIL import Image
 # from PIL import ImageDraw
 
 from grid_detection import grid
-from grid_detection import visualisation
+# from grid_detection import visualisation
+
+def load_image_into_numpy_array(image):
+    '''Loads image into a numpy array
+
+    This helper function is used to load an image into a numpy array
+    which can then be used for further processing.
+
+    Args:
+        image: a PIL.Image object.
+
+    Returns:
+        A uint8 numpy array representation of the image
+    '''
+    # Get the with and height of the image
+    (image_width, image_height) = image.size
+
+    # Return a numpy array representation of the image as uint8
+    return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
 image = Image.open('/var/lace-server/object_detection/test_images/image1_old.jpg')
-image_array = visualisation.load_image_into_numpy_array(image)
+
+image_array = load_image_into_numpy_array(image)
 
 # generated_grid = grid.create_grid_boxes_array(30)
 
