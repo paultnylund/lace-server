@@ -1,5 +1,5 @@
-export function decodeBase64(base64) {
-    const matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/), response = {};
+exports.decodeBase64 = (base64) => {
+    const matches = base64.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/), response = {};
 
     if (matches.length !== 3) {
         return new Error('Invalid input string');
