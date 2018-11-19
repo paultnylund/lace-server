@@ -13,16 +13,15 @@ exports.streamAndDetect = (req, res) => {
 	}
 
 	const image = data.base64image;
-	console.log(data);
 
 	const imageBuffer = decodeBase64(image);
-	fs.writeFile('/var/lace-server/detection_images/detection1.jpg', imageBuffer.data, (error) => {
+	fs.writeFile('/var/lace-server/detection_images/detection.jpg', imageBuffer.data, (error) => {
 		if (error) {
 			console.log(error);
 			return (res.send(error));
 		}
 		console.log('EYYYYY');
-		const pythonProcess = spawn('python', [], ['/var/lace-server/exec.py']);
+		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
 
 		pythonProcess.stdout.on('data', (data) => {
 			console.log(data.toString());
