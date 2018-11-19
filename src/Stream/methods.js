@@ -1,3 +1,4 @@
+const spawn				= require('child_process').spawn;
 const CONST				= require('../const.js');
 const GRAPH             = require('../Graph/model');
 
@@ -38,5 +39,35 @@ exports.streamAndDetect = (req, res) => {
 	// Check for errors thrown by the python thread
 	pythonProcess.on('error', (error) => {
 		console.log(error.toString());
+	});
+};
+
+exports.test = (req, res) => {
+	const pythonProcess = spawn('python', ['test.py']);
+
+	pythonProcess.stdout.on('data', (data) => {
+		console.log(data.toString())
+		parsedData = JSON.parse(data);
+
+		console.log(parsedData);
+
+		GRAPH.create({
+			graph:      parsedData.graph,
+			distance:	parsedData.distance,
+		}, (error, result) => {
+			if (error) {
+				console.log(error);
+				return (res.send({ error: CONST.INSERT_ERROR }));
+			}
+
+			console.log(result);
+
+			return (res.send(true));
+		});
+		// console.log(JSON.stringify(parsedData));
+	});
+
+	pythonProcess.stderr.on('data', (data) => {
+		console.log(data.toString());
 	});
 };
