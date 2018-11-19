@@ -43,7 +43,7 @@ exports.streamAndDetect = (req, res) => {
 };
 
 exports.test = (req, res) => {
-	const pythonProcess = spawn('python', ['/var/lace-server/python/test.py']);
+	const pythonProcess = spawn('python', ['/var/lace-server/test.py']);
 
 	pythonProcess.stdout.on('data', (data) => {
 		console.log(data.toString())
