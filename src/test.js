@@ -10,7 +10,7 @@ pythonProcess.stdout.on('data', (data) => {
     console.log(parsedData[0].graph);
     console.log(parsedData[1].distance);
 
-    GRAPH.create({
+    GRAPH.insertOne({
         graph:      parsedData[0].graph,
         distance:	parsedData[1].distance,
     }, (error, result) => {
