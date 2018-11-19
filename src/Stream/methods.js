@@ -3,7 +3,7 @@ const fs				= require('fs');
 
 
 const CONST				= require('../const.js');
-const decodeBase64		= require('../helpers').base64image;
+const decodeBase64		= require('../helpers').decodeBase64;
 const GRAPH             = require('../Graph/model');
 
 exports.streamAndDetect = (req, res) => {
