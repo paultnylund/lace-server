@@ -4,25 +4,26 @@ const spawn	= require('child_process').spawn;
 const pythonProcess = spawn('python', ['test.py']);
 
 pythonProcess.stdout.on('data', (data) => {
-    console.log(data.toString())
+    // console.log(data.toString())
     parsedData = JSON.parse(data);
 
-    console.log(parsedData);
+    console.log(parsedData[0].graph);
+    console.log(parsedData[1].distance);
 
     GRAPH.create({
-			graph:      parsedData[0].graph,
-			distance:	parsedData[0].distance,
-		}, (error, result) => {
-			if (error) {
-				console.log(error);
-				return (res.send({ error: CONST.INSERT_ERROR }));
-			}
+        graph:      parsedData[0].graph,
+        distance:	parsedData[1].distance,
+    }, (error, result) => {
+        if (error) {
+            console.log(error);
+            return (res.send({ error: CONST.INSERT_ERROR }));
+        }
 
-			console.log(result);
+        console.log(result);
 
-			return (res.send(true));
-		});
-    // console.log(JSON.stringify(parsedData));
+        return (res.send(true));
+    });
+    console.log(JSON.stringify(parsedData));
 });
 
 pythonProcess.stderr.on('data', (data) => {
