@@ -10,8 +10,8 @@ import detect
 # import grid tools
 
 # Take the input image
-data = sys.argv[0]
-print(data)
+data = sys.argv[1]
+# print('HIIIII')
 image_data = re.sub('^data:image/.+;base64,', '', data).decode('base64')
 # image_path = 'object_detection/test_images/image1_old.jpg'
 # image = Image.open(BytesIO(base64.b64decode(data)))

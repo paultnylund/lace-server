@@ -4,7 +4,7 @@ const GRAPH             = require('../Graph/model');
 
 exports.streamAndDetect = (req, res) => {
 	const data = req.body;
-	console.log(data);
+	// console.log(data);
 	
 	// No data was passed through to the method
 	if (!data) {
@@ -12,7 +12,7 @@ exports.streamAndDetect = (req, res) => {
 	}
 
 	const image = data.base64image;
-	console.log(image);
+	// console.log(image);
 
 	const spawn	= require('child_process').spawn;
 

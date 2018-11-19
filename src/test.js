@@ -1,14 +1,15 @@
 const spawn	= require('child_process').spawn;
 
+const test = 'something'
 // const pythonProcess = spawn('python', ['/var/lace-server/test.py']);
-const pythonProcess = spawn('python', ['test.py']);
+const pythonProcess = spawn('python', ['exec.py', test]);
 
 pythonProcess.stdout.on('data', (data) => {
     // console.log(data.toString())
-    parsedData = JSON.parse(data);
-
-    console.log(parsedData[0].graph);
-    console.log(parsedData[1].distance);
+    // parsedData = JSON.parse(data);
+    console.log(data.toString())
+    // console.log(parsedData[0].graph);
+    // console.log(parsedData[1].distance);
 
     // GRAPH.insertOne({
     //     graph:      'parsedData[0].graph',
