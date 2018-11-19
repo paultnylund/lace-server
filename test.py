@@ -60,13 +60,14 @@ boundingboxes_test = [
 
 # print(sys.argv[1])
 
-density_grid = grid.create_density_grid(boundingboxes_test, '', 4, 5)
+density_grid = grid.create_density_grid(boundingboxes_test, '', 4, 25)
+sys.stdout.write(density_grid)
 
-visualisation.draw_grid_on_image_array(image_array, generated_grid)
-visualisation.draw_bounding_boxes_on_image_array(image_array, boundingboxes_test)
-visualisation.draw_density_graph_on_image(image_array, generated_grid, density_grid)
-pyplot.figure(figsize=(12, 8))
-pyplot.imsave('test' + '.jpg', image_array)
+# visualisation.draw_grid_on_image_array(image_array, generated_grid)
+# visualisation.draw_bounding_boxes_on_image_array(image_array, boundingboxes_test)
+# visualisation.draw_density_graph_on_image(image_array, generated_grid, density_grid)
+# pyplot.figure(figsize=(12, 8))
+# pyplot.imsave('test' + '.jpg', image_array)
 
 # def load_image_into_numpy_array(image):
 # 	(im_width, im_height) = image.size
