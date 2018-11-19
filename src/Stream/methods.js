@@ -11,7 +11,7 @@ exports.streamAndDetect = (req, res) => {
 		return (res.send({error: CONST.DATA_UNDEFINED}));
 	}
 
-	const image = data.image;
+	const image = data.base64image;
 	console.log(image);
 
 	const spawn	= require('child_process').spawn;
