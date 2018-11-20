@@ -27,7 +27,7 @@ exports.streamAndDetect = (req, res) => {
 			console.log(data.toString());
 			parsedData = JSON.parse(data);
 	
-			GRAPH.insertOne({
+			GRAPH.create({
 				graph:      parsedData[0].graph,
 				distance:	parsedData[1].distance,
 			}, (error, result) => {
