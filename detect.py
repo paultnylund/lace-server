@@ -98,55 +98,55 @@ def load_image_into_numpy_array(image):
 # Load the frozen inference graph into memory
 load_frozen_inference_graph_in_memory()
 
-with detection_graph.as_default():
-	with tf.Session(graph=detection_graph) as sess:
-		# sess.run(tf.global_variables_initializer())
-		# Definite input and output Tensors for detection_graph
-		image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
-		# Each box represents a part of the image where a particular object was detected
-		detection_boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
-		# Each score represent the level of confidence for each object
-		detection_scores = detection_graph.get_tensor_by_name('detection_scores:0')
-		# The classification of the detected object
-		detection_classes = detection_graph.get_tensor_by_name('detection_classes:0')
-		num_detections = detection_graph.get_tensor_by_name('num_detections:0')
-
 def run_object_detection_on_image(image, threshold=0.5):
 	# Load the image into a numpy array
 	numpy_image_array = load_image_into_numpy_array(image)
 	# Wxpand the dimensions of the numpy array to fit that needed for object detection
 	numpy_image_array_expanded = numpy.expand_dims(numpy_image_array, axis=0)
 
-	# Actual detection.
-	(boxes, scores, classes, num) = sess.run(
-		[detection_boxes, detection_scores, detection_classes, num_detections],
-		feed_dict={image_tensor: numpy_image_array_expanded}
-	)
+	with detection_graph.as_default():
+		with tf.Session(graph=detection_graph) as sess:
+			# sess.run(tf.global_variables_initializer())
+			# Definite input and output Tensors for detection_graph
+			image_tensor = detection_graph.get_tensor_by_name('image_tensor:0')
+			# Each box represents a part of the image where a particular object was detected
+			detection_boxes = detection_graph.get_tensor_by_name('detection_boxes:0')
+			# Each score represent the level of confidence for each object
+			detection_scores = detection_graph.get_tensor_by_name('detection_scores:0')
+			# The classification of the detected object
+			detection_classes = detection_graph.get_tensor_by_name('detection_classes:0')
+			num_detections = detection_graph.get_tensor_by_name('num_detections:0')
 
-	classes = numpy.squeeze(classes).astype(numpy.int32)
-	scores = numpy.squeeze(scores)
-	boxes = numpy.squeeze(boxes).tolist()
+			# Actual detection.
+			(boxes, scores, classes, num) = sess.run(
+				[detection_boxes, detection_scores, detection_classes, num_detections],
+				feed_dict={image_tensor: numpy_image_array_expanded}
+			)
 
-	bounding_boxes = []
-	bounding_classes = []
-	# If the detection score is above the threshold, add the bounding box and class
-	for c in range(0, len(classes)):
-		if scores[c] > threshold:
-			box = [
-				[boxes[c][1], boxes[c][0]],
-				[boxes[c][3], boxes[c][0]],
-				[boxes[c][3], boxes[c][2]],
-				[boxes[c][1], boxes[c][2]]
-			]
-			bounding_boxes.append(box)
-			bounding_classes.append(category_index[classes[c]]['name'])
-	
-	# Initialise a dictionary for return
-	detection_result = {}
-	detection_result['bounding_boxes'] = bounding_boxes
-	detection_result['classes'] = bounding_classes
-	# TODO: This should be done dynamically some how
-	detection_result['node_distance'] = 4
+			classes = numpy.squeeze(classes).astype(numpy.int32)
+			scores = numpy.squeeze(scores)
+			boxes = numpy.squeeze(boxes).tolist()
 
-	# Return the detection result dictionary
-	return detection_result
+			bounding_boxes = []
+			bounding_classes = []
+			# If the detection score is above the threshold, add the bounding box and class
+			for c in range(0, len(classes)):
+				if scores[c] > threshold:
+					box = [
+						[boxes[c][1], boxes[c][0]],
+						[boxes[c][3], boxes[c][0]],
+						[boxes[c][3], boxes[c][2]],
+						[boxes[c][1], boxes[c][2]]
+					]
+					bounding_boxes.append(box)
+					bounding_classes.append(category_index[classes[c]]['name'])
+			
+			# Initialise a dictionary for return
+			detection_result = {}
+			detection_result['bounding_boxes'] = bounding_boxes
+			detection_result['classes'] = bounding_classes
+			# TODO: This should be done dynamically some how
+			detection_result['node_distance'] = 4
+
+			# Return the detection result dictionary
+			return detection_result
