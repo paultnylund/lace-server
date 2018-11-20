@@ -20,11 +20,10 @@ exports.streamAndDetect = (req, res) => {
 			console.log(error);
 			return (res.send(error));
 		}
-		console.log('EYYYYY');
+
 		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
 
 		pythonProcess.stdout.on('data', (data) => {
-			console.log(data.toString());
 			parsedData = JSON.parse(data);
 	
 			GRAPH.create({
@@ -37,7 +36,6 @@ exports.streamAndDetect = (req, res) => {
 				}
 	
 				console.log(result);
-	
 				return (res.send(true));
 			});
 		});
