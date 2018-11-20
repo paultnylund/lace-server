@@ -10,7 +10,7 @@ import detect
 # import grid tools
 
 # Take the input image
-image_path = 'detection_images/detection.jpg'
+image_path = os.path.join(os.getcwd(), '/detection_images/detection.jpg')
 # image_data = re.sub('^data:image/.+;base64,', '', data).decode('base64')
 # image_path = 'object_detection/test_images/image1_old.jpg'
 # image = Image.open(BytesIO(base64.b64decode(data)))
