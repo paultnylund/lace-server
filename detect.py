@@ -11,8 +11,8 @@ from PIL import Image
 from object_detection.utils import label_map_util
 
 # Verify that the latest version of TensorFlow is installed
-if tf.__version__ != '1.4.0':
-	raise ImportError('Please upgrade the TF installation to v1.4.0')
+# if tf.__version__ != '1.4.0':
+# 	raise ImportError('Please upgrade the TF installation to v1.4.0')
 
 MODEL_NAME = 'ssd_mobilenet_v1_coco_2017_11_17'
 MODEL_FILE = 'ssd_mobilenet_v1_coco_2017_11_17.tar.gz'
