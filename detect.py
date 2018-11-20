@@ -21,7 +21,7 @@ MODEL_FILE = 'ssd_mobilenet_v1_coco_2017_11_17.tar.gz'
 detection_graph = tf.Graph()
 
 # List of the strings that is used to add correct label for each box
-PATH_TO_LABELS = os.path.join(os.getcwd(), '/object_detection/data/mscoco_label_map.pbtxt')
+PATH_TO_LABELS = os.path.join('/var/lace-sercer/object_detection/data', 'mscoco_label_map.pbtxt')
 NUM_CLASSES = 90
 
 # Loading label map
