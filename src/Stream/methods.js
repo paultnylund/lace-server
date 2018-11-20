@@ -83,32 +83,33 @@ exports.test = (req, res) => {
 		if (error) {
 			console.log(error);
 		}
-	});
-	const pythonProcess = spawn('python', ['/var/lace-server/test.py']);
 
-	pythonProcess.stdout.on('data', (data) => {
-		console.log(data.toString())
-		parsedData = JSON.parse(data);
+		const pythonProcess = spawn('python', ['/var/lace-server/test.py']);
 
-		console.log(parsedData);
+		pythonProcess.stdout.on('data', (data) => {
+			console.log(data.toString())
+			parsedData = JSON.parse(data);
 
-		GRAPH.create({
-			graph:      parsedData[0].graph,
-			distance:	parsedData[1].distance,
-		}, (error, result) => {
-			if (error) {
-				console.log(error);
-				return (res.send({ error: CONST.INSERT_ERROR }));
-			}
+			console.log(parsedData);
 
-			console.log(result);
+			GRAPH.create({
+				graph:      parsedData[0].graph,
+				distance:	parsedData[1].distance,
+			}, (error, result) => {
+				if (error) {
+					console.log(error);
+					return (res.send({ error: CONST.INSERT_ERROR }));
+				}
 
-			return (res.send(true));
+				console.log(result);
+
+				return (res.send(true));
+			});
+			// console.log(JSON.stringify(parsedData));
 		});
-		// console.log(JSON.stringify(parsedData));
-	});
 
-	pythonProcess.stderr.on('data', (data) => {
-		console.log(data.toString());
+		pythonProcess.stderr.on('data', (data) => {
+			console.log(data.toString());
+		});
 	});
 };

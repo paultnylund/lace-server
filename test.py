@@ -34,8 +34,9 @@ def load_image_into_numpy_array(image):
 # generated_grid = grid.create_grid_boxes_array(30)
 
 # generated_grid = grid.create_grid_boxes_array(5)
-print(sys.getsizeof(sys.argv[1]))
-print(sys.argv[1])
+print('YOOOOOOOOOOOOO')
+# print(sys.getsizeof(sys.argv[1]))
+# print(sys.argv[1])
 
 boundingboxes_test = [
 	[
