@@ -84,7 +84,7 @@ exports.test = (req, res) => {
 			console.log(error);
 		}
 
-		const pythonProcess = spawn('python', ['/var/lace-server/test.py']);
+		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
 
 		pythonProcess.stdout.on('data', (data) => {
 			console.log(data.toString())
