@@ -201,6 +201,7 @@ def map_overlay_area_to_density(overlay_graph):
         Retuns a [n] tuple of density values
     '''
     density_graph = []
+
     # Find the largest area in overlay array
     max_area = overlay_graph[numpy.argmax(overlay_graph)]
     min_area = overlay_graph[numpy.argmin(overlay_graph)]
@@ -213,6 +214,8 @@ def map_overlay_area_to_density(overlay_graph):
     for area in overlay_graph:
         if area == 0.0:
             density_graph.append(Density.FREE.value)
+        elif area == NULL:
+            density_graph.append(Density.NULL.value)
         else:
             density_graph.append(linear_transform_ranges(area))
 

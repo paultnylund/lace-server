@@ -25,19 +25,47 @@ exports.streamAndDetect = (req, res) => {
 
 		pythonProcess.stdout.on('data', (data) => {
 			parsedData = JSON.parse(data);
-	
-			GRAPH.create({
-				graph:      parsedData[0].graph,
-				distance:	parsedData[1].distance,
-			}, (error, result) => {
-				if (error) {
-					console.log(error);
-					return (res.send({ error: CONST.INSERT_ERROR }));
+
+			GRAPH.deleteOne({}, (deleteError, deleteResult) => {
+				if (deleteError) {
+					console.log(deleteError);
+					return (res.send({error: CONST.DELETE_ERROR}));
 				}
+
+				GRAPH.create({
+					graph:		parsedData[0].graph,
+					distance:	parsedData[1].distance,
+				}, (insertError, insertResult) => {
+					if (insertError) {
+						console.log(insertError);
+						return (res.send({ error: CONST.INSERT_ERROR }));
+					}
+
+					console.log(insertResult);
+					return (res.send(true));
+				});
+			})
 	
-				console.log(result);
-				return (res.send(true));
-			});
+			// GRAPH.create({
+			// 	graph:      parsedData[0].graph,
+			// 	distance:	parsedData[1].distance,
+			// }, (error, result) => {
+			// 	if (error) {
+			// 		console.log(error);
+			// 		return (res.send({ error: CONST.INSERT_ERROR }));
+			// 	}
+
+			// 	GRAPH.deleteOne({
+
+			// 	}, (error, result) => {
+			// 		if (error) {
+			// 			console.log(error);
+			// 			return (res.send({error: CONST.DELETE_ERROR}))
+			// 		}
+			// 		console.log(result);
+			// 		return (res.send(true));
+			// 	});
+			// });
 		});
 	
 		// Check for errors thrown by the python thread
@@ -45,32 +73,6 @@ exports.streamAndDetect = (req, res) => {
 			console.log(error.toString());
 		});
 	});
-
-	// Spawn a new thread running the specified command
-	// const pythonProcess = spawn('python', [], ['/var/lace-server/exec.py']);
-
-	// pythonProcess.stdout.on('data', (data) => {
-	// 	parsedData = JSON.parse(data);
-
-	// 	GRAPH.insertOne({
-	// 		graph:      parsedData[0].graph,
-	// 		distance:	parsedData[1].distance,
-	// 	}, (error, result) => {
-	// 		if (error) {
-	// 			console.log(error);
-	// 			return (res.send({ error: CONST.INSERT_ERROR }));
-	// 		}
-
-	// 		console.log(result);
-
-	// 		return (res.send(true));
-	// 	});
-	// });
-
-	// // Check for errors thrown by the python thread
-	// pythonProcess.on('error', (error) => {
-	// 	console.log(error.toString());
-	// });
 };
 
 exports.test = (req, res) => {
