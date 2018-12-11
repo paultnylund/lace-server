@@ -6,6 +6,7 @@ const CONST				= require('../const.js');
 const decodeBase64		= require('../helpers').decodeBase64;
 const GRAPH             = require('../Graph/model');
 
+// Should be added as env variables
 const token = '2WSGYSBNJBVHVDRPZG45';
 const secret = 'L4/SqVMaUKr2KJjx0hulaau+49OaAyq1A40/j2jXKE4';
 const bucketName = 'detection_results';
@@ -57,7 +58,7 @@ exports.streamAndDetect = (req, res) => {
 				GRAPH.create({
 					graph:		parsedData[0].graph,
 					distance:	parsedData[1].distance,
-					// Add the other parts
+					// Add the other parts 
 				}, (insertError, insertResult) => {
 					if (insertError) {
 						console.log(insertError);
