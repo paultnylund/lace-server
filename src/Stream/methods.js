@@ -5,6 +5,7 @@ const AWS				= require('aws-sdk');
 const CONST				= require('../const.js');
 const decodeBase64		= require('../helpers').decodeBase64;
 const GRAPH             = require('../Graph/model');
+const STREAM			= require('./model');
 
 // Should be added as env variables
 const token = '2WSGYSBNJBVHVDRPZG45';
@@ -28,6 +29,43 @@ s3.createBucket(params, function(error, result) {
 	}
 });
 
+function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
+	// Store image in CDN
+	const params = {
+		Body: image,
+		Bucket: bucketName,
+		Key: id,
+	}
+	s3.putObject(params, function(putError, putResult) {
+		if (putError) {
+			console.log(putError);
+		} else {
+			console.log(putResult);
+
+			STREAM.deleteOne({}, function(deleteError, deleteResult) {
+				if (deleteError) {
+					console.log(deleteError);
+					return (res.send({ error: CONST.DELETE_ERROR }));
+				}
+		
+				STREAM.create({
+					graph:		id,
+					uri:		putResult,
+					boundingBoxes,
+					gridBoxes,
+				}, function(insertError, insertResult) {
+					if (insertError) {
+						console.log(insertError);
+						return (res.send({ error: CONST.INSERT_ERROR }));
+					}
+
+					console.log(insertResult);
+				});
+			});
+		}
+	});
+}
+
 exports.streamAndDetect = (req, res) => {
 	const data = req.body;
 	// No data was passed through to the method
@@ -38,10 +76,10 @@ exports.streamAndDetect = (req, res) => {
 	const image = data.base64image;
 
 	const imageBuffer = decodeBase64(image);
-	fs.writeFile('/var/lace-server/detection_images/detection.jpg', imageBuffer.data, (error) => {
-		if (error) {
-			console.log(error);
-			return (res.send(error));
+	fs.writeFile('/var/lace-server/detection_images/detection.jpg', imageBuffer.data, function(readError) {
+		if (readError) {
+			console.log(readError);
+			return (res.send(readError));
 		}
 
 		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
@@ -58,28 +96,15 @@ exports.streamAndDetect = (req, res) => {
 				GRAPH.create({
 					graph:		parsedData[0].graph,
 					distance:	parsedData[1].distance,
-					// Add the other parts 
 				}, (insertError, insertResult) => {
 					if (insertError) {
 						console.log(insertError);
 						return (res.send({ error: CONST.INSERT_ERROR }));
 					}
 
-					// Store image in CDN
-					const params = {
-						Body: image,
-						Bucket: bucketName,
-						Key: insertResult._id,
-					}
-					s3.putObject(params, function(putError, putResult) {
-						if (putError) {
-							console.log(putError);
-						} else {
-							console.log(putResult);
-						}
-					});
-
 					console.log(insertResult);
+					handleStreamStorage(image, insertResult._id, parsedData.boundingBoxes, parsedData.gridBoxes);
+
 					return (res.send(true));
 				});
 			})
