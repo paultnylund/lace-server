@@ -84,8 +84,8 @@ exports.streamAndDetect = (req, res) => {
 
 		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
 
-		pythonProcess.stdout.on('data', (data) => {
-			GRAPH.deleteOne({}, (deleteError, deleteResult) => {
+		pythonProcess.stdout.on('data', function(data) {
+			GRAPH.deleteOne({}, function(deleteError, deleteResult) {
 				if (deleteError) {
 					console.log(deleteError);
 					return (res.send({error: CONST.DELETE_ERROR}));
@@ -96,7 +96,7 @@ exports.streamAndDetect = (req, res) => {
 				GRAPH.create({
 					graph:		parsedData[0].graph,
 					distance:	parsedData[1].distance,
-				}, (insertError, insertResult) => {
+				}, function(insertError, insertResult) {
 					if (insertError) {
 						console.log(insertError);
 						return (res.send({ error: CONST.INSERT_ERROR }));
@@ -111,20 +111,34 @@ exports.streamAndDetect = (req, res) => {
 		});
 	
 		// Check for errors thrown by the python thread
-		pythonProcess.on('error', (error) => {
+		pythonProcess.on('error', function(error) {
 			console.log(error.toString());
 		});
 	});
 };
 
 exports.retrieveAndVisualise = (req, res) => {
-	GRAPH.findOne({}, (error, result) => {
-		if (error) {
-			console.log(error);
-			return (res.send(error));
+	const returnResult = {};
+	STREAM.findOne({}, (streamError, streamResult) => {
+		if (streamError) {
+			console.log(streamError);
+			return (res.send({ error: 'needs const' }));
 		}
 
-		return (res.send(result));
+		returnResult.uri = streamResult.uri;
+		returnResult.boundingBoxes = streamResult.boundingBoxes;
+		returnResult.gridBoxes = streamResult.gridBoxes;
+		returnResult.timestamp = streamResult.timestamp;
+
+		GRAPH.findById(result.graph).then(function(graphError, graphResult) {
+			if (graphError) {
+				console.log(graphError);
+				return (res.send({ error: 'needs const' }));
+			}
+
+			returnResult.graph = graphResult;
+			return (res.send(returnResult));
+		});
 	});
 };
 
