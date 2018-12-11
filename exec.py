@@ -25,7 +25,19 @@ classes = detection_results['classes']
 distance = detection_results['node_distance']
 
 # Run grid tools on with the bounding boxes which returns density graph
-density_grid = grid.create_density_grid(bounding_boxes, classes, distance, 21)
+# density_grid = grid.create_density_grid(bounding_boxes, classes, distance, 21)
+grid_objects = grid.create_density_grid(bounding_boxes, classes, distance, 21)
+
+json_object = []
+json_object.append({ "grid": grid_objects[0] })
+json_object.append({ "graph": grid_objects[1] })
+json_object.append({ "distance": distance })
+json_object.append({ "bounding": bounding_boxes })
+json_object.append({ "classification": classes })
+
+json_output = json.dumps(json_object)
+
 # print(bounding_boxes)
 # Flush the density graph to stdout
-sys.stdout.write(density_grid)
+sys.stdout.write(json_output)
+# sys.stdout.write(density_grid)

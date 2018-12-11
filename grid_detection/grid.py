@@ -222,7 +222,7 @@ def map_overlay_area_to_density(overlay_graph):
     # Return density values in new density array
     return density_graph
 
-def convert_density_array_to_json_object(density_graph, distance):
+def create_adapted_density_array(density_graph, distance):
     '''Convert the generated density graph into final datastructure
 
     Args:
@@ -257,7 +257,8 @@ def convert_density_array_to_json_object(density_graph, distance):
     json_output = json.dumps(json_object)
 
     # Return the new density graph
-    return json_output
+    # return json_output
+    return adapted_density_graph
 
 def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
     '''Create a density grid based on detected bounding_boxes and node distance
@@ -282,7 +283,7 @@ def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
     density_graph = map_overlay_area_to_density(overlay_graph)
 
     # Convert density array to json object
-    density_graph_json = convert_density_array_to_json_object(density_graph, distance)
+    adapted_density_graph = create_adapted_density_array(density_graph, distance)
 
     # Return json density array to NodeJS
-    return density_graph_json
+    return [grid_boxes, density_graph_json]
