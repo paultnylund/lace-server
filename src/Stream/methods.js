@@ -85,33 +85,32 @@ exports.streamAndDetect = (req, res) => {
 
 		console.log('Spawning the python process. ', Date());
 		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
-		console.log(pythonProcess);
 
 		pythonProcess.stdout.on('data', function(data) {
 			console.log(data);
-			GRAPH.deleteOne({}, function(deleteError, deleteResult) {
-				if (deleteError) {
-					console.log(deleteError);
-					return (res.send({error: CONST.DELETE_ERROR}));
-				}
+			// GRAPH.deleteOne({}, function(deleteError, deleteResult) {
+			// 	if (deleteError) {
+			// 		console.log(deleteError);
+			// 		return (res.send({error: CONST.DELETE_ERROR}));
+			// 	}
 
-				parsedData = JSON.parse(data);
-				console.log(parsedData);
-				GRAPH.create({
-					graph:		parsedData[0].graph,
-					distance:	parsedData[1].distance,
-				}, function(insertError, insertResult) {
-					if (insertError) {
-						console.log(insertError);
-						return (res.send({ error: CONST.INSERT_ERROR }));
-					}
+			// 	parsedData = JSON.parse(data);
+			// 	console.log(parsedData);
+			// 	GRAPH.create({
+			// 		graph:		parsedData[0].graph,
+			// 		distance:	parsedData[1].distance,
+			// 	}, function(insertError, insertResult) {
+			// 		if (insertError) {
+			// 			console.log(insertError);
+			// 			return (res.send({ error: CONST.INSERT_ERROR }));
+			// 		}
 
-					console.log(insertResult);
-					handleStreamStorage(image, insertResult._id, parsedData.boundingBoxes, parsedData.gridBoxes);
+			// 		console.log(insertResult);
+			// 		handleStreamStorage(image, insertResult._id, parsedData.boundingBoxes, parsedData.gridBoxes);
 
-					return (res.send(true));
-				});
-			});
+			// 		return (res.send(true));
+			// 	});
+			// });
 		});
 	
 		// Check for errors thrown by the python thread
