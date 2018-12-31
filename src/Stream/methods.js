@@ -1,6 +1,6 @@
 const spawn				= require('child_process').spawn;
 const fs				= require('fs');
-// const AWS				= require('aws-sdk');
+const AWS				= require('aws-sdk');
 
 const CONST				= require('../const.js');
 const decodeBase64		= require('../helpers').decodeBase64;
