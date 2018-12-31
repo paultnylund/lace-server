@@ -35,7 +35,8 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 		Body: image,
 		Bucket: bucketName,
 		Key: id,
-	}
+	};
+
 	s3.putObject(params, function(putError, putResult) {
 		if (putError) {
 			console.log(putError);
@@ -107,7 +108,7 @@ exports.streamAndDetect = (req, res) => {
 
 					return (res.send(true));
 				});
-			})
+			});
 		});
 	
 		// Check for errors thrown by the python thread
@@ -146,7 +147,6 @@ exports.test = (req, res) => {
 	image = req.body.base64image;
 	const imageBuffer = decodeBase64(image);
 	fs.writeFile('/var/lace-server/detection_images/detection.jpg', imageBuffer.data, (error) => {
-		console.log('HEEYOOO');
 		if (error) {
 			console.log(error);
 		}
