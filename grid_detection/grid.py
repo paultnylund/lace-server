@@ -257,8 +257,8 @@ def create_adapted_density_array(density_graph, distance):
     json_output = json.dumps(json_object)
 
     # Return the new density graph
-    # return json_output
-    return adapted_density_graph
+    return json_output
+    # return adapted_density_graph
 
 def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
     '''Create a density grid based on detected bounding_boxes and node distance
