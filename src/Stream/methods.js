@@ -87,6 +87,7 @@ exports.streamAndDetect = (req, res) => {
 		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
 
 		pythonProcess.stdout.on('data', function(data) {
+			console.log(data);
 			GRAPH.deleteOne({}, function(deleteError, deleteResult) {
 				if (deleteError) {
 					console.log(deleteError);
