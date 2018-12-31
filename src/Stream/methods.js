@@ -83,8 +83,9 @@ exports.streamAndDetect = (req, res) => {
 			return (res.send(readError));
 		}
 
-		console.log('Spawining the python process. ', Date());
+		console.log('Spawning the python process. ', Date());
 		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
+		console.log(pythonProcess);
 
 		pythonProcess.stdout.on('data', function(data) {
 			console.log(data);
