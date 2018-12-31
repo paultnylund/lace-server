@@ -63,6 +63,8 @@ def create_grid_boxes_array(size):
 
     # Split up the normalised coordinates in '$size' intervals for grid edges
     normalised_coordinates = numpy.linspace(0, 1, size)
+    print('normalised_coordinates')
+    print(normalised_coordinates)
 
     # Reverse the numpy array and turn it into a python list
     reversed_stack_array = numpy.flipud(normalised_coordinates).tolist()
