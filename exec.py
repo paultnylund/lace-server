@@ -10,7 +10,7 @@ import detect
 # import grid tools
 
 # Take the input image
-sys.stdiout.write('test')
+sys.stdout.write('test')
 image_path = '/var/lace-server/detection_images/detection.jpg'
 # image_data = re.sub('^data:image/.+;base64,', '', data).decode('base64')
 # image_path = 'object_detection/test_images/image1_old.jpg'
