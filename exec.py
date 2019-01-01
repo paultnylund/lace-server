@@ -10,7 +10,8 @@ import detect
 # import grid tools
 
 # Take the input image
-image_path = '/var/lace-server/detection_images/detection.jpg'
+# image_path = '/var/lace-server/detection_images/detection.jpg'
+image_path = '~/detection.jpg'
 # image_data = re.sub('^data:image/.+;base64,', '', data).decode('base64')
 # image_path = 'object_detection/test_images/image1_old.jpg'
 # image = Image.open(BytesIO(base64.b64decode(data)))
@@ -23,7 +24,6 @@ detection_results = detect.run_object_detection_on_image(image)
 bounding_boxes = detection_results['bounding_boxes']
 classes = detection_results['classes']
 distance = detection_results['node_distance']
-print(detection_results)
 
 # Run grid tools on with the bounding boxes which returns density graph
 density_grid = grid.create_density_grid(bounding_boxes, classes, distance, 21)

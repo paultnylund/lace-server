@@ -1,5 +1,4 @@
 Pillow
 tensorflow
 six
-matplotlib<=2.1.2
 absl-py

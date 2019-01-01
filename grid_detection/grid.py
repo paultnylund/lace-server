@@ -63,8 +63,8 @@ def create_grid_boxes_array(size):
 
     # Split up the normalised coordinates in '$size' intervals for grid edges
     normalised_coordinates = numpy.linspace(0, 1, size)
-    print('normalised_coordinates')
-    print(normalised_coordinates)
+    # print('normalised_coordinates')
+    # print(normalised_coordinates)
 
     # Reverse the numpy array and turn it into a python list
     reversed_stack_array = numpy.flipud(normalised_coordinates).tolist()
@@ -216,8 +216,8 @@ def map_overlay_area_to_density(overlay_graph):
     for area in overlay_graph:
         if area == 0.0:
             density_graph.append(Density.FREE.value)
-        elif area == NULL:
-            density_graph.append(Density.NULL.value)
+        # elif area == NULL:
+        #     density_graph.append(Density.NULL.value)
         else:
             density_graph.append(linear_transform_ranges(area))
 
@@ -288,4 +288,5 @@ def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
     adapted_density_graph = create_adapted_density_array(density_graph, distance)
 
     # Return json density array to NodeJS
-    return [grid_boxes, density_graph_json]
+    # return [grid_boxes, adapted_density_graph]
+    return adapted_density_graph
