@@ -84,7 +84,7 @@ exports.streamAndDetect = (req, res) => {
 		}
 
 		console.log('Spawning the python process. ', Date());
-		const pythonProcess = spawn('python', ['/var/lace-server/test.py']);
+		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
 
 		pythonProcess.stdout.on('data', function(data) {
 			GRAPH.deleteOne({}, function(deleteError, deleteResult) {
@@ -106,7 +106,7 @@ exports.streamAndDetect = (req, res) => {
 					}
 
 					console.log(insertResult);
-					handleStreamStorage(image, insertResult._id, parsedData.boundingBoxes, parsedData.gridBoxes);
+					// handleStreamStorage(image, insertResult._id, parsedData.boundingBoxes, parsedData.gridBoxes);
 
 					return (res.send(true));
 				});
