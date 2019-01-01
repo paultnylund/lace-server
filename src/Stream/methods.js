@@ -88,7 +88,7 @@ exports.streamAndDetect = (req, res) => {
 
 		pythonProcess.stdout.on('data', function(data) {
 			console.log('DATA:')
-			console.log(data);
+			console.log(data.toString());
 			// GRAPH.deleteOne({}, function(deleteError, deleteResult) {
 			// 	if (deleteError) {
 			// 		console.log(deleteError);
