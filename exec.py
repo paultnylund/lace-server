@@ -24,7 +24,7 @@ detection_results = detect.run_object_detection_on_image(image)
 bounding_boxes = detection_results['bounding_boxes']
 classes = detection_results['classes']
 # distance = detection_results['node_distance']
-distance = 7 / 21
+distance = 0.330
 
 # Run grid tools on with the bounding boxes which returns density graph
 density_grid = grid.create_density_grid(bounding_boxes, classes, distance, 21)
