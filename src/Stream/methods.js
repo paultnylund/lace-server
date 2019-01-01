@@ -93,9 +93,8 @@ exports.streamAndDetect = (req, res) => {
 					return (res.send({error: CONST.DELETE_ERROR}));
 				}
 
-				console.log('DATA:')
 				parsedData = JSON.parse(data);
-				console.log(parsedData);
+				// console.log(parsedData);
 				GRAPH.create({
 					graph:		parsedData[0].graph,
 					distance:	parsedData[1].distance,
