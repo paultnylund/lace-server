@@ -20,23 +20,105 @@ const s3 = new AWS.S3({
 	secretAccessKey: secret,
 });
 
-// Put in try catch and catch BucketAlreadyExists
 try {
 	const params = { Bucket: bucketName };
 	s3.createBucket(params);
 } catch (BucketAlreadyExists) {
 	return;
 }
-// s3.createBucket(params, function(error, result) {
-// 	if (error) {
-// 		console.log('Error creating bucket', error);
-// 	} else {
-// 		console.log(result);
-// 	}
-// });
 
 function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
-	let params = { Bucket: bucketName };
+
+	// function listObjects() {
+	// 	const params = { Bucket: bucketName };
+	// 	return new Promise(function(resolve, reject) {
+	// 		s3.listObjectsV2(params, function(error, result) {
+	// 			if (error) {
+	// 				console.log(error);
+	// 				reject(error);
+	// 			}
+
+	// 			resolve(result);
+	// 		});
+	// 	});
+	// }
+
+	// function deleteObject(key) {
+	// 	const params = {
+	// 		Bucket: bucketName,
+	// 		Key: key,
+	// 	};
+	// 	return new Promise(function(resolve, reject) {
+	// 		s3.deleteObject(params, function(error, result) {
+	// 			if (error) {
+	// 				console.log(error);
+	// 				reject(error);
+	// 			}
+
+	// 			resolve(result);
+	// 		});
+	// 	});
+	// }
+
+	// function putObject(image, key) {
+	// 	const params = {
+	// 		Bucket: bucketName,
+	// 		Body: image,
+	// 		Key: key,
+	// 		ContentEncoding: 'base64',
+	// 		ContentType: 'image/jpeg',
+	// 	};
+
+	// 	return new Promise(function (resolve, reject) {
+	// 		s3.putObject(params, function(error, result) {
+	// 			if (error) {
+	// 				console.log(error);
+	// 				reject(error);
+	// 			}
+
+	// 			resolve(result);
+	// 		});
+	// 	});
+	// }
+
+	// listObjects().then(function(listError, listResult) {
+	// 	if (listError) {
+	// 		console.log(listError);
+	// 	} else {
+	// 		deleteObject(listResult.Contents[0].Key).then(function(deleteError, deleteResult) {
+	// 			if (deleteError) {
+	// 				console.log(deleteError);
+	// 			} else {
+	// 				putObject(image, id).then(function (putError, putResult) {
+	// 					if (putError) {
+	// 						console.log(putError);
+	// 					} else {
+	// 						STREAM.deleteOne({}, function(deleteError, deleteResult) {
+	// 							if (deleteError) {
+	// 								console.log(deleteError);
+	// 								return (res.send({ error: CONST.DELETE_ERROR }));
+	// 							}
+						
+	// 							STREAM.create({
+	// 								graph:		id,
+	// 								uri:		`https://${bucketName}.${endpoint}/${id}`,
+	// 								boundingBoxes,
+	// 								gridBoxes,
+	// 							}, function(insertError, insertResult) {
+	// 								if (insertError) {
+	// 									console.log(insertError);
+	// 									return ({ error: CONST.INSERT_ERROR });
+	// 								}
+				
+	// 								console.log(insertResult);
+	// 							});
+	// 						});
+	// 					}
+	// 				});
+	// 			}
+	// 		});
+	// 	}
+	// });
 
 	s3.listObjectsV2(params, function(listError, listResult) {
 		if (listError) {

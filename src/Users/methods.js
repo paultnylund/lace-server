@@ -11,6 +11,7 @@ exports.connectUser = (req, res) => {
     }
 
     USERS.findOne({ username: data.username.toLowerCase() }, (error, result) => {
+        console.log(result);
         if (error) {
             return (res.send(error));
         }
