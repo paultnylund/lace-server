@@ -21,9 +21,9 @@ const s3 = new AWS.S3({
 });
 
 const params = { Bucket: bucketName };
+// Put in try catch and catch BucketAlreadyExists
 s3.createBucket(params, function(error, result) {
 	if (error) {
-		// Throw an exception - this should halt the execution
 		console.log('Error creating bucket', error);
 	} else {
 		console.log(result);
@@ -50,7 +50,7 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 		
 				STREAM.create({
 					graph:		id,
-					uri:		`https://${bucketname}.${endpoint}/${id}`,
+					uri:		`https://${bucketName}.${endpoint}/${id}`,
 					boundingBoxes,
 					gridBoxes,
 				}, function(insertError, insertResult) {
