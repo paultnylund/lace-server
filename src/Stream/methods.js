@@ -234,16 +234,12 @@ exports.retrieveAndVisualise = (req, res) => {
 			return (res.send({ error: 'needs const' }));
 		}
 
-		console.log(streamResult);
-
 		returnResult.uri = streamResult.uri;
 		returnResult.boundingBoxes = streamResult.boundingBoxes;
 		returnResult.gridBoxes = streamResult.gridBoxes;
 		returnResult.timestamp = streamResult.timestamp;
 
 		GRAPH.findById(streamResult.graph).then(function(graphResult) {
-			console.log(graphResult);
-
 			returnResult.graph = graphResult;
 			return (res.send(returnResult));
 		});
