@@ -10,12 +10,14 @@ exports.connectUser = (req, res) => {
         return (res.send({ error: CONST.DATA_UNDEFINED }));
     }
 
+    console.log(data);
+    
     USERS.findOne({ username: data.username.toLowerCase() }, (error, result) => {
-        console.log(error);
         if (error) {
             return (res.send(error));
         }
-
+        console.log(result);
+        
         if (!result) {
             return (res.send({ error: CONST.USER_NOT_EXISTS }));
         }
