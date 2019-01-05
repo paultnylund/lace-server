@@ -31,16 +31,14 @@ s3.createBucket(params, function(error, result) {
 });
 
 function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
-	let params = {}
+	let params = { Bucket: bucketName };
 
-	s3.getObject(params, function(error, result) {
-		if (error) {
-			console.log('ERROR');
-			console.log(error);
+	s3.listObjectsV2(params, function(listError, listResult) {
+		if (listError) {
+			console.log(listError);
 		}
 
-		console.log('RESULT');
-		console.log(result);
+		console.log(listResult);
 	});
 
 	
