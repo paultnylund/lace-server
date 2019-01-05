@@ -26,7 +26,8 @@ exports.connectUser = (req, res) => {
             keySize: 512 / 32,
             iterations: 1000,
         });
-
+        console.log(key512Bits.toString());
+        
         if (key512Bits.toString() === result.password) {
             return (res.send(result));
         }
