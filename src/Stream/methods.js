@@ -241,11 +241,8 @@ exports.retrieveAndVisualise = (req, res) => {
 		returnResult.gridBoxes = streamResult.gridBoxes;
 		returnResult.timestamp = streamResult.timestamp;
 
-		GRAPH.findById(streamResult.graph).then(function(graphError, graphResult) {
-			if (graphError) {
-				console.log(graphError);
-				return (res.send({ error: 'needs const' }));
-			}
+		GRAPH.findById(streamResult.graph).then(function(graphResult) {
+			console.log(graphResult);
 
 			returnResult.graph = graphResult;
 			return (res.send(returnResult));
