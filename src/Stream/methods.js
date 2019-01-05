@@ -11,8 +11,9 @@ const STREAM			= require('./model');
 const token = '2WSGYSBNJBVHVDRPZG45';
 const secret = 'L4/SqVMaUKr2KJjx0hulaau+49OaAyq1A40/j2jXKE4';
 const bucketName = 'detection';
+const endpoint = 'ams3.digitaloceanspaces.com';
 
-const spacesEndpoint = new AWS.Endpoint('ams3.digitaloceanspaces.com');
+const spacesEndpoint = new AWS.Endpoint(endpoint);
 const s3 = new AWS.S3({
 	endpoint: spacesEndpoint,
 	accessKeyId: token,
@@ -41,8 +42,6 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 		if (putError) {
 			console.log(putError);
 		} else {
-			console.log(putResult);
-
 			STREAM.deleteOne({}, function(deleteError, deleteResult) {
 				if (deleteError) {
 					console.log(deleteError);
@@ -51,13 +50,13 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 		
 				STREAM.create({
 					graph:		id,
-					uri:		putResult,
+					uri:		`https://${bucketname}.${endpoint}/${id}`,
 					boundingBoxes,
 					gridBoxes,
 				}, function(insertError, insertResult) {
 					if (insertError) {
 						console.log(insertError);
-						return (res.send({ error: CONST.INSERT_ERROR }));
+						return ({ error: CONST.INSERT_ERROR });
 					}
 
 					console.log(insertResult);
