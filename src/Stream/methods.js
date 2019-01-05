@@ -36,9 +36,56 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 	s3.listObjectsV2(params, function(listError, listResult) {
 		if (listError) {
 			console.log(listError);
-		}
+		} else {
+			console.log(listResult);
+	
+			params = {
+				Bucket: bucketName,
+				Key: listResult.Contents[0].Key
+			}
+	
+			s3.deleteObject(params, function(s3DeleteError, s3DeleteResult) {
+				if (s3DeleteError) {
+					console.log(s3DeleteError);
+				} else {
 
-		console.log(listResult);
+					params = {
+						Bucket: bucketName,
+						Body: image.data,
+						Key: id,
+						ContentEncoding: 'base64',
+						ContentType: 'image/jpeg',
+					};
+		
+					s3.putObject(params, function(putError, putResult) {
+						if (putError) {
+							console.log(putError);
+						} else {
+							STREAM.deleteOne({}, function(deleteError, deleteResult) {
+								if (deleteError) {
+									console.log(deleteError);
+									return (res.send({ error: CONST.DELETE_ERROR }));
+								}
+						
+								STREAM.create({
+									graph:		id,
+									uri:		`https://${bucketName}.${endpoint}/${id}`,
+									boundingBoxes,
+									gridBoxes,
+								}, function(insertError, insertResult) {
+									if (insertError) {
+										console.log(insertError);
+										return ({ error: CONST.INSERT_ERROR });
+									}
+				
+									console.log(insertResult);
+								});
+							});
+						}
+					})
+				}
+			});
+		}
 	});
 
 	
