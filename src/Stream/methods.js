@@ -20,15 +20,20 @@ const s3 = new AWS.S3({
 	secretAccessKey: secret,
 });
 
-const params = { Bucket: bucketName };
 // Put in try catch and catch BucketAlreadyExists
-s3.createBucket(params, function(error, result) {
-	if (error) {
-		console.log('Error creating bucket', error);
-	} else {
-		console.log(result);
-	}
-});
+try {
+	const params = { Bucket: bucketName };
+	s3.createBucket(params);
+} catch (BucketAlreadyExists) {
+	return;
+}
+// s3.createBucket(params, function(error, result) {
+// 	if (error) {
+// 		console.log('Error creating bucket', error);
+// 	} else {
+// 		console.log(result);
+// 	}
+// });
 
 function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 	let params = { Bucket: bucketName };
@@ -87,48 +92,6 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 			});
 		}
 	});
-
-	
-	// s3.deleteObject(params, function(s3DeleteError, s3DeleteResult) {
-	// 	if (s3DeleteError) {
-	// 		console.log(s3DeleteError);
-	// 	}
-
-	// 	params = {
-	// 		Body: image.data,
-	// 		Bucket: bucketName,
-	// 		Key: id,
-	// 		ContentEncoding: 'base64',
-	// 		ContentType: 'image/jpeg',
-	// 	};
-
-	// 	s3.putObject(params, function(putError, putResult) {
-	// 		if (putError) {
-	// 			console.log(putError);
-	// 		} else {
-	// 			STREAM.deleteOne({}, function(deleteError, deleteResult) {
-	// 				if (deleteError) {
-	// 					console.log(deleteError);
-	// 					return (res.send({ error: CONST.DELETE_ERROR }));
-	// 				}
-			
-	// 				STREAM.create({
-	// 					graph:		id,
-	// 					uri:		`https://${bucketName}.${endpoint}/${id}`,
-	// 					boundingBoxes,
-	// 					gridBoxes,
-	// 				}, function(insertError, insertResult) {
-	// 					if (insertError) {
-	// 						console.log(insertError);
-	// 						return ({ error: CONST.INSERT_ERROR });
-	// 					}
-	
-	// 					console.log(insertResult);
-	// 				});
-	// 			});
-	// 		}
-	// 	});
-	// });
 }
 
 exports.streamAndDetect = (req, res) => {
