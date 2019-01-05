@@ -10,7 +10,7 @@ const STREAM			= require('./model');
 // Should be added as env variables
 const token = '2WSGYSBNJBVHVDRPZG45';
 const secret = 'L4/SqVMaUKr2KJjx0hulaau+49OaAyq1A40/j2jXKE4';
-const bucketName = 'detection_results';
+// const bucketName = 'detection_results';
 
 const spacesEndpoint = new AWS.Endpoint('ams3.digitaloceanspaces.com');
 const s3 = new AWS.S3({
@@ -19,21 +19,21 @@ const s3 = new AWS.S3({
 	secretAccessKey: secret,
 });
 
-const params = { Bucket: bucketName };
-s3.createBucket(params, function(error, result) {
-	if (error) {
-		// Throw an exception - this should halt the execution
-		console.log('Error creating bucket', error);
-	} else {
-		console.log(result);
-	}
-});
+// const params = { Bucket: bucketName };
+// s3.createBucket(params, function(error, result) {
+// 	if (error) {
+// 		// Throw an exception - this should halt the execution
+// 		console.log('Error creating bucket', error);
+// 	} else {
+// 		console.log(result);
+// 	}
+// });
 
 function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 	// Store image in CDN
 	const params = {
 		Body: image,
-		Bucket: bucketName,
+		Bucket: 'detection_results',
 		Key: id,
 	};
 
@@ -105,7 +105,7 @@ exports.streamAndDetect = (req, res) => {
 					}
 
 					console.log(insertResult);
-					// handleStreamStorage(image, insertResult._id, parsedData.boundingBoxes, parsedData.gridBoxes);
+					handleStreamStorage(image, insertResult._id, parsedData.boundingBoxes, parsedData.gridBoxes);
 
 					return (res.send(true));
 				});
