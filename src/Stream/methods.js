@@ -31,18 +31,20 @@ s3.createBucket(params, function(error, result) {
 });
 
 function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
-	const params = {
-		Body: image.data,
-		Bucket: bucketName,
-		Key: id,
-		ContentEncoding: 'base64',
-		ContentType: 'image/jpeg',
-	};
+	let params = {}
 	
-	s3.deleteObject(params = {}, function(s3DeleteError, s3DeleteResult) {
+	s3.deleteObject(params, function(s3DeleteError, s3DeleteResult) {
 		if (s3DeleteError) {
 			console.log(s3DeleteError);
 		}
+
+		params = {
+			Body: image.data,
+			Bucket: bucketName,
+			Key: id,
+			ContentEncoding: 'base64',
+			ContentType: 'image/jpeg',
+		};
 
 		s3.putObject(params, function(putError, putResult) {
 			if (putError) {
