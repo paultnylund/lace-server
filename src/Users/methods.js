@@ -6,8 +6,7 @@ const CONST				= require('../const.js');
 exports.connectUser = (req, res) => {
     const data = req.body;
     
-    console.log(Object.entries(data).length);
-    if (data.entries().length === 0) {
+    if (Object.entries(data).length === 0) {
         return (res.send({ error: CONST.DATA_UNDEFINED }));
     }
 
