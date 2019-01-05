@@ -234,6 +234,8 @@ exports.retrieveAndVisualise = (req, res) => {
 			return (res.send({ error: 'needs const' }));
 		}
 
+		console.log(streamResult);
+
 		returnResult.uri = streamResult.uri;
 		returnResult.boundingBoxes = streamResult.boundingBoxes;
 		returnResult.gridBoxes = streamResult.gridBoxes;
