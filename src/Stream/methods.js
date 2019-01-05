@@ -32,10 +32,13 @@ s3.createBucket(params, function(error, result) {
 
 function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 	// Store image in CDN
+	console.log(image);
 	const params = {
 		Body: image,
 		Bucket: bucketName,
 		Key: id,
+		ContentEncoding: 'base64',
+		ContentType: 'image/jpeg',
 	};
 
 	s3.putObject(params, function(putError, putResult) {
@@ -104,7 +107,7 @@ exports.streamAndDetect = (req, res) => {
 					}
 
 					console.log(insertResult);
-					handleStreamStorage(image, insertResult._id.toString(), parsedData.boundingBoxes, parsedData.gridBoxes);
+					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData.boundingBoxes, parsedData.gridBoxes);
 
 					return (res.send(true));
 				});
