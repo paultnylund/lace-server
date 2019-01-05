@@ -10,7 +10,7 @@ const STREAM			= require('./model');
 // Should be added as env variables
 const token = '2WSGYSBNJBVHVDRPZG45';
 const secret = 'L4/SqVMaUKr2KJjx0hulaau+49OaAyq1A40/j2jXKE4';
-const bucketName = 'detection_results';
+const bucketName = 'detection';
 
 const spacesEndpoint = new AWS.Endpoint('ams3.digitaloceanspaces.com');
 const s3 = new AWS.S3({
