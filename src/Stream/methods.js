@@ -31,8 +31,6 @@ s3.createBucket(params, function(error, result) {
 });
 
 function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
-	// Store image in CDN
-	console.log(image);
 	const params = {
 		Body: image.data,
 		Bucket: bucketName,
@@ -40,32 +38,38 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 		ContentEncoding: 'base64',
 		ContentType: 'image/jpeg',
 	};
-
-	s3.putObject(params, function(putError, putResult) {
-		if (putError) {
-			console.log(putError);
-		} else {
-			STREAM.deleteOne({}, function(deleteError, deleteResult) {
-				if (deleteError) {
-					console.log(deleteError);
-					return (res.send({ error: CONST.DELETE_ERROR }));
-				}
-		
-				STREAM.create({
-					graph:		id,
-					uri:		`https://${bucketName}.${endpoint}/${id}`,
-					boundingBoxes,
-					gridBoxes,
-				}, function(insertError, insertResult) {
-					if (insertError) {
-						console.log(insertError);
-						return ({ error: CONST.INSERT_ERROR });
-					}
-
-					console.log(insertResult);
-				});
-			});
+	
+	s3.deleteObject(params = {}, function(s3DeleteError, s3DeleteResult) {
+		if (s3DeleteError) {
+			console.log(s3DeleteError);
 		}
+
+		s3.putObject(params, function(putError, putResult) {
+			if (putError) {
+				console.log(putError);
+			} else {
+				STREAM.deleteOne({}, function(deleteError, deleteResult) {
+					if (deleteError) {
+						console.log(deleteError);
+						return (res.send({ error: CONST.DELETE_ERROR }));
+					}
+			
+					STREAM.create({
+						graph:		id,
+						uri:		`https://${bucketName}.${endpoint}/${id}`,
+						boundingBoxes,
+						gridBoxes,
+					}, function(insertError, insertResult) {
+						if (insertError) {
+							console.log(insertError);
+							return ({ error: CONST.INSERT_ERROR });
+						}
+	
+						console.log(insertResult);
+					});
+				});
+			}
+		});
 	});
 }
 
@@ -85,7 +89,6 @@ exports.streamAndDetect = (req, res) => {
 			return (res.send(readError));
 		}
 
-		console.log('Spawning the python process. ', Date());
 		const pythonProcess = spawn('python', ['/var/lace-server/exec.py']);
 
 		pythonProcess.stdout.on('data', function(data) {
@@ -106,7 +109,6 @@ exports.streamAndDetect = (req, res) => {
 						return (res.send({ error: CONST.INSERT_ERROR }));
 					}
 
-					console.log(insertResult);
 					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData.boundingBoxes, parsedData.gridBoxes);
 
 					return (res.send(true));
