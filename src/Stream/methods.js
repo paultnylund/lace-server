@@ -105,7 +105,7 @@ exports.streamAndDetect = (req, res) => {
 					}
 
 					console.log(insertResult);
-					// handleStreamStorage(image, insertResult._id.toString(), parsedData.boundingBoxes, parsedData.gridBoxes);
+					handleStreamStorage(image, insertResult._id.toString(), parsedData.boundingBoxes, parsedData.gridBoxes);
 
 					return (res.send(true));
 				});
