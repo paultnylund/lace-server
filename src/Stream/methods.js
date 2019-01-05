@@ -34,7 +34,7 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 	// Store image in CDN
 	console.log(image);
 	const params = {
-		Body: image,
+		Body: image.data,
 		Bucket: bucketName,
 		Key: id,
 		ContentEncoding: 'base64',
