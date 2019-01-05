@@ -32,47 +32,58 @@ s3.createBucket(params, function(error, result) {
 
 function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 	let params = {}
-	
-	s3.deleteObject(params, function(s3DeleteError, s3DeleteResult) {
-		if (s3DeleteError) {
-			console.log(s3DeleteError);
+
+	s3.getObject(params, function(error, result) {
+		if (error) {
+			console.log('ERROR');
+			console.log(error);
 		}
 
-		params = {
-			Body: image.data,
-			Bucket: bucketName,
-			Key: id,
-			ContentEncoding: 'base64',
-			ContentType: 'image/jpeg',
-		};
-
-		s3.putObject(params, function(putError, putResult) {
-			if (putError) {
-				console.log(putError);
-			} else {
-				STREAM.deleteOne({}, function(deleteError, deleteResult) {
-					if (deleteError) {
-						console.log(deleteError);
-						return (res.send({ error: CONST.DELETE_ERROR }));
-					}
-			
-					STREAM.create({
-						graph:		id,
-						uri:		`https://${bucketName}.${endpoint}/${id}`,
-						boundingBoxes,
-						gridBoxes,
-					}, function(insertError, insertResult) {
-						if (insertError) {
-							console.log(insertError);
-							return ({ error: CONST.INSERT_ERROR });
-						}
-	
-						console.log(insertResult);
-					});
-				});
-			}
-		});
+		console.log('RESULT');
+		console.log(result);
 	});
+
+	
+	// s3.deleteObject(params, function(s3DeleteError, s3DeleteResult) {
+	// 	if (s3DeleteError) {
+	// 		console.log(s3DeleteError);
+	// 	}
+
+	// 	params = {
+	// 		Body: image.data,
+	// 		Bucket: bucketName,
+	// 		Key: id,
+	// 		ContentEncoding: 'base64',
+	// 		ContentType: 'image/jpeg',
+	// 	};
+
+	// 	s3.putObject(params, function(putError, putResult) {
+	// 		if (putError) {
+	// 			console.log(putError);
+	// 		} else {
+	// 			STREAM.deleteOne({}, function(deleteError, deleteResult) {
+	// 				if (deleteError) {
+	// 					console.log(deleteError);
+	// 					return (res.send({ error: CONST.DELETE_ERROR }));
+	// 				}
+			
+	// 				STREAM.create({
+	// 					graph:		id,
+	// 					uri:		`https://${bucketName}.${endpoint}/${id}`,
+	// 					boundingBoxes,
+	// 					gridBoxes,
+	// 				}, function(insertError, insertResult) {
+	// 					if (insertError) {
+	// 						console.log(insertError);
+	// 						return ({ error: CONST.INSERT_ERROR });
+	// 					}
+	
+	// 					console.log(insertResult);
+	// 				});
+	// 			});
+	// 		}
+	// 	});
+	// });
 }
 
 exports.streamAndDetect = (req, res) => {
