@@ -32,10 +32,10 @@ from grid_detection import grid
 
 # image_array = load_image_into_numpy_array(image)
 
-generated_grid = grid.create_grid_boxes_array(25)
+generated_grid = grid.create_grid_boxes_array(7)
 
-print(sys.getsizeof(generated_grid))
-# print(generated_grid)
+# print(sys.getsizeof(generated_grid))
+print(generated_grid)
 
 # print(sys.getsizeof(sys.argv[1]))
 # print(sys.argv[1])

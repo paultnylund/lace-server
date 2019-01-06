@@ -159,7 +159,7 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 									graph:		id,
 									uri:		`https://${bucketName}.${endpoint}/${id}`,
 									boundingBoxes: boundingBoxes ? boundingBoxes[0] : null,
-									gridBoxes,
+									gridBoxes: gridBoxes ? gridBoxes[0] : null,
 								}, function(insertError, insertResult) {
 									if (insertError) {
 										console.log(insertError);
@@ -213,7 +213,7 @@ exports.streamAndDetect = (req, res) => {
 						return (res.send({ error: CONST.INSERT_ERROR }));
 					}
 
-					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData[2].bounding_boxes, parsedData.grid_boxes);
+					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData[2].bounding_boxes, parsedData[3].grid_boxes);
 
 					return (res.send(true));
 				});
