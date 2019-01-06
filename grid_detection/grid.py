@@ -250,27 +250,9 @@ def create_adapted_density_array(density_graph, distance, grid_boxes):
         adapted_density_graph.append(temp)
         iterator += row_length
 
-    json_object.append({"graph": adapted_density_graph})
-    json_object.append({"distance": distance})
-    grid = [
-        [[0.0, 0.0], [0.25, 0.0], [0.25, 0.25], [0.0, 0.25]],
-        [[0.25, 0.0], [0.5, 0.0], [0.5, 0.25], [0.25, 0.25]],
-        [[0.5, 0.0], [0.75, 0.0], [0.75, 0.25], [0.5, 0.25]],
-        [[0.75, 0.0], [1.0, 0.0], [1.0, 0.25], [0.75, 0.25]],
-        [[0.0, 0.25], [0.25, 0.25], [0.25, 0.5], [0.0, 0.5]],
-        [[0.25, 0.25], [0.5, 0.25], [0.5, 0.5], [0.25, 0.5]],
-        [[0.5, 0.25], [0.75, 0.25], [0.75, 0.5], [0.5, 0.5]],
-        [[0.75, 0.25], [1.0, 0.25], [1.0, 0.5], [0.75, 0.5]],
-        [[0.0, 0.5], [0.25, 0.5], [0.25, 0.75], [0.0, 0.75]],
-        [[0.25, 0.5], [0.5, 0.5], [0.5, 0.75], [0.25, 0.75]],
-        [[0.5, 0.5], [0.75, 0.5], [0.75, 0.75], [0.5, 0.75]],
-        [[0.75, 0.5], [1.0, 0.5], [1.0, 0.75], [0.75, 0.75]],
-        [[0.0, 0.75], [0.25, 0.75], [0.25, 1.0], [0.0, 1.0]],
-        [[0.25, 0.75], [0.5, 0.75], [0.5, 1.0], [0.25, 1.0]],
-        [[0.5, 0.75], [0.75, 0.75], [0.75, 1.0], [0.5, 1.0]],
-        [[0.75, 0.75], [1.0, 0.75], [1.0, 1.0], [0.75, 1.0]]
-    ]
-    json_object.append({"grid": grid})
+    # json_object.append({"graph": adapted_density_graph})
+    # json_object.append({"distance": distance})
+    json_object.append({"grid": grid_boxes})
     # json_object.append({"boundbounding_boxes": bounding_boxes})
 
     # Turn the crafted json_object into json

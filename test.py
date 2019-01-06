@@ -1,38 +1,46 @@
 import numpy
 import sys
 import math
+import json
 # from matplotlib import pyplot
-from PIL import Image
+# from PIL import Image
 # from PIL import ImageDraw
 
 from grid_detection import grid
 # from grid_detection import visualisation
 
-def load_image_into_numpy_array(image):
-    '''Loads image into a numpy array
+# def load_image_into_numpy_array(image):
+#     '''Loads image into a numpy array
 
-    This helper function is used to load an image into a numpy array
-    which can then be used for further processing.
+#     This helper function is used to load an image into a numpy array
+#     which can then be used for further processing.
 
-    Args:
-        image: a PIL.Image object.
+#     Args:
+#         image: a PIL.Image object.
 
-    Returns:
-        A uint8 numpy array representation of the image
-    '''
-    # Get the with and height of the image
-    (image_width, image_height) = image.size
+#     Returns:
+#         A uint8 numpy array representation of the image
+#     '''
+#     # Get the with and height of the image
+#     (image_width, image_height) = image.size
 
-    # Return a numpy array representation of the image as uint8
-    return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
+#     # Return a numpy array representation of the image as uint8
+#     return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
 # image = Image.open('detection.jpg')
 # image = Image.open('/var/lace-server/detection_images/detection.jpg')
 
 # image_array = load_image_into_numpy_array(image)
 
-generated_grid = grid.create_grid_boxes_array(21)
-print(generated_grid)
+generated_grid = grid.create_grid_boxes_array(25)
+json_object = []
+json_object.append({"grid": generated_grid})
+json_object.append({"grid": generated_grid})
+json_object.append({"grid": generated_grid})
+testReturn = json.dumps(json_object)
+
+loaded = json.loads(testReturn)
+print(loaded)
 # print(sys.getsizeof(sys.argv[1]))
 # print(sys.argv[1])
 
