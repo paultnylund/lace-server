@@ -253,14 +253,13 @@ def create_adapted_density_array(density_graph, distance, grid_boxes, bounding_b
     json_object.append({"graph": adapted_density_graph})
     json_object.append({"distance": distance})
     json_object.append({"bounding_boxes": bounding_boxes})
-    json_object.append({"grid": grid_boxes})
+    json_object.append({"grid": grid_boxes[0]})
 
     # Turn the crafted json_object into json
     json_output = json.dumps(json_object)
 
     # Return the new density graph
     return json_output
-    # return adapted_density_graph
 
 def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
     '''Create a density grid based on detected bounding_boxes and node distance
