@@ -32,15 +32,9 @@ from grid_detection import grid
 
 # image_array = load_image_into_numpy_array(image)
 
-generated_grid = grid.create_grid_boxes_array(25)
-json_object = []
-json_object.append({"grid": generated_grid})
-json_object.append({"grid": generated_grid})
-json_object.append({"grid": generated_grid})
-testReturn = json.dumps(json_object)
+generated_grid = grid.create_grid_boxes_array(5)
+print(generated_grid)
 
-loaded = json.loads(testReturn)
-print(loaded)
 # print(sys.getsizeof(sys.argv[1]))
 # print(sys.argv[1])
 

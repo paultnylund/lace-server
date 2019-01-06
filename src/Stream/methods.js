@@ -126,8 +126,6 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 		if (listError) {
 			console.log(listError);
 		} else {
-			console.log(listResult);
-	
 			params = {
 				Bucket: bucketName,
 				Key: listResult.Contents[0].Key
@@ -167,8 +165,6 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 										console.log(insertError);
 										return ({ error: CONST.INSERT_ERROR });
 									}
-				
-									console.log(insertResult);
 								});
 							});
 						}
