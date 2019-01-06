@@ -286,7 +286,7 @@ def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
 
     # Convert density array to json object
     # adapted_density_graph = create_adapted_density_array(density_graph, distance, grid_boxes)
-    adapted_density_graph = create_adapted_density_array(density_graph, distance, grid_boxes, boundbounding_boxes)
+    adapted_density_graph = create_adapted_density_array(density_graph, distance, grid_boxes, bounding_boxes)
 
     # Return json density array to NodeJS
     # return [grid_boxes, adapted_density_graph]
