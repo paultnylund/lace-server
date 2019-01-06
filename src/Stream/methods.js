@@ -212,7 +212,7 @@ exports.streamAndDetect = (req, res) => {
 						return (res.send({ error: CONST.INSERT_ERROR }));
 					}
 
-					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData.boundingBoxes, parsedData.gridBoxes);
+					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData.bounding_boxes, parsedData.grid_boxes);
 
 					return (res.send(true));
 				});
