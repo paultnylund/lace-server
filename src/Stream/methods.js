@@ -120,7 +120,7 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 	// 	}
 	// });
 
-	let params = {};
+	let params = { Bucket: bucketName };
 	s3.listObjectsV2(params, function(listError, listResult) {
 
 		if (listError) {
