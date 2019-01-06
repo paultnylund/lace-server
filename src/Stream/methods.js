@@ -160,7 +160,7 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 								STREAM.create({
 									graph:		id,
 									uri:		`https://${bucketName}.${endpoint}/${id}`,
-									boundingBoxes: boundingBoxes[0],
+									boundingBoxes: boundingBoxes ? boundingBoxes[0] : null,
 									gridBoxes,
 								}, function(insertError, insertResult) {
 									if (insertError) {
