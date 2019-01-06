@@ -121,6 +121,8 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 	// });
 
 	s3.listObjectsV2(params, function(listError, listResult) {
+		let params = { };
+
 		if (listError) {
 			console.log(listError);
 		} else {
