@@ -253,7 +253,7 @@ def create_adapted_density_array(density_graph, distance, grid_boxes, bounding_b
     json_object.append({"graph": adapted_density_graph})
     json_object.append({"distance": distance})
     json_object.append({"bounding_boxes": bounding_boxes})
-    json_object.append({"grid_boxes": [grid_boxes]})
+    json_object.append({"grid_boxes": grid_boxes[0]})
 
     # Turn the crafted json_object into json
     json_output = json.dumps(json_object)
