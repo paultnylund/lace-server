@@ -278,8 +278,6 @@ def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
 
     # The initial generated grid with (n - 1)^2 grid boxes
     grid_boxes = create_grid_boxes_array(grid_size)
-    test = json.dumps({"grid_boxes": grid_boxes})
-    return test
 
     # Calculate overlay area of all grid boxes and store in new array
     overlay_graph = calculate_overlay_areas(grid_boxes, bounding_boxes, classes)
