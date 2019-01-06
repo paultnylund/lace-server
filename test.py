@@ -31,7 +31,7 @@ def load_image_into_numpy_array(image):
 
 # image_array = load_image_into_numpy_array(image)
 
-generated_grid = grid.create_grid_boxes_array(5)
+generated_grid = grid.create_grid_boxes_array(21)
 print(generated_grid)
 # print(sys.getsizeof(sys.argv[1]))
 # print(sys.argv[1])

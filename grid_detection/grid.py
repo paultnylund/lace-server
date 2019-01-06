@@ -63,8 +63,6 @@ def create_grid_boxes_array(size):
 
     # Split up the normalised coordinates in '$size' intervals for grid edges
     normalised_coordinates = numpy.linspace(0, 1, size)
-    # print('normalised_coordinates')
-    # print(normalised_coordinates)
 
     # Reverse the numpy array and turn it into a python list
     reversed_stack_array = numpy.flipud(normalised_coordinates).tolist()
@@ -264,7 +262,7 @@ def create_adapted_density_array(density_graph, distance, grid_boxes):
     return json_output
     # return adapted_density_graph
 
-def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
+def create_density_grid(bounding_boxes, classes, distance, grid_size=5):
     '''Create a density grid based on detected bounding_boxes and node distance
 
     Args:

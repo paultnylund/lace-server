@@ -203,7 +203,7 @@ exports.streamAndDetect = (req, res) => {
 					console.log(deleteError);
 					return (res.send({error: CONST.DELETE_ERROR}));
 				}
-				console.log(data);
+
 				parsedData = JSON.parse(data);
 				console.log(parsedData);
 				GRAPH.create({
