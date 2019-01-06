@@ -253,7 +253,7 @@ def create_adapted_density_array(density_graph, distance, grid_boxes):
     json_object.append({"graph": adapted_density_graph})
     json_object.append({"distance": distance})
     grid = [
-        [[0, 0], [0, 0]],
+        [[0.1, 0], [0, 0]],
         [[0, 0], [0, 0]],
     ]
     json_object.append({"grid": grid})
