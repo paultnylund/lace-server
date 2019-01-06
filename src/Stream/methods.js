@@ -206,6 +206,7 @@ exports.streamAndDetect = (req, res) => {
 
 				parsedData = JSON.parse(data);
 				console.log(parsedData);
+				console.log(parsedData.bounding_boxes);
 				GRAPH.create({
 					graph:		parsedData[0].graph,
 					distance:	parsedData[1].distance,
