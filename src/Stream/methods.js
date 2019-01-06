@@ -206,7 +206,7 @@ exports.streamAndDetect = (req, res) => {
 
 				parsedData = JSON.parse(data);
 				console.log(parsedData);
-				console.log(parsedData.bounding_boxes);
+				console.log(parsedData[2].bounding_boxes);
 				GRAPH.create({
 					graph:		parsedData[0].graph,
 					distance:	parsedData[1].distance,
@@ -216,7 +216,7 @@ exports.streamAndDetect = (req, res) => {
 						return (res.send({ error: CONST.INSERT_ERROR }));
 					}
 
-					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData.bounding_boxes, parsedData.grid_boxes);
+					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData[2].bounding_boxes, parsedData.grid_boxes);
 
 					return (res.send(true));
 				});
