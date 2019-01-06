@@ -144,6 +144,7 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 						Key: id,
 						ContentEncoding: 'base64',
 						ContentType: 'image/jpeg',
+						ACL: 'public-read',
 					};
 		
 					s3.putObject(params, function(putError, putResult) {
