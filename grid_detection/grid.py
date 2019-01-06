@@ -254,7 +254,6 @@ def create_adapted_density_array(density_graph, distance, grid_boxes):
 
     json_object.append({"graph": adapted_density_graph})
     json_object.append({"distance": distance})
-    print(grid_boxes)
     # json_object.append({"grid_boxes": grid_boxes})
     # json_object.append({"boundbounding_boxes": bounding_boxes})
 
@@ -279,6 +278,7 @@ def create_density_grid(bounding_boxes, classes, distance, grid_size=25):
 
     # The initial generated grid with (n - 1)^2 grid boxes
     grid_boxes = create_grid_boxes_array(grid_size)
+    print(grid_boxes)
 
     # Calculate overlay area of all grid boxes and store in new array
     overlay_graph = calculate_overlay_areas(grid_boxes, bounding_boxes, classes)

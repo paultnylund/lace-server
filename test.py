@@ -27,12 +27,12 @@ def load_image_into_numpy_array(image):
     return numpy.array(image.getdata()).reshape((image_height, image_width, 3)).astype(numpy.uint8)
 
 # image = Image.open('detection.jpg')
-image = Image.open('/var/lace-server/detection_images/detection.jpg')
+# image = Image.open('/var/lace-server/detection_images/detection.jpg')
 
-image_array = load_image_into_numpy_array(image)
+# image_array = load_image_into_numpy_array(image)
 
-# generated_grid = grid.create_grid_boxes_array(5)
-# print(generated_grid)
+generated_grid = grid.create_grid_boxes_array(5)
+print(generated_grid)
 # print(sys.getsizeof(sys.argv[1]))
 # print(sys.argv[1])
 
@@ -81,8 +81,8 @@ boundingboxes_test = [
 
 # print(sys.argv[1])
 
-density_grid = grid.create_density_grid(boundingboxes_test, '', 4, 25)
-sys.stdout.write(density_grid)
+# density_grid = grid.create_density_grid(boundingboxes_test, '', 4, 25)
+# sys.stdout.write(density_grid)
 
 # visualisation.draw_grid_on_image_array(image_array, generated_grid)
 # visualisation.draw_bounding_boxes_on_image_array(image_array, boundingboxes_test)
