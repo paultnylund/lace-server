@@ -27,7 +27,7 @@ try {
 	return;
 }
 
-function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
+function handleStreamStorage(image, id, boundingBoxes) {
 
 	// function listObjects() {
 	// 	const params = { Bucket: bucketName };
@@ -159,7 +159,7 @@ function handleStreamStorage(image, id, boundingBoxes, gridBoxes) {
 									graph:		id,
 									uri:		`https://${bucketName}.${endpoint}/${id}`,
 									boundingBoxes: boundingBoxes ? boundingBoxes[0] : null,
-									gridBoxes: gridBoxes ? gridBoxes[0] : null,
+									// gridBoxes: gridBoxes ? gridBoxes[0] : null,
 								}, function(insertError, insertResult) {
 									if (insertError) {
 										console.log(insertError);
@@ -202,8 +202,6 @@ exports.streamAndDetect = (req, res) => {
 
 				parsedData = JSON.parse(data);
 				console.log(parsedData);
-				console.log(parsedData[2].bounding_boxes);
-				console.log(parsedData[3]);
 				GRAPH.create({
 					graph:		parsedData[0].graph,
 					distance:	parsedData[1].distance,
@@ -213,7 +211,7 @@ exports.streamAndDetect = (req, res) => {
 						return (res.send({ error: CONST.INSERT_ERROR }));
 					}
 
-					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData[2].bounding_boxes, parsedData[3].grid_boxes);
+					handleStreamStorage(imageBuffer, insertResult._id.toString(), parsedData[2].bounding_boxes);
 
 					return (res.send(true));
 				});
