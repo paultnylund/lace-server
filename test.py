@@ -37,9 +37,6 @@ generated_grid = grid.create_grid_boxes_array(7)
 # print(sys.getsizeof(generated_grid))
 print(generated_grid)
 
-# print(sys.getsizeof(sys.argv[1]))
-# print(sys.argv[1])
-
 boundingboxes_test = [
 	[
 		[0.6916143894195557, 0.7077077031135559],
